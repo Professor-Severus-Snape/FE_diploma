@@ -1,0 +1,28 @@
+.header-home {
+  background-image: url("../../assets/banner.png");
+  background-size: cover;
+  background-color: lightgray;
+}
+
+.header-home__top-container {
+  position: relative;
+  padding: 20px 258px 13px;
+}
+
+.header-home__top-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.header-home__content {
+  display: flex;
+  gap: 147px;
+  align-items: center;
+
+  padding: 255px 258px 0px 348px;
+}

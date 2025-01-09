@@ -1,6 +1,58 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
 * {
   margin: 0;
   padding: 0;
+  border: none;
+  font-family: "Roboto", "Arial", sans-serif;
+}
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Плавный переход по якорным ссылкам - не работает в Safari */
+html {
+  scroll-behavior: smooth;
+}
+
+#root {
+  max-width: 1920px;
+}
+
+a {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  background-color: transparent;
+  cursor: pointer;
+}
+
+a:focus,
+button:focus,
+input:focus {
+  outline: none;
+}
+
+input:focus {
+  outline: 3px solid #ffa800;
+}
+
+input::placeholder {
+  color: #e5e5e5;
+}
+
+ol,
+ul {
+  list-style-type: none;
+}
+
+.visually-hidden {
+  position: fixed;
+  transform: scale(0);
 }

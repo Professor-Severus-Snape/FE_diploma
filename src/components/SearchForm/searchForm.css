@@ -1,0 +1,132 @@
+.search-form {
+  padding: 79px 21px 52px;
+
+  background: rgba(41, 41, 41, 0.8);
+}
+
+.search-form__fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+
+  font-weight: 300;
+  font-size: 30px;
+  color: #fff;
+}
+
+.search-form__fieldset:first-child {
+  margin-bottom: 61px;
+}
+
+.search-form__fieldset:nth-child(2) {
+  margin-bottom: 96px;
+}
+
+.search-form__label {
+  padding-left: 7px;
+}
+
+.search-form__destination {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.search-form__swap {
+  width: 24px;
+  height: 24px;
+
+  background-image: url('../../assets/swap.svg');
+}
+
+.search-form__swap:hover {
+  cursor: pointer;
+}
+
+.search-form__input-destination-container {
+  position: relative;
+}
+
+.search-form__destination-icon {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+
+  width: 21px;
+  height: 30px;
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url("../../assets/destination.svg");
+}
+
+.search-form__destination-icon:hover {
+  cursor: pointer;
+  background-image: url("../../assets/destination-active.svg");
+}
+
+.search-form__date {
+  display: flex;
+  justify-content: space-between;
+}
+
+.search-form__input-date-container {
+  position: relative;
+}
+
+.search-form__date-icon {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+
+  width: 34px;
+  height: 30px;
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url("../../assets/calendar.svg");
+}
+
+.search-form__date-icon:hover {
+  cursor: pointer;
+  background-image: url("../../assets/calendar-active.svg");
+}
+
+.search-form__input-destination,
+.search-form__input-date {
+  width: 323px;
+  padding: 20px 60px 19px 30px;
+  border-radius: 3px;
+
+  font-weight: 400;
+  font-size: 18px;
+  color: #000;
+}
+
+.search-form__btn {
+  margin-left: auto;
+  padding: 16px 68px;
+  border-radius: 5px;
+
+  font-weight: 700;
+  font-size: 24px;
+  text-transform: uppercase;
+  text-align: center;
+  color: #292929;
+
+  background-color: #ffa800;
+}
+
+.search-form__btn:focus,
+.search-form__btn:hover {
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.search-form__btn:active {
+  border: 1px solid #ffa800;
+  color: #ffa800;
+  background-color: #fff;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}

@@ -1,0 +1,32 @@
+.about {
+  padding: 144px 465px 115px 257px;
+}
+
+.about__title {
+  margin-bottom: 30px;
+
+  font-weight: 500;
+  font-size: 36px;
+  text-transform: uppercase;
+  color: #292929;
+}
+
+.about__content {
+  border-left: 9px solid #ffa800;
+  padding-left: 19px;
+  padding-bottom: 8px;
+}
+
+.about__text {
+  font-weight: 400;
+  font-size: 24px;
+  color: #292929;
+}
+
+.about__text:not(:last-child) {
+  margin-bottom: 27px;
+}
+
+.about__text_bold {
+  font-weight: 700;
+}
