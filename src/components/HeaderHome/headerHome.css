@@ -22,7 +22,24 @@
 .header-home__content {
   display: flex;
   gap: 147px;
+  justify-content: flex-end;
   align-items: center;
 
-  padding: 255px 258px 0px 348px;
+  padding: 255px 236px 0px;
+}
+
+@media (max-width: 1830px) {
+  .header-home__content {
+    flex-direction: column;
+    gap: 0;
+
+    padding: 80px 50px 0px;
+  }
+}
+
+@media (max-width: 1330px) {
+  .header-home__top-container {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
 }

@@ -4,10 +4,10 @@
 
 .footer__top-container {
   display: flex;
-  gap: 300px;
+  gap: 292px;
   justify-content: center;
 
-  padding: 48px 24px 44px 34px;
+  padding: 48px 50px 44px 62px;
 }
 
 .footer__title {
@@ -36,40 +36,40 @@
 }
 
 .phone {
-  background-image: url('../../assets/phone.svg');
+  background-image: url("../../assets/phone.svg");
 }
 
 .phone:focus,
 .phone:hover {
   cursor: pointer;
-  background-image: url('../../assets/phone-active.svg');
+  background-image: url("../../assets/phone-active.svg");
 }
 
 .mail {
-  background-image: url('../../assets/mail.svg');
+  background-image: url("../../assets/mail.svg");
 }
 
 .mail:focus,
 .mail:hover {
-  background-image: url('../../assets/mail-active.svg');
+  background-image: url("../../assets/mail-active.svg");
 }
 
 .skype {
-  background-image: url('../../assets/skype.svg');
+  background-image: url("../../assets/skype.svg");
 }
 
 .skype:focus,
 .skype:hover {
-  background-image: url('../../assets/skype-active.svg');
+  background-image: url("../../assets/skype-active.svg");
 }
 
 .map {
-  background-image: url('../../assets/map.svg');
+  background-image: url("../../assets/map.svg");
 }
 
 .map:focus,
 .map:hover {
-  background-image: url('../../assets/map-active.svg');
+  background-image: url("../../assets/map-active.svg");
 }
 
 .footer__contact {
@@ -103,7 +103,7 @@
 }
 
 .subscribe-form__btn {
-  padding: 17px;
+  padding: 17px 15px;
   border: 1px solid #fff;
   border-radius: 5px;
 
@@ -141,52 +141,52 @@
 
 .youtube {
   width: 38px;
-  background-image: url('../../assets/youtube.svg');
+  background-image: url("../../assets/youtube.svg");
 }
 
 .youtube:focus,
 .youtube:hover {
-  background-image: url('../../assets/youtube-active.svg');
+  background-image: url("../../assets/youtube-active.svg");
 }
 
 .linkedin {
   width: 31px;
-  background-image: url('../../assets/linkedin.svg');
+  background-image: url("../../assets/linkedin.svg");
 }
 
 .linkedin:focus,
 .linkedin:hover {
-  background-image: url('../../assets/linkedin-active.svg');
+  background-image: url("../../assets/linkedin-active.svg");
 }
 
 .google {
   width: 47px;
-  background-image: url('../../assets/google.svg');
+  background-image: url("../../assets/google.svg");
 }
 
 .google:focus,
 .google:hover {
-  background-image: url('../../assets/google-active.svg');
+  background-image: url("../../assets/google-active.svg");
 }
 
 .facebook {
   width: 14px;
-  background-image: url('../../assets/facebook.svg');
+  background-image: url("../../assets/facebook.svg");
 }
 
 .facebook:focus,
 .facebook:hover {
-  background-image: url('../../assets/facebook-active.svg');
+  background-image: url("../../assets/facebook-active.svg");
 }
 
 .twitter {
   width: 37px;
-  background-image: url('../../assets/twitter.svg');
+  background-image: url("../../assets/twitter.svg");
 }
 
 .twitter:focus,
 .twitter:hover {
-  background-image: url('../../assets/twitter-active.svg');
+  background-image: url("../../assets/twitter-active.svg");
 }
 
 .footer__bottom-container {
@@ -203,17 +203,49 @@
   width: 36px;
   height: 36px;
 
-  background-image: url('../../assets/up.svg');
+  background-image: url("../../assets/up.svg");
 }
 
 .footer__up-link:focus,
 .footer__up-link:hover {
   cursor: pointer;
-  background-image: url('../../assets/up-active.svg');
+  background-image: url("../../assets/up-active.svg");
 }
 
 .footer__copyrights {
   font-weight: 300;
   font-size: 24px;
   color: #e5e5e5;
+}
+
+@media (max-width: 1330px) {
+  .footer__top-container {
+    justify-content: space-between;
+    gap: 50px;
+
+    padding: 50px;
+  }
+
+  .subscribe-form {
+    flex-direction: column;
+  }
+
+  .footer__bottom-container {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+}
+
+@media (max-width: 992px) {
+  .subscribe-form__input {
+    width: 300px;
+  }
+
+  .subscribe-form__btn {
+    width: 300px;
+  }
+
+  .footer__subscribe-item:not(:last-child) {
+    margin-right: 25px;
+  }
 }

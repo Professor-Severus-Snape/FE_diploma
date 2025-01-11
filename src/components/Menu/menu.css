@@ -19,3 +19,15 @@
 .menu__link:hover {
   color: #ffa800;
 }
+
+@media (max-width: 1330px) {
+  .menu {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+
+  .menu__list {
+    display: flex;
+    gap: 35px;
+  }
+}

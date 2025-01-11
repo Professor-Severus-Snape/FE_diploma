@@ -1,5 +1,5 @@
 .description {
-  padding: 59px 269px 110px 252px;
+  padding: 59px 60px 110px 50px;
 
   background-image: url("../../assets/banner-description.png");
 }
@@ -10,6 +10,8 @@
   align-items: center;
 
   margin-bottom: 98px;
+  padding-left: 200px;
+  padding-right: 208px;
 }
 
 .description__title {
@@ -66,4 +68,29 @@
   font-size: 24px;
   text-align: center;
   color: #e5e5e5;
+}
+
+@media (max-width: 1330px) {
+  .description {
+    padding: 50px;
+  }
+
+  .description__top-container {
+    margin-bottom: 50px;
+    padding: 0px;
+  }
+
+  .desription__link {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+
+  .description__bottom-container {
+    justify-content: space-around;
+    gap: 20px;
+  }
+
+  .description__text {
+    width: 200px;
+  }
 }

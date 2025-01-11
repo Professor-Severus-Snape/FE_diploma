@@ -30,3 +30,15 @@
 .about__text_bold {
   font-weight: 700;
 }
+
+@media (max-width: 1830px) {
+  .about {
+    padding-right: 257px;
+  }
+}
+
+@media (max-width: 1330px) {
+  .about {
+    padding: 50px;
+  }
+}

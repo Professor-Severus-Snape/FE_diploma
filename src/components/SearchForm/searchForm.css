@@ -36,7 +36,7 @@
   width: 24px;
   height: 24px;
 
-  background-image: url('../../assets/swap.svg');
+  background-image: url("../../assets/swap.svg");
 }
 
 .search-form__swap:hover {
@@ -129,4 +129,15 @@
   color: #ffa800;
   background-color: #fff;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+@media (max-width: 992px) {
+  .search-form__input-destination,
+  .search-form__input-date {
+    width: 250px;
+  }
+
+  .search-form__btn {
+    margin-right: auto;
+  }
 }
