@@ -40,6 +40,10 @@
 }
 
 .search-form__swap:hover {
+  background-image: url("../../assets/swap-active.svg");
+}
+
+.search-form__swap:hover {
   cursor: pointer;
 }
 
