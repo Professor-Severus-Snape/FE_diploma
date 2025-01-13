@@ -4,6 +4,14 @@
   background: rgba(41, 41, 41, 0.8);
 }
 
+.search-form__container {
+  display: flex;
+  flex-direction: column;
+  gap: 61px;
+
+  margin-bottom: 96px;
+}
+
 .search-form__fieldset {
   display: flex;
   flex-direction: column;
@@ -12,14 +20,6 @@
   font-weight: 300;
   font-size: 30px;
   color: #fff;
-}
-
-.search-form__fieldset:first-child {
-  margin-bottom: 61px;
-}
-
-.search-form__fieldset:nth-child(2) {
-  margin-bottom: 96px;
 }
 
 .search-form__label {
@@ -73,6 +73,7 @@
 .search-form__date {
   display: flex;
   justify-content: space-between;
+  gap: 40px;
 }
 
 .search-form__input-date-container {

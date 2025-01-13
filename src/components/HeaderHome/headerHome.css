@@ -1,5 +1,5 @@
 .header-home {
-  background-image: url("../../assets/banner.png");
+  background-image: url("../../assets/banner-1.png");
   background-size: cover;
   background-color: lightgray;
 }
@@ -25,7 +25,7 @@
   justify-content: flex-end;
   align-items: center;
 
-  padding: 255px 236px 0px;
+  padding: 255px 234px 0px;
 }
 
 @media (max-width: 1830px) {
