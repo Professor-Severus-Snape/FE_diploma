@@ -1,4 +1,3 @@
-import Line from '../Line/Line';
 import Logo from '../Logo/Logo';
 import Menu from '../Menu/Menu';
 import SearchForm from '../SearchForm/SearchForm';
@@ -17,7 +16,6 @@ const HeaderHome = () => {
         <Title />
         <SearchForm />
       </div>
-      <Line />
     </header>
   );
 };
