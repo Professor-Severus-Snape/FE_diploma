@@ -10,7 +10,7 @@ const Home = () => {
     <>
       <HeaderHome />
       <Line />
-      <main className="page">
+      <main>
         <SectionAbout />
         <SectionDescription />
         <SectionFeedback />

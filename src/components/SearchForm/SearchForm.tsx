@@ -5,14 +5,14 @@ const SearchForm = () => {
     <form className="search-form">
       <div className="search-form__container">
         <fieldset className="search-form__fieldset">
-          <label htmlFor="destination" className="search-form__label">
+          <label htmlFor="search-form-destination" className="search-form__label">
             Направление
           </label>
 
           <div className="search-form__destination">
             <div className="search-form__input-destination-container">
               <input
-                id="destination"
+                id="search-form-destination"
                 className="search-form__input-destination search-form__input-destination_from"
                 placeholder="Откуда"
               />
@@ -32,14 +32,14 @@ const SearchForm = () => {
         </fieldset>
 
         <fieldset className="search-form__fieldset">
-          <label htmlFor="date" className="search-form__label">
+          <label htmlFor="search-form-date" className="search-form__label">
             Дата
           </label>
 
           <div className="search-form__date">
             <div className="search-form__input-date-container">
               <input
-                id="date"
+                id="search-form-date"
                 className="search-form__input-date search-form__input-date_from"
                 placeholder="ДД/ММ/ГГ"
               />

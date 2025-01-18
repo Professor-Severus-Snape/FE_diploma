@@ -1,0 +1,50 @@
+.date {
+  padding: 43px 36px 33px 29px;
+
+  font-weight: 400;
+  color: #fff;
+}
+
+.date__label {
+  display: block;
+  margin-bottom: 11px;
+
+  font-size: 30px;
+}
+
+.date__input-container {
+  position: relative;
+}
+
+.date__input-container:not(:last-child) {
+  margin-bottom: 26px;
+}
+
+.date__input {
+  width: 100%;
+  padding: 11px 50px 11px 10px;
+  border-radius: 3px;
+
+  font-size: 18px;
+  color: #292929;
+}
+
+.date__icon {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+
+  width: 20px;
+  height: 23px;
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  background-image: url("../../assets/calendar.svg");
+}
+
+.date__icon:hover {
+  cursor: pointer;
+  background-image: url("../../assets/calendar-active.svg");
+}
