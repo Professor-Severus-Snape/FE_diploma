@@ -1,4 +1,5 @@
 import ArticleDate from '../ArticleDate/ArticleDate';
+import ArticleFeatures from '../ArticleFeatures/ArticleFeatures';
 import './sectionSettings.css';
 
 const SectionSettings = () => {
@@ -6,7 +7,7 @@ const SectionSettings = () => {
     <section className="settings">
       <h2 className="visually-hidden">Настройки</h2>
       <ArticleDate />
-      <article className="features">фичи</article>
+      <ArticleFeatures />
       <article className="price">стоимость</article>
       <article className="forward">туда</article>
       <article className="backward">обратно</article>
