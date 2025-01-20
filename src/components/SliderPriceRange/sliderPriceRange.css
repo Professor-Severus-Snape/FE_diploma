@@ -1,0 +1,84 @@
+input[type="range"]:focus {
+  outline: none;
+}
+
+.slider-price-range {
+  position: relative;
+  height: 19px;
+  border: 1px solid #c4c4c4;
+  border-radius: 9.5px; /* половина высоты */
+
+  background-color: transparent;
+}
+
+.slider-price-range__fill {
+  position: absolute;
+  top: 0;
+  z-index: 1; /* Фон должен быть под ползунками */
+
+  height: 100%;
+  background-color: #ffa800;
+  /* border-radius: 9.5px; */
+}
+
+.slider-price-range__lower,
+.slider-price-range__upper {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2; /* Ползунки должны быть поверх фона */
+
+  width: 100%;
+  margin: 0;
+
+  background: none;
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  pointer-events: none;
+}
+
+.slider-price-range__lower {
+  left: -1px;
+}
+
+.slider-price-range__upper {
+  right: -1px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  background: #fff;
+  pointer-events: auto;
+  -webkit-appearance: none;
+}
+
+input[type="range"]::-moz-range-thumb {
+  height: 24px;
+  width: 24px;
+  border: none;
+  border-radius: 50%;
+  background: #fff;
+  pointer-events: auto;
+  -moz-appearance: none;
+}
+
+.slider-price-range__min-value,
+.slider-price-range__max-value {
+  position: absolute;
+  top: 150%;
+}
+
+.slider-price-range__min-value {
+  position: absolute;
+  left: 0;
+}
+
+.slider-price-range__max-value {
+  position: absolute;
+  right: 0;
+}
