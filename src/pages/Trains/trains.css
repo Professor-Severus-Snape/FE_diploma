@@ -6,9 +6,12 @@
 }
 
 .sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 94px;
+
   width: 360px;
 }
-
 
 /* ---------- секция справа: ---------- */
 main {
