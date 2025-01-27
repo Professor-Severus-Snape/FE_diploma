@@ -2,27 +2,27 @@ input[type="range"]:focus {
   outline: none;
 }
 
-.slider-price-range {
+.slider-time-range {
   position: relative;
-  height: 19px;
+  height: 10px;
   border: 1px solid #c4c4c4;
-  border-radius: 9.5px; /* половина высоты */
+  border-radius: 5px; /* половина высоты */
 
   background-color: transparent;
 }
 
-.slider-price-range__fill {
+.slider-time-range__fill {
   position: absolute;
   top: 0;
   z-index: 1; /* Фон должен быть под ползунками */
 
   height: 100%;
   background-color: #ffa800;
-  /* border-radius: 9.5px; */
+  /* border-radius: 5px; */
 }
 
-.slider-price-range__lower,
-.slider-price-range__upper {
+.slider-time-range__lower,
+.slider-time-range__upper {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -40,28 +40,29 @@ input[type="range"]:focus {
   pointer-events: none;
 }
 
-.slider-price-range__lower {
+.slider-time-range__lower {
   left: -1px;
 }
 
-.slider-price-range__upper {
+.slider-time-range__upper {
   right: -1px;
 }
 
-.slider-price-range__lower::-webkit-slider-thumb,
-.slider-price-range__upper::-webkit-slider-thumb {
-  height: 24px;
-  width: 24px;
+.slider-time-range__lower::-webkit-slider-thumb,
+.slider-time-range__upper::-webkit-slider-thumb {
+  height: 18px;
+  width: 18px;
+
   border-radius: 50%;
   background: #fff;
   pointer-events: auto;
   -webkit-appearance: none;
 }
 
-.slider-price-range__lower::-moz-range-thumb,
-.slider-price-range__upper::-moz-range-thumb {
-  height: 24px;
-  width: 24px;
+.slider-time-range__lower::-moz-range-thumb,
+.slider-time-range__upper::-moz-range-thumb {
+  height: 18px;
+  width: 18px;
   border: none;
   border-radius: 50%;
   background: #fff;
@@ -69,18 +70,22 @@ input[type="range"]:focus {
   -moz-appearance: none;
 }
 
-.slider-price-range__min-value,
-.slider-price-range__max-value {
+.slider-time-range__min-value,
+.slider-time-range__max-value {
   position: absolute;
-  top: 150%;
+  top: 300%;
+
+  font-weight: 400;
+  font-size: 16px;
+  color: #e5e5e5;
 }
 
-.slider-price-range__min-value {
+.slider-time-range__min-value {
   position: absolute;
   left: 0;
 }
 
-.slider-price-range__max-value {
+.slider-time-range__max-value {
   position: absolute;
   right: 0;
 }

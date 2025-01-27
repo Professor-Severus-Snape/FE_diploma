@@ -1,5 +1,7 @@
+import ArticleBackward from '../ArticleBackward/ArticleBackward';
 import ArticleDate from '../ArticleDate/ArticleDate';
 import ArticleFeatures from '../ArticleFeatures/ArticleFeatures';
+import ArticleForward from '../ArticleForward/ArticleForward';
 import ArticlePrice from '../ArticlePrice/ArticlePrice';
 
 import './sectionSettings.css';
@@ -11,8 +13,8 @@ const SectionSettings = () => {
       <ArticleDate />
       <ArticleFeatures />
       <ArticlePrice />
-      <article className="forward">туда</article>
-      <article className="backward">обратно</article>
+      <ArticleForward />
+      <ArticleBackward />
     </section>
   );
 };
