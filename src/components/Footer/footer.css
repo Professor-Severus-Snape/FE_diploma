@@ -231,6 +231,11 @@
   color: #e5e5e5;
 }
 
+.footer__copyrights:hover {
+  cursor: pointer;
+  color: #ffca62;
+}
+
 @media (max-width: 1330px) {
   .footer__top-container {
     justify-content: space-between;

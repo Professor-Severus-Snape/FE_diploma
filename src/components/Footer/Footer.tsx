@@ -131,7 +131,13 @@ const Footer = () => {
           className={isCollapsed ? 'footer__down' : 'footer__up'}
           onClick={handleCollapse}
         ></span>
-        <span className="footer__copyrights">2025 Julia Fokanova</span>
+        <a
+          href="https://github.com/Professor-Severus-Snape"
+          target="_blank"
+          className="footer__copyrights"
+        >
+          2025 Julia Fokanova
+        </a>
       </div>
     </footer>
   );
