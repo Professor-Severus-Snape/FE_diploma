@@ -7,10 +7,10 @@ import './articleLastTicket.css';
 const ArticleLastTicket = () => {
   return (
     <article className="last-ticket">
-      <div className="last-ticket__towns">
+      <h4 className="last-ticket__towns">
         <div className="last-ticket__town-from">Санкт-Петербург</div>
         <div className="last-ticket__town-to">Самара</div>
-      </div>
+      </h4>
 
       <div className="last-ticket__terminals">
         <div className="last-ticket__terminal-from">

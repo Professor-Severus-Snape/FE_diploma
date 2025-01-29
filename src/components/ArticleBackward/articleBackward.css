@@ -36,8 +36,17 @@
   background-image: url("../../assets/expand.svg");
 }
 
+.backward__label:hover {
+  background-image: url("../../assets/expand-active.svg");
+  cursor: pointer;
+}
+
 .backward__checkbox:checked + .backward__label {
   background-image: url("../../assets/collapse.svg");
+}
+
+.backward__checkbox:checked + .backward__label:hover {
+  background-image: url("../../assets/collapse-active.svg");
 }
 
 .backward__content {
