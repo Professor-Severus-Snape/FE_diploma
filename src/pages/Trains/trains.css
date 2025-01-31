@@ -1,8 +1,11 @@
 .page {
   display: flex;
   justify-content: space-between;
+  gap: 87px;
 
   padding: 95px 257px;
+
+  background-color: #e5e5e5;
 }
 
 .sidebar {
@@ -13,7 +16,30 @@
   width: 360px;
 }
 
-/* ---------- секция справа: ---------- */
-main {
-  outline: 1px solid red;
+.main {
+  max-width: 1200px;
+
+  flex-grow: 1;
+}
+
+@media (max-width: 1830px) {
+  .page {
+    gap: 50px;
+
+    padding: 50px;
+  }
+}
+
+@media (max-width: 1330px) {
+  .page {
+    padding: 10px;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .main {
+    margin: 0 auto;
+  }
 }

@@ -3,6 +3,7 @@ import Header from '../../components/Header/Header';
 import LineCurrent from '../../components/LineCurrent/LineCurrent';
 import SectionLastTickets from '../../components/SectionLastTickets/SectionLastTickets';
 import SectionSettings from '../../components/SectionSettings/SectionSettings';
+import SectionTickets from '../../components/SectionTickets/SectionTickets';
 
 import './trains.css';
 
@@ -16,7 +17,9 @@ const Trains = () => {
           <SectionSettings />
           <SectionLastTickets />
         </aside>
-        <main>Здесь будут билеты...</main>
+        <main className="main">
+          <SectionTickets />
+        </main>
       </div>
       <Footer />
     </>
