@@ -1,0 +1,61 @@
+.seats-count {
+  padding: 40px 0 50px 0;
+
+  font-weight: 400;
+  font-size: 16px;
+  color: #000;
+}
+
+.seats-count__title {
+  margin-bottom: 20px;
+  padding-left: 19px;
+
+  font-weight: 700;
+  font-size: 30px;
+  color: #292929;
+}
+
+.seats-count__content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.seats-count__column {
+  padding: 20px 39px;
+  border: 1px solid transparent;
+}
+
+/* цветная рамка при наведении */
+.seats-count__column:hover {
+  border: 1px solid rgba(255, 168, 0, 0.79);
+}
+
+/* изменение фона при выборе элемента */
+.seats-count__column_active:not(.seats-count__column:hover) {
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
+  background: #f7f6f6;
+}
+
+.seats-count__details {
+  display: flex;
+  gap: 5px;
+
+  border: 1px solid #928f94;
+  border-radius: 5px;
+
+  padding: 13px;
+  margin-bottom: 23px;
+
+  font-size: 18px;
+  color: #292929;
+
+  background-color: #fff;
+}
+
+.seats-count__details:hover {
+  cursor: pointer;
+}
+
+.seats-count__text:not(.seats-count__column_active > .seats-count__text) {
+  color: #928f94;
+}

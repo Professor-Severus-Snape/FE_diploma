@@ -1,11 +1,13 @@
 // import Home from './pages/Home/Home';
-import Trains from './pages/Trains/Trains';
+import Seats from './pages/Seats/Seats';
+// import Trains from './pages/Trains/Trains';
 
 const App = () => {
   return (
     <>
       {/* <Home /> */}
-      <Trains />
+      {/* <Trains /> */}
+      <Seats />
     </>
   );
 };

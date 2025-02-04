@@ -1,5 +1,7 @@
 .last-ticket {
   padding: 18px 9px 7px 9px;
+  
+  background-color: #fff;
   outline: 1px solid #c4c4c4;
 
   box-shadow: 0 2px 2px 0 rgba(62, 60, 65, 0.25);

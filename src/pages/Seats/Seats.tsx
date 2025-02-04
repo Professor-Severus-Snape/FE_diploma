@@ -2,10 +2,10 @@ import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import LineCurrent from '../../components/LineCurrent/LineCurrent';
 import SectionLastTickets from '../../components/SectionLastTickets/SectionLastTickets';
+import SectionSeats from '../../components/SectionSeats/SectionSeats';
 import SectionSettings from '../../components/SectionSettings/SectionSettings';
-import SectionTickets from '../../components/SectionTickets/SectionTickets';
 
-const Trains = () => {
+const Seats = () => {
   return (
     <>
       <Header />
@@ -16,7 +16,7 @@ const Trains = () => {
           <SectionLastTickets />
         </aside>
         <main className="main">
-          <SectionTickets />
+          <SectionSeats />
         </main>
       </div>
       <Footer />
@@ -24,4 +24,4 @@ const Trains = () => {
   );
 };
 
-export default Trains;
+export default Seats;
