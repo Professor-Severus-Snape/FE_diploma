@@ -1,0 +1,247 @@
+.carriages__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+
+  padding: 4px 17px 4px 34px;
+
+  background-color: #ffd98f;
+}
+
+.carriages__available-carriages {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.carriages__available-carriages-text {
+  font-weight: 400;
+  font-size: 18px;
+  color: #2d2b2f;
+}
+
+.carriages__available-carriages-numbers {
+  display: flex;
+  gap: 6px;
+}
+
+.carriages__available-carriages-number {
+  font-weight: 700;
+  font-size: 24px;
+  color: #292929;
+}
+
+.carriages__available-carriages-number_active {
+  color: #fff;
+}
+
+.carriages__available-carriages-number:not(
+    .carriages__available-carriages-number_active
+  ) {
+  cursor: pointer;
+}
+
+.carriages__description {
+  font-weight: 400;
+  font-size: 16px;
+  color: #292929;
+}
+
+.carriages__content {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 45px;
+
+  padding-right: 50px;
+}
+
+/* первая колонка */
+.carriages__column_carriages {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 30px 37px 18px 37px;
+
+  background-color: #ffd98f;
+}
+
+.carriages__carriage-number {
+  font-weight: 700;
+  font-size: 72px;
+  color: #292929;
+}
+
+.carriages__carriage-text {
+  position: relative;
+  top: -13px;
+
+  padding-left: 2px;
+
+  font-weight: 400;
+  font-size: 24px;
+  color: #292929;
+}
+
+/* вторая колонка */
+.carriages__column_seats {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  padding: 33px 10px 10px 40px;
+}
+
+.carriages__seats-short-info {
+  display: flex;
+  gap: 8px;
+
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.carriages__seats-short-info-text {
+  color: #928f94;
+}
+
+.carriages__seats-short-info-count {
+  color: #000;
+}
+
+.carriages__seats-full-info {
+  display: flex;
+  gap: 13px;
+
+  font-weight: 400;
+  font-size: 24px;
+  color: #000;
+}
+
+.carriages__seats-full-info-count {
+  font-weight: 700;
+}
+
+/* третья колонка */
+.carriages__column_price {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+
+  padding: 33px 10px 10px 0px;
+}
+
+.carriages__price-info-text {
+  font-weight: 400;
+  font-size: 18px;
+  color: #928f94;
+}
+
+.carriages__price-info-price {
+  display: flex;
+  gap: 8px;
+
+  font-weight: 700;
+  font-size: 24px;
+  color: #000;
+}
+
+.carriages__price-info-currency {
+  color: #928f94;
+}
+
+/* четвертая колонка */
+.carriages__column_service {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+
+  padding: 33px 10px 10px 10px;
+}
+
+.carriages__service-info {
+  display: flex;
+  gap: 10px;
+
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.carriages__service-info-text {
+  color: #928f94;
+}
+
+.carriages__service-info-company {
+  color: #c4c4c4;
+  text-transform: uppercase;
+}
+
+.carriages__service-features {
+  display: flex;
+  gap: 12px;
+}
+
+.carriages__service-feature {
+  width: 36px;
+  height: 35px;
+
+  background-repeat: no-repeat;
+}
+
+.carriages__service-feature_condition {
+  background-image: url("../../assets/box-condition.svg");
+}
+
+.carriages__service-feature_condition-active {
+  background-image: url("../../assets/box-condition-active.svg");
+}
+
+.carriages__service-feature_wifi {
+  background-image: url("../../assets/box-wifi.svg");
+}
+
+.carriages__service-feature_wifi-active {
+  background-image: url("../../assets/box-wifi-active.svg");
+}
+
+.carriages__service-feature_bed {
+  background-image: url("../../assets/box-bed-sheets.svg");
+}
+
+.carriages__service-feature_bed-active {
+  background-image: url("../../assets/box-bed-sheets-active.svg");
+}
+
+.carriages__service-feature_tea {
+  background-image: url("../../assets/box-tea.svg");
+}
+
+.carriages__service-feature_tea-active {
+  background-image: url("../../assets/box-tea-active.svg");
+}
+
+.carriages__potential-passengers {
+  padding-top: 4px;
+  padding-right: 41px;
+}
+
+.carriages__potential-passengers-info {
+  width: 199px;
+
+  margin-left: auto;
+  padding: 16px;
+  border-radius: 5px;
+
+  background-color: #f3f3f3;
+}
+
+@media (max-width: 992px) {
+  .carriages__content {
+    gap: 15px;
+
+    padding-right: 20px;
+  }
+}

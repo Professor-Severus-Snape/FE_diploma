@@ -7,7 +7,10 @@ const SectionSeats = () => {
       <h2 className="seats__title">Выбор мест</h2>
       <ArticleSeat direction={'forward'} />
       <ArticleSeat direction={'backward'} />
-      {/* TODO: добавить кнопку 'Далее' */}
+      <div className="seats__navigation">
+        {/* TODO: реализовать переход на другой роут */}
+        <a href="#0" className="seats__navigation-link">далее</a>
+      </div>
     </section>
   );
 };

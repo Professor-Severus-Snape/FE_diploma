@@ -63,7 +63,7 @@ ul {
   justify-content: space-between;
   gap: 87px;
 
-  padding: 95px 257px;
+  padding: 95px 257px 50px 257px;
 
   background-color: #e5e5e5;
 }

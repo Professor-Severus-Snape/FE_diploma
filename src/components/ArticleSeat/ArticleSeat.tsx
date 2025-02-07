@@ -1,3 +1,4 @@
+import Carriages from '../Carriages/Carriages';
 import CarriageType from '../CarriageType/CarriageType';
 import SeatsCount from '../SeatsCount/SeatsCount';
 import SeatHeader from '../SeatHeader/SeatHeader';
@@ -13,7 +14,7 @@ const ArticleSeat = ({ direction }: { direction: string }) => {
       <TrainInfo direction={direction} />
       <SeatsCount />
       <CarriageType />
-      {/* TODO: добавить компонент выбора мест на картинке */}
+      <Carriages />
     </article>
   );
 };

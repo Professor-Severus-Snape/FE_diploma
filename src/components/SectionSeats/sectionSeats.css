@@ -7,3 +7,38 @@
   text-transform: uppercase;
   color: #292929;
 }
+
+.seats__navigation {
+  display: flex;
+
+  padding: 72px 0px;
+}
+
+.seats__navigation-link {
+  margin-left: auto;
+  padding: 16px 72px;
+
+  border: 1px solid transparent;
+  border-radius: 5px;
+
+  font-weight: 700;
+  font-size: 24px;
+  text-transform: uppercase;
+  color: #fff;
+
+  background-color: #ffa800;
+}
+
+.seats__navigation-link:hover {
+  cursor: pointer;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.seats__navigation-link:active {
+  border-color: #ffa800;
+
+  color: #ffa800;
+
+  background-color: #fff;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
