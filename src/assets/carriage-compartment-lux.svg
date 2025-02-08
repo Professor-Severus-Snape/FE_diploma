@@ -44,22 +44,22 @@
     <path d="M833 30L833 92" stroke="#999999" stroke-width="4"></path>
 
     <!-- Средние горизонтальная линии: -->
-    <path d="M133 90L158 90" stroke="#999999" stroke-width="4"></path>
+    <path d="M133 90L160 90" stroke="#999999" stroke-width="4"></path>
     <path d="M192 90L217 90" stroke="#999999" stroke-width="4"></path>
-    <path d="M221 90L246 90" stroke="#999999" stroke-width="4"></path>
-    <path d="M280 90L305 90" stroke="#999999" stroke-width="4"></path>
-    <path d="M309 90L334 90" stroke="#999999" stroke-width="4"></path>
-    <path d="M368 90L393 90" stroke="#999999" stroke-width="4"></path>
-    <path d="M397 90L422 90" stroke="#999999" stroke-width="4"></path>
-    <path d="M456 90L481 90" stroke="#999999" stroke-width="4"></path>
-    <path d="M485 90L510 90" stroke="#999999" stroke-width="4"></path>
-    <path d="M544 90L569 90" stroke="#999999" stroke-width="4"></path>
-    <path d="M573 90L598 90" stroke="#999999" stroke-width="4"></path>
-    <path d="M632 90L657 90" stroke="#999999" stroke-width="4"></path>
-    <path d="M661 90L686 90" stroke="#999999" stroke-width="4"></path>
+    <path d="M221 90L247 90" stroke="#999999" stroke-width="4"></path>
+    <path d="M279 90L305 90" stroke="#999999" stroke-width="4"></path>
+    <path d="M309 90L335 90" stroke="#999999" stroke-width="4"></path>
+    <path d="M367 90L393 90" stroke="#999999" stroke-width="4"></path>
+    <path d="M397 90L423 90" stroke="#999999" stroke-width="4"></path>
+    <path d="M455 90L481 90" stroke="#999999" stroke-width="4"></path>
+    <path d="M485 90L511 90" stroke="#999999" stroke-width="4"></path>
+    <path d="M543 90L569 90" stroke="#999999" stroke-width="4"></path>
+    <path d="M573 90L599 90" stroke="#999999" stroke-width="4"></path>
+    <path d="M631 90L657 90" stroke="#999999" stroke-width="4"></path>
+    <path d="M661 90L687 90" stroke="#999999" stroke-width="4"></path>
     <path d="M720 90L745 90" stroke="#999999" stroke-width="4"></path>
-    <path d="M749 90L774 90" stroke="#999999" stroke-width="4"></path>
-    <path d="M808 90L833 90" stroke="#999999" stroke-width="4"></path>
+    <path d="M749 90L775 90" stroke="#999999" stroke-width="4"></path>
+    <path d="M806 90L833 90" stroke="#999999" stroke-width="4"></path>
 
     <!-- Нижние вертикальные линии: -->
     <path d="M133 115L133 140" stroke="#999999" stroke-width="4"></path>
