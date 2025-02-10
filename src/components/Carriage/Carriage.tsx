@@ -44,17 +44,21 @@ const Carriage = () => {
           </div>
           <ul className="carriage__service-features">
             {/* TODO: подбирать нужные иконки в зависимости от конкретного сервиса: */}
-            <li className="carriage__service-feature carriage__service-feature_condition"></li>
-            {/* <li className="carriage__service-feature carriage__service-feature_condition-active"></li> */}
+            <li className="carriage__service-feature air-condition"></li>
+            {/* <li className="carriage__service-feature air-condition air-condition_active"></li> */}
+            {/* <li className="carriage__service-feature air-condition air-condition_included"></li> */}
 
-            <li className="carriage__service-feature carriage__service-feature_wifi"></li>
-            {/* <li className="carriage__service-feature carriage__service-feature_wifi-active"></li> */}
+            {/* <li className="carriage__service-feature wifi"></li> */}
+            <li className="carriage__service-feature wifi wifi_active"></li>
+            {/* <li className="carriage__service-feature wifi wifi_included"></li> */}
 
-            {/* <li className="carriage__service-feature carriage__service-feature_tea"></li> */}
-            <li className="carriage__service-feature carriage__service-feature_tea-active"></li>
+            {/* <li className="carriage__service-feature tea"></li> */}
+            {/* <li className="carriage__service-feature tea tea_active"></li> */}
+            <li className="carriage__service-feature tea tea_included"></li>
 
-            {/* <li className="carriage__service-feature carriage__service-feature_bed"></li> */}
-            <li className="carriage__service-feature carriage__service-feature_bed-active"></li>
+            {/* <li className="carriage__service-feature bed-sheets"></li> */}
+            {/* <li className="carriage__service-feature bed-sheets bed-sheets_active"></li> */}
+            <li className="carriage__service-feature bed-sheets bed-sheets_included"></li>
           </ul>
         </div>
       </div>

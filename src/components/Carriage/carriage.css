@@ -154,36 +154,80 @@
   background-repeat: no-repeat;
 }
 
-.carriage__service-feature_condition {
+/* кондиционер: */
+.air-condition {
   background-image: url("../../assets/box-condition.svg");
 }
 
-.carriage__service-feature_condition-active {
+.air-condition_active {
   background-image: url("../../assets/box-condition-active.svg");
 }
 
-.carriage__service-feature_wifi {
+.air-condition_included {
+  cursor: not-allowed;
+  background-image: url("../../assets/box-condition-included.svg");
+}
+
+.air-condition:hover:not(.air-condition_included) {
+  cursor: pointer;
+  background-image: url("../../assets/box-condition-hovered.svg");
+}
+
+/* wifi: */
+.wifi {
   background-image: url("../../assets/box-wifi.svg");
 }
 
-.carriage__service-feature_wifi-active {
+.wifi_active {
   background-image: url("../../assets/box-wifi-active.svg");
 }
 
-.carriage__service-feature_bed {
+.wifi_included {
+  cursor: not-allowed;
+  background-image: url("../../assets/box-wifi-included.svg");
+}
+
+.wifi:hover:not(.wifi_included) {
+  cursor: pointer;
+  background-image: url("../../assets/box-wifi-hovered.svg");
+}
+
+/* постельное бельё: */
+.bed-sheets {
   background-image: url("../../assets/box-bed-sheets.svg");
 }
 
-.carriage__service-feature_bed-active {
+.bed-sheets_active {
   background-image: url("../../assets/box-bed-sheets-active.svg");
 }
 
-.carriage__service-feature_tea {
+.bed-sheets_included {
+  cursor: not-allowed;
+  background-image: url("../../assets/box-bed-sheets-included.svg");
+}
+
+.bed-sheets:hover:not(.bed-sheets_included) {
+  cursor: pointer;
+  background-image: url("../../assets/box-bed-sheets-hovered.svg");
+}
+
+/* горячая вода: */
+.tea {
   background-image: url("../../assets/box-tea.svg");
 }
 
-.carriage__service-feature_tea-active {
+.tea_active {
   background-image: url("../../assets/box-tea-active.svg");
+}
+
+.tea_included {
+  cursor: not-allowed;
+  background-image: url("../../assets/box-tea-included.svg");
+}
+
+.tea:hover:not(.tea_included) {
+  cursor: pointer;
+  background-image: url("../../assets/box-tea-hovered.svg");
 }
 
 @media (max-width: 992px) {
