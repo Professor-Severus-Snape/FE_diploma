@@ -1,3 +1,7 @@
+import CarriageNumber from '../CarriageNumber/CarriageNumber';
+import CarriageTotalPrice from '../CarriageTotalPrice/CarriageTotalPrice';
+import PotentialPassengers from '../PotentialPassengers/PotentialPassengers';
+
 import carriagePlatzkart from '../../assets/carriage-platzkart.svg';
 import './carriagePlatzkart.css';
 
@@ -36,16 +40,19 @@ const CarriagePlatzkart = () => {
 
   return (
     <div className="carriage-platzkart">
+      <PotentialPassengers />
       <img
         className="carriage-platzkart__img"
         src={carriagePlatzkart}
         alt="platzkart"
       />
+      <CarriageNumber />
       <ul className="carriage-platzkart__scheme">
         {platzkartSeatsNumbers.map((num) => (
           <CarriagePlatzkartSeat key={num} seatNumber={num} />
         ))}
       </ul>
+      <CarriageTotalPrice />
     </div>
   );
 };

@@ -1,3 +1,7 @@
+import CarriageNumber from '../CarriageNumber/CarriageNumber';
+import CarriageTotalPrice from '../CarriageTotalPrice/CarriageTotalPrice';
+import PotentialPassengers from '../PotentialPassengers/PotentialPassengers';
+
 import carriageCompartment from '../../assets/carriage-compartment-lux.svg';
 import './carriageCompartment.css';
 
@@ -36,16 +40,19 @@ const CarriageCompartment = () => {
 
   return (
     <div className="carriage-compartment">
+      <PotentialPassengers />
       <img
         className="carriage-compartment__img"
         src={carriageCompartment}
         alt="compartment"
       />
+      <CarriageNumber />
       <ul className="carriage-compartment__scheme">
         {compartmentSeatsNumbers.map((num) => (
           <CarriageCompartmentSeat key={num} seatNumber={num} />
         ))}
       </ul>
+      <CarriageTotalPrice />
     </div>
   );
 };
