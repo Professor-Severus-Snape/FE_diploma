@@ -4,7 +4,7 @@ import forward from '../../assets/forward.svg';
 import './articleForwardDetails.css';
 
 const ArticleForwardDetails = () => {
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(true);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked(event.target.checked);
@@ -27,6 +27,7 @@ const ArticleForwardDetails = () => {
           type="checkbox"
           className="forward-details__checkbox"
           onChange={handleChange}
+          checked={isChecked}
         />
         <label
           htmlFor="forward-details"

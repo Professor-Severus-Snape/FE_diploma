@@ -4,7 +4,7 @@ import backward from '../../assets/backward.svg';
 import './articleBackwardDetails.css';
 
 const ArticleBackwardDetails = () => {
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(true);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked(event.target.checked);
@@ -27,6 +27,7 @@ const ArticleBackwardDetails = () => {
           type="checkbox"
           className="backward-details__checkbox"
           onChange={handleChange}
+          checked={isChecked}
         />
         <label
           htmlFor="backward-details"

@@ -3,7 +3,7 @@ import passenger from '../../assets/passenger.svg';
 import './articlePassengerDetails.css';
 
 const ArticlePassengerDetails = () => {
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(true);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked(event.target.checked);
@@ -26,6 +26,7 @@ const ArticlePassengerDetails = () => {
           type="checkbox"
           className="passenger-details__checkbox"
           onChange={handleChange}
+          checked={isChecked}
         />
         <label
           htmlFor="passenger-details"
