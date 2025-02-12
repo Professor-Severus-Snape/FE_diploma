@@ -1,0 +1,78 @@
+.birth-certificate {
+  display: flex;
+
+  gap: 35px;
+}
+
+.birth-certificate__column {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.birth-certificate__document {
+  font-weight: 400;
+  font-size: 16px;
+  color: #928f94;
+}
+
+.birth-certificate__document-inner-wrapper {
+  position: relative;
+
+  width: 445px;
+
+  padding: 12.5px 40px 15px 14px;
+  border: 1px solid #928f94;
+  border-radius: 5px;
+
+  font-size: 18px;
+  color: #292929;
+}
+
+.birth-certificate__document-arrow {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-25%);
+
+  width: 0;
+  height: 0;
+
+  border: 5px solid transparent;
+  border-top-color: #928f94;
+}
+
+.birth-certificate__document-arrow:hover {
+  border-top-color: #ffa800;
+
+  cursor: pointer;
+}
+
+.birth-certificate__label {
+  font-weight: 400;
+  font-size: 16px;
+  color: #928f94;
+}
+
+.birth-certificate__input {
+  width: 207px;
+
+  padding: 10px;
+  border: 1px solid #928f94;
+  border-radius: 5px;
+
+  font-weight: 400;
+  font-size: 24px;
+  color: #292929;
+  letter-spacing: 1.5px;
+}
+
+.birth-certificate__input::placeholder {
+  font-size: 20px;
+  color: #c4c4c4;
+
+  white-space: pre-wrap;
+  line-height: 0;
+
+  letter-spacing: 7px;
+}

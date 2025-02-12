@@ -1,0 +1,7 @@
+.documents-not-checked {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+
+  padding: 33px 31px 30px 31px;
+}

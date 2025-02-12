@@ -2,6 +2,7 @@ import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import LineCurrent from '../../components/LineCurrent/LineCurrent';
 import SectionDetails from '../../components/SectionDetails/SectionDetails';
+import SectionPassengers from '../../components/SectionPassengers/SectionPassengers';
 
 const Passengers = () => {
   return (
@@ -12,7 +13,9 @@ const Passengers = () => {
         <aside className="sidebar">
           <SectionDetails />
         </aside>
-        <main className="main">ВНУТРЕННЕЕ СОДЕРЖИМОЕ</main>
+        <main className="main">
+          <SectionPassengers />
+        </main>
       </div>
       <Footer />
     </>
