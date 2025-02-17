@@ -1,0 +1,29 @@
+/* ФИО: */
+.full-name {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(200px, 1fr));
+  gap: 25px;
+}
+
+.full-name__column {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+
+  font-weight: 400;
+}
+
+.full-name__label {
+  font-size: 16px;
+  color: #928f94;
+}
+
+.full-name__input {
+  padding: 10px 20px;
+
+  border: 1px solid #928f94;
+  border-radius: 5px;
+
+  font-size: 24px;
+  color: #292929;
+}

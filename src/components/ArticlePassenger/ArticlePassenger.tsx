@@ -3,6 +3,7 @@ import { useState } from 'react';
 import DocumentsCheckFail from '../DocumentsCheckFail/DocumentsCheckFail';
 // import DocumentsCheckSuccess from '../DocumentsCheckSuccess/DocumentsCheckSuccess';
 // import DocumentsNotChecked from '../DocumentsNotChecked/DocumentsNotChecked';
+import FullName from '../FullName/FullName';
 import Passport from '../Passport/Passport';
 
 import './articlePassenger.css';
@@ -64,50 +65,7 @@ const ArticlePassenger = ({ num }: { num: number }) => {
           </fieldset>
 
           <fieldset className="passenger__fieldset-names">
-            {/* Фамилия: */}
-            <div className="passenger__info">
-              <label
-                htmlFor="passenger-last-name"
-                className="passenger__label-info"
-              >
-                Фамилия
-              </label>
-              <input
-                id="passenger-last-name"
-                type="text"
-                className="passenger__input-name"
-              />
-            </div>
-
-            {/* Имя: */}
-            <div className="passenger__info">
-              <label
-                htmlFor="passenger-first-name"
-                className="passenger__label-info"
-              >
-                Имя
-              </label>
-              <input
-                id="passenger-first-name"
-                type="text"
-                className="passenger__input-name"
-              />
-            </div>
-
-            {/* Отчество: */}
-            <div className="passenger__info">
-              <label
-                htmlFor="passenger-middle-name"
-                className="passenger__label-info"
-              >
-                Отчество
-              </label>
-              <input
-                id="passenger-middle-name"
-                type="text"
-                className="passenger__input-name"
-              />
-            </div>
+            <FullName />
           </fieldset>
 
           <fieldset className="passenger__fieldset-details">
