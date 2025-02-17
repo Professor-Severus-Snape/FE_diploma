@@ -97,7 +97,7 @@ const ArticlePassenger = ({ num }: { num: number }) => {
                   id="female"
                   type="radio"
                   name="passenger-sex"
-                  value="ауmale"
+                  value="female"
                   checked={!isMaleSex} // "Ж" выбрана, если isMaleSex == false
                   onChange={handleSexChange}
                 />
