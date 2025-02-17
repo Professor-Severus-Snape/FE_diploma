@@ -1,4 +1,5 @@
 import ArticleSeat from '../ArticleSeat/ArticleSeat';
+import NextPage from '../NextPage/NextPage';
 import './sectionSeats.css';
 
 const SectionSeats = () => {
@@ -7,10 +8,7 @@ const SectionSeats = () => {
       <h2 className="seats__title">Выбор мест</h2>
       <ArticleSeat direction={'forward'} />
       <ArticleSeat direction={'backward'} />
-      <div className="seats__navigation">
-        {/* TODO: реализовать переход на другой роут */}
-        <a href="#0" className="seats__navigation-link">далее</a>
-      </div>
+      <NextPage text={'далее'} />
     </section>
   );
 };

@@ -1,4 +1,6 @@
+import AddPassenger from '../AddPassenger/AddPassenger';
 import ArticlePassenger from '../ArticlePassenger/ArticlePassenger';
+import NextPage from '../NextPage/NextPage';
 import './sectionPassengers.css';
 
 const SectionPassengers = () => {
@@ -13,14 +15,13 @@ const SectionPassengers = () => {
     <section className="passengers">
       <h2 className="visually-hidden">Пассажиры</h2>
 
-      {passengersList.map((num) => <ArticlePassenger key={num} num={num} />)}
+      {passengersList.map((num) => (
+        <ArticlePassenger key={num} num={num} />
+      ))}
 
-      <div className="passengers__navigation">
-        {/* TODO: реализовать переход на другой роут */}
-        <a href="#0" className="passengers__navigation-link">
-          далее
-        </a>
-      </div>
+      <AddPassenger />
+
+      <NextPage text={'далее'} />
     </section>
   );
 };
