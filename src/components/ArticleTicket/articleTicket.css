@@ -198,37 +198,6 @@
   padding: 0 7px;
 }
 
-.ticket__choose-btn {
-  display: flex;
-  padding-right: 1px;
-}
-
-.ticket__choose-btn-link {
-  margin-left: auto;
-
-  padding: 5px 29px 5px 24px;
-  border: 1px solid #ffa800;
-  border-radius: 5px;
-
-  font-weight: 700;
-  font-size: 24px;
-  text-align: center;
-  color: #fff;
-
-  background-color: #ffa800;
-}
-
-.ticket__choose-btn-link:hover {
-  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-}
-
-.ticket__choose-btn-link:active {
-  color: #ffa800;
-
-  box-shadow: none;
-  background-color: #fff;
-}
-
 @media (max-width: 1830px) {
   .ticket__wrapper-middle {
     padding-left: 15px;

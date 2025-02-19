@@ -1,3 +1,6 @@
+import ChangeSeats from '../ChangeSeats/ChangeSeats';
+import ChooseSeats from '../ChooseSeats/ChooseSeats';
+
 import arrowLeft from '../../assets/arrow-left.svg';
 import arrowRight from '../../assets/arrow-right.svg';
 import express from '../../assets/express.svg';
@@ -7,7 +10,7 @@ import wiFi from '../../assets/wi-fi.svg';
 
 import './articleTicket.css';
 
-const ArticleTicket = () => {
+const ArticleTicket = ({ text }: { text: string }) => {
   return (
     <article className="ticket">
       <h3 className="visually-hidden">Билет </h3>
@@ -130,12 +133,8 @@ const ArticleTicket = () => {
             <img className="ticket__feature-icon" src={tea} alt="tea" />
           </div>
 
-          <div className="ticket__choose-btn">
-            {/* TODO: переход на страницу выбора мест */}
-            <a href="#0" className="ticket__choose-btn-link">
-              Выбрать места
-            </a>
-          </div>
+          {text === 'Выбрать места' ? <ChooseSeats /> : null}
+          {text === 'Изменить' ? <ChangeSeats /> : null}
         </div>
       </div>
     </article>

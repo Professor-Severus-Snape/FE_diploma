@@ -1,0 +1,12 @@
+.title-check {
+  border: 1px solid #c4c4c4;
+  border-bottom-color: #928f94;
+
+  padding: 28px 30px 30px 30px;
+
+  font-weight: 400;
+  font-size: 30px;
+  color: #292929;
+
+  background-color: #fff;
+}

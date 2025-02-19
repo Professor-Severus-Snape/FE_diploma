@@ -9,11 +9,11 @@ const SectionTickets = () => {
 
       <TicketsView />
 
-      <ArticleTicket />
-      <ArticleTicket />
-      <ArticleTicket />
-      <ArticleTicket />
-      <ArticleTicket />
+      <ArticleTicket text="Выбрать места" />
+      <ArticleTicket text="Выбрать места" />
+      <ArticleTicket text="Выбрать места" />
+      <ArticleTicket text="Выбрать места" />
+      <ArticleTicket text="Выбрать места" />
 
       <Pagination />
     </section>
