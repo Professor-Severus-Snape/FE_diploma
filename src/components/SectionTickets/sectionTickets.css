@@ -1,0 +1,11 @@
+.tickets {
+  padding-bottom: 144px;
+}
+
+.tickets__list {
+  display: flex;
+  flex-direction: column;
+  gap: 47px;
+
+  margin-bottom: 142px;
+}

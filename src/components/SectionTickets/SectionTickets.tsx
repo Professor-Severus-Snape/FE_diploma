@@ -1,6 +1,7 @@
 import ArticleTicket from '../ArticleTicket/ArticleTicket';
 import Pagination from '../Pagination/Pagination';
 import TicketsView from '../TicketsView/TicketsView';
+import './sectionTickets.css';
 
 const SectionTickets = () => {
   return (
@@ -9,11 +10,13 @@ const SectionTickets = () => {
 
       <TicketsView />
 
-      <ArticleTicket text="Выбрать места" />
-      <ArticleTicket text="Выбрать места" />
-      <ArticleTicket text="Выбрать места" />
-      <ArticleTicket text="Выбрать места" />
-      <ArticleTicket text="Выбрать места" />
+      <div className="tickets__list">
+        <ArticleTicket text="Выбрать места" />
+        <ArticleTicket text="Выбрать места" />
+        <ArticleTicket text="Выбрать места" />
+        <ArticleTicket text="Выбрать места" />
+        <ArticleTicket text="Выбрать места" />
+      </div>
 
       <Pagination />
     </section>
