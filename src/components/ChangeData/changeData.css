@@ -1,9 +1,9 @@
-.change-seats {
+.change-data {
   display: flex;
   padding-right: 1px;
 }
 
-.change-seats__link {
+.change-data__link {
   margin-left: auto;
 
   width: 100%;
@@ -20,12 +20,12 @@
   background-color: #fff;
 }
 
-.change-seats__link:hover {
+.change-data__link:hover {
   color: #ffa800;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
 }
 
-.change-seats__link:active {
+.change-data__link:active {
   border-color: #ffa800;
 
   color: #000;

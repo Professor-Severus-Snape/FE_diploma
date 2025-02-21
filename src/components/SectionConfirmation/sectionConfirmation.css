@@ -3,3 +3,13 @@
   flex-direction: column;
   gap: 45px;
 }
+
+.confirmation > .next-page {
+  padding-top: 77px;
+  padding-bottom: 132px;
+}
+
+.confirmation > .next-page__navigation-link {
+  padding-left: 27px;
+  padding-right: 27px;
+}

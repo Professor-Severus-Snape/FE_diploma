@@ -1,4 +1,4 @@
-import ChangeSeats from '../ChangeSeats/ChangeSeats';
+import ChangeData from '../ChangeData/ChangeData';
 import ChooseSeats from '../ChooseSeats/ChooseSeats';
 
 import arrowLeft from '../../assets/arrow-left.svg';
@@ -134,7 +134,7 @@ const ArticleTicket = ({ text }: { text: string }) => {
           </div>
 
           {text === 'Выбрать места' ? <ChooseSeats /> : null}
-          {text === 'Изменить' ? <ChangeSeats /> : null}
+          {text === 'Изменить' ? <ChangeData /> : null}
         </div>
       </div>
     </article>
