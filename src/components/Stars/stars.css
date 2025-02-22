@@ -1,0 +1,29 @@
+.stars {
+  display: flex;
+  gap: 19px;
+}
+
+.stars__item {
+  width: 48px;
+  height: 48px;
+
+  background-image: url("../../assets/star.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.stars__item:hover {
+  position: relative;
+  top: -5px;
+
+  cursor: pointer;
+}
+
+.stars__item_active {
+  width: 48px;
+  height: 48px;
+
+  background-image: url("../../assets/star-active.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+}

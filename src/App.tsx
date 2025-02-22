@@ -1,5 +1,6 @@
-import Confirmation from './pages/Confirmation/Confirmation';
+// import Confirmation from './pages/Confirmation/Confirmation';
 // import Home from './pages/Home/Home';
+import Order from './pages/Order/Order';
 // import Passengers from './pages/Passengers/Passengers';
 // import Payment from './pages/Payment/Payment';
 // import Seats from './pages/Seats/Seats';
@@ -13,7 +14,8 @@ const App = () => {
       {/* <Seats /> */}
       {/* <Passengers /> */}
       {/* <Payment /> */}
-      <Confirmation />
+      {/* <Confirmation /> */}
+      <Order />
     </>
   );
 };
