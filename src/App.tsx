@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 
 import Confirmation from './pages/Confirmation/Confirmation';
+import ErrorPage from './pages/ErrorPage/ErrorPage';
 import Home from './pages/Home/Home';
 import Order from './pages/Order/Order';
 import Passengers from './pages/Passengers/Passengers';
@@ -17,7 +18,7 @@ const App = () => {
   // 6-ая версия React Router:
   const routes = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/">
+      <Route path="/" errorElement={<ErrorPage />}>
         <Route index element={<Home />} />
         <Route path="confirmation" element={<Confirmation />} />
         <Route path="order" element={<Order />} />
