@@ -2,6 +2,10 @@
   padding: 59px 60px 110px 50px;
 
   background-image: url("../../assets/banner-description.png");
+  background-color: #ffa800;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 .description__top-container {

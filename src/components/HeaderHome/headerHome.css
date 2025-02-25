@@ -1,7 +1,9 @@
 .header-home {
   background-image: url("../../assets/banner-1.png");
+  background-color: #ffa800;
+  background-repeat: no-repeat;
   background-size: cover;
-  background-color: lightgray;
+  background-position: center;
 }
 
 .header-home__top-container {

@@ -1,7 +1,9 @@
 .header {
   background-image: url("../../assets/banner-2.png");
+  background-color: #ffa800;
+  background-repeat: no-repeat;
   background-size: cover;
-  background-color: lightgray;
+  background-position: center;
 }
 
 .header__top-container {
