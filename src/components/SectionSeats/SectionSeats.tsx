@@ -6,9 +6,9 @@ const SectionSeats = () => {
   return (
     <section className="seats">
       <h2 className="seats__title">Выбор мест</h2>
-      <ArticleSeat direction={'forward'} />
-      <ArticleSeat direction={'backward'} />
-      <NextPage text={'далее'} />
+      <ArticleSeat direction="forward" />
+      <ArticleSeat direction="backward" />
+      <NextPage route="/passengers" text="далее" />
     </section>
   );
 };

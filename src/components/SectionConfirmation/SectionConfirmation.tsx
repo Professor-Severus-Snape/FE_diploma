@@ -11,7 +11,7 @@ const SectionConfirmation = () => {
       <ArticleCheckTrain />
       <ArticleCheckPassengers />
       <ArticleCheckPayment />
-      <NextPage text="подтвердить" />
+      <NextPage route="/order" text="подтвердить" />
     </section>
   );
 };

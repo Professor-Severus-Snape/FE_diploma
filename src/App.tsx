@@ -1,23 +1,38 @@
-// import Confirmation from './pages/Confirmation/Confirmation';
-// import Home from './pages/Home/Home';
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from 'react-router-dom';
+
+import Confirmation from './pages/Confirmation/Confirmation';
+import Home from './pages/Home/Home';
 import Order from './pages/Order/Order';
-// import Passengers from './pages/Passengers/Passengers';
-// import Payment from './pages/Payment/Payment';
-// import Seats from './pages/Seats/Seats';
-// import Trains from './pages/Trains/Trains';
+import Passengers from './pages/Passengers/Passengers';
+import Payment from './pages/Payment/Payment';
+import Seats from './pages/Seats/Seats';
+import Trains from './pages/Trains/Trains';
 
 const App = () => {
-  return (
-    <>
-      {/* <Home /> */}
-      {/* <Trains /> */}
-      {/* <Seats /> */}
-      {/* <Passengers /> */}
-      {/* <Payment /> */}
-      {/* <Confirmation /> */}
-      <Order />
-    </>
+  // 6-ая версия React Router:
+  const routes = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path="/">
+        <Route index element={<Home />} />
+        <Route path="confirmation" element={<Confirmation />} />
+        <Route path="order" element={<Order />} />
+        <Route path="passengers" element={<Passengers />} />
+        <Route path="payment" element={<Payment />} />
+        <Route path="trains" element={<Trains />} />
+        <Route path="seats" element={<Seats />} />
+      </Route>
+    ),
+    {
+      basename: import.meta.env.BASE_URL, // значение 'basename' - из конфига vite
+    }
   );
+
+  return <RouterProvider router={routes} />;
 };
 
 export default App;

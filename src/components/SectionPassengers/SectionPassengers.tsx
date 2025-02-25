@@ -21,7 +21,7 @@ const SectionPassengers = () => {
 
       <AddPassenger />
 
-      <NextPage text={'далее'} />
+      <NextPage route="/payment" text="далее" />
     </section>
   );
 };

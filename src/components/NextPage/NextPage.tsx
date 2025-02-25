@@ -1,12 +1,12 @@
+import { Link } from 'react-router-dom';
 import './nextPage.css';
 
-const NextPage = ({ text }: { text: string }) => {
+const NextPage = ({ route, text }: { route: string; text: string }) => {
   return (
     <div className="next-page">
-      {/* TODO: реализовать переход на другой роут */}
-      <a href="#0" className="next-page__navigation-link">
+      <Link className="next-page__navigation-link" to={route}>
         {text}
-      </a>
+      </Link>
     </div>
   );
 };

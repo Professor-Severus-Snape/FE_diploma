@@ -1,11 +1,11 @@
+import { Link } from 'react-router-dom';
 import './goHome.css';
 
-// TODO: реализовать переход на корневой роут
 const GoHome = () => {
   return (
-    <a href="#0" className="go-home">
+    <Link className="go-home" to="/">
       вернуться на главную
-    </a>
+    </Link>
   );
 };
 

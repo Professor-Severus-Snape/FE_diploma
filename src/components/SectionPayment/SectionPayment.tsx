@@ -69,7 +69,7 @@ const SectionPayment = () => {
         </div>
       </form>
 
-      <NextPage text={'купить билеты'} />
+      <NextPage route="/confirmation" text="купить билеты" />
     </div>
   );
 };

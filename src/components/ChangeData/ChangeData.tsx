@@ -1,14 +1,12 @@
+import { Link } from 'react-router-dom';
 import './changeData.css';
 
-// TODO: принимать роут на вход для перехода:
-// const ChangeData = ({ route }: { route: string }) => {
-const ChangeData = () => {
+const ChangeData = ({ route }: { route: string }) => {
   return (
     <div className="change-data">
-      {/* TODO: переход на нужный роут */}
-      <a href="#0" className="change-data__link">
+      <Link className="change-data__link" to={route}>
         Изменить
-      </a>
+      </Link>
     </div>
   );
 };

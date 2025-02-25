@@ -92,7 +92,7 @@ const ArticleCheckPassengers = () => {
             </div>
           </div>
 
-          <ChangeData />
+          <ChangeData route="/passengers" />
         </div>
       </div>
     </article>

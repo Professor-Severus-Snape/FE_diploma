@@ -10,7 +10,7 @@ const ArticleCheckPayment = () => {
       <div className="check-payment__container">
         <div className="check-payment__type">Наличными</div>
         <div className="check-payment__sidebar">
-          <ChangeData />
+          <ChangeData route="/payment" />
         </div>
       </div>
     </article>

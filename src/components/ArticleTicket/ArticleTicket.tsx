@@ -134,7 +134,7 @@ const ArticleTicket = ({ text }: { text: string }) => {
           </div>
 
           {text === 'Выбрать места' ? <ChooseSeats /> : null}
-          {text === 'Изменить' ? <ChangeData /> : null}
+          {text === 'Изменить' ? <ChangeData route="/trains" /> : null}
         </div>
       </div>
     </article>

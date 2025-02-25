@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './menu.css';
 
 const Menu = () => {
@@ -5,16 +6,28 @@ const Menu = () => {
     <nav className="menu">
       <ul className="menu__list">
         <li className="menu__item">
-          <a href="#about" className="menu__link">О нас</a>
+          {/* переход на Home page */}
+          <Link to="/#about" className="menu__link">
+            О нас
+          </Link>
         </li>
         <li className="menu__item">
-          <a href="#description" className="menu__link">Как это работает</a>
+          {/* переход на Home page */}
+          <Link to="/#description" className="menu__link">
+            Как это работает
+          </Link>
         </li>
         <li className="menu__item">
-          <a href="#feedback" className="menu__link">Отзывы</a>
+          {/* переход на Home page */}
+          <Link to="/#feedback" className="menu__link">
+            Отзывы
+          </Link>
         </li>
         <li className="menu__item">
-          <a href="#footer" className="menu__link">Контакты</a>
+          {/* остаемся на том же роуте => слэш не нужен */}
+          <Link to="#footer" className="menu__link">
+            Контакты
+          </Link>
         </li>
       </ul>
     </nav>

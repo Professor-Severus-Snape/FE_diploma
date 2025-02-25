@@ -15,7 +15,7 @@
   color: #fff;
 }
 
-.menu__link:focus,
+.menu__link:focus-visible,
 .menu__link:hover {
   color: #ffa800;
 }

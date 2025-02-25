@@ -1,19 +1,24 @@
+import { Link } from 'react-router-dom';
 import backwardWhite from '../../assets/backward-white.svg';
 import forwardWhite from '../../assets/forward-white.svg';
 import './seatHeader.css';
 
 const SeatHeader = ({ direction }: { direction: string }) => {
   return (
-    <header className={`seat-header${direction === 'forward' ? '' : ' seat-header_backward'}`}>
+    <header
+      className={`seat-header${
+        direction === 'forward' ? '' : ' seat-header_backward'
+      }`}
+    >
       <img
         src={direction === 'forward' ? forwardWhite : backwardWhite}
         alt={direction === 'forward' ? 'туда' : 'обратно'}
         className="seat-header__icon"
       />
-      {/* TODO: реализовать навигацию на 1 шаг назад!!! */}
-      <a href="#0" className="seat-header__return-btn">
+
+      <Link className="seat-header__return-btn" to="/trains">
         Выбрать другой поезд
-      </a>
+      </Link>
     </header>
   );
 };

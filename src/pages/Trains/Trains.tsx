@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import LineCurrent from '../../components/LineCurrent/LineCurrent';
@@ -6,6 +9,20 @@ import SectionSettings from '../../components/SectionSettings/SectionSettings';
 import SectionTickets from '../../components/SectionTickets/SectionTickets';
 
 const Trains = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    // переход по якорной ссылке:
+    if (location.hash) {
+      const element = document.getElementById(location.hash.slice(1)); // убираем "#" из хеша
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' }); // плавная прокрутка
+      }
+    } else {
+      window.scrollTo(0, 0); // прокручиваем страницу вначало при смене роута
+    }
+  }, [location]); // Срабатывает при изменении маршрута
+
   return (
     <>
       <Header />

@@ -1,8 +1,17 @@
+import { useNavigate } from 'react-router-dom';
 import './searchForm.css';
 
 const SearchForm = () => {
+  const navigate = useNavigate();
+
+  const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    
+    navigate('/trains');
+  };
+
   return (
-    <form className="search-form">
+    <form className="search-form" onSubmit={handleOnSubmit}>
       <div className="search-form__container">
         <fieldset className="search-form__fieldset">
           <label htmlFor="search-form-destination" className="search-form__label">
