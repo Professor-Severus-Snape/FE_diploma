@@ -1,16 +1,17 @@
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/store';
+import { closeModal } from '../../redux/modalSlice';
 import './modal.css';
 
-// TODO: заголовок, текст и тип модального окна брать из глобального стейта!
 const Modal = () => {
-  let type = 'error';
-  type = 'warning';
+  const dispatch: AppDispatch = useDispatch();
 
-  // TODO: ссылаться на глобальный стейт!
-  const [isOpen, setIsOpen] = useState(true);
+  const { isOpen, type, title, text } = useSelector(
+    (state: RootState) => state.modal
+  );
 
   const handlerClose = () => {
-    setIsOpen(false);
+    dispatch(closeModal());
   };
 
   return (
@@ -18,29 +19,13 @@ const Modal = () => {
       {isOpen && (
         <div className="modal">
           <div className="modal__content">
-            {type === 'error' ? (
-              <header className="modal__header modal__header_error">
-                <span className="modal__icon modal__icon_error"></span>
-              </header>
-            ) : (
-              <header className="modal__header modal__header_warning">
-                <span className="modal__icon modal__icon_warning"></span>
-              </header>
-            )}
+            <header className={`modal__header modal__header_${type}`}>
+              <span className={`modal__icon modal__icon_${type}`}></span>
+            </header>
 
             <div className="modal__info">
-              <h3 className="modal__title">
-                {/* {title} */}
-                Таким образом консультация с широким активом в значительной
-                степени обуславливает создание модели развития.
-              </h3>
-
-              <p className="modal__text">
-                {/* {text} */}
-                Повседневная практика показывает, что сложившаяся структура
-                организации играет важную роль в формировании существенных
-                финансовых и административных
-              </p>
+              <h3 className="modal__title">{title}</h3>
+              <p className="modal__text">{text}</p>
             </div>
 
             <div className="modal__footer">

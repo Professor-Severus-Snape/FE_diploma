@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import Footer from '../../components/Footer/Footer';
 import HeaderHome from '../../components/HeaderHome/HeaderHome';
 import Line from '../../components/Line/Line';
 import SectionAbout from '../../components/SectionAbout/SectionAbout';
@@ -32,7 +31,6 @@ const Home = () => {
         <SectionDescription />
         <SectionFeedback />
       </main>
-      <Footer />
     </>
   );
 };

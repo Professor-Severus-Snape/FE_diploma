@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Logo from '../Logo/Logo';
+import SubscribeForm from '../SubscribeForm/SubscribeForm';
 import './footer.css';
 
 const Footer = () => {
@@ -71,19 +72,7 @@ const Footer = () => {
           <div className="footer__subscribe">
             <h4 className="footer__title">Подписка</h4>
             <p className="footer__text">Будьте в курсе событий</p>
-            <form className="subscribe-form">
-              <label className="subscribe-form__label visually-hidden">
-                Подписаться
-              </label>
-              <input
-                type="email"
-                className="subscribe-form__input"
-                placeholder="e-mail"
-              />
-              <button type="submit" className="subscribe-form__btn">
-                Отправить
-              </button>
-            </form>
+            <SubscribeForm />
             <h4 className="footer__title">Подписывайтесь на нас</h4>
             <ul className="footer__subscribe-list">
               <li className="footer__subscribe-item">

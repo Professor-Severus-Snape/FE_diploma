@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import LineCurrent from '../../components/LineCurrent/LineCurrent';
 import SectionDetails from '../../components/SectionDetails/SectionDetails';
@@ -34,7 +33,6 @@ const Payment = () => {
           <SectionPayment />
         </main>
       </div>
-      <Footer />
     </>
   );
 };

@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import Footer from '../../components/Footer/Footer';
 import HeaderOrder from '../../components/HeaderOrder/HeaderOrder';
 import SectionOrder from '../../components/SectionOrder/SectionOrder';
 
@@ -31,8 +30,6 @@ const Order = () => {
           <SectionOrder />
         </div>
       </main>
-
-      <Footer />
     </>
   );
 };

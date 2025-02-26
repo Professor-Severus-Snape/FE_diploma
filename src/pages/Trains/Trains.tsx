@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import LineCurrent from '../../components/LineCurrent/LineCurrent';
 import SectionLastTickets from '../../components/SectionLastTickets/SectionLastTickets';
@@ -36,7 +35,6 @@ const Trains = () => {
           <SectionTickets />
         </main>
       </div>
-      <Footer />
     </>
   );
 };
