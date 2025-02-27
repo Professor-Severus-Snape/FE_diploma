@@ -8,7 +8,7 @@
   background-position: center;
 }
 
-.description__top-container {
+.description__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -51,7 +51,7 @@
   background-color: #fff;
 }
 
-.description__bottom-container {
+.description__list {
   display: flex;
   justify-content: center;
   gap: 139px;
@@ -79,7 +79,7 @@
     padding: 50px;
   }
 
-  .description__top-container {
+  .description__header {
     margin-bottom: 50px;
     padding: 0px;
   }
@@ -89,7 +89,7 @@
     padding-right: 50px;
   }
 
-  .description__bottom-container {
+  .description__list {
     justify-content: space-around;
     gap: 20px;
   }
