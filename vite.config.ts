@@ -8,4 +8,7 @@ export default defineConfig({
   server: {
     open: true,
   },
+  build: {
+    chunkSizeWarningLimit: 1000, // лимит для предупреждений о размерах чанков (default: 500)
+  },
 });
