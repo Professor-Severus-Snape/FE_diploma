@@ -15,15 +15,15 @@
 .search-form__fieldset {
   display: flex;
   flex-direction: column;
-  gap: 13px;
 
   font-weight: 300;
   font-size: 30px;
   color: #fff;
 }
 
-.search-form__label {
+.search-form__legend {
   padding-left: 7px;
+  padding-bottom: 13px;
 }
 
 .search-form__destination {
@@ -76,31 +76,7 @@
   gap: 40px;
 }
 
-.search-form__input-date-container {
-  position: relative;
-}
-
-.search-form__date-icon {
-  position: absolute;
-  top: 50%;
-  right: 15px;
-  transform: translateY(-50%);
-
-  width: 34px;
-  height: 30px;
-
-  background-repeat: no-repeat;
-  background-position: center;
-  background-image: url("../../assets/calendar.svg");
-}
-
-.search-form__date-icon:hover {
-  cursor: pointer;
-  background-image: url("../../assets/calendar-active.svg");
-}
-
-.search-form__input-destination,
-.search-form__input-date {
+.search-form__input-destination {
   width: 323px;
   padding: 20px 60px 19px 30px;
   border-radius: 3px;
@@ -137,8 +113,7 @@
 }
 
 @media (max-width: 992px) {
-  .search-form__input-destination,
-  .search-form__input-date {
+  .search-form__input-destination {
     width: 250px;
   }
 

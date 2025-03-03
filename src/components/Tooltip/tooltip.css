@@ -1,0 +1,8 @@
+.tooltip {
+  position: absolute;
+  left: 10px;
+  bottom: -50%;
+
+  color: red;
+  font-size: 16px;
+}
