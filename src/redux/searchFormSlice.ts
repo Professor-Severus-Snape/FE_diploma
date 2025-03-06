@@ -1,6 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { ITown } from '../models/models';
 
 interface ISearchFormState {
+  startTown: ITown | null;
+  // startTownTooltip: string;
+  endTown: ITown | null;
+  // endTownTooltip: string;
   startDate: Date | null;
   startDateTooltip: string;
   endDate: Date | null;
@@ -8,6 +13,10 @@ interface ISearchFormState {
 }
 
 const initialState: ISearchFormState = {
+  startTown: null,
+  // startTownTooltip: '';
+  endTown: null,
+  // endTownTooltip: '';
   startDate: null,
   startDateTooltip: '',
   endDate: null,
@@ -18,6 +27,12 @@ const searchFormSlice = createSlice({
   name: 'searchForm',
   initialState,
   reducers: {
+    setStartTown: (state, action: PayloadAction<ITown | null>) => {
+      state.startTown = action.payload;
+    },
+    setEndTown: (state, action: PayloadAction<ITown | null>) => {
+      state.endTown = action.payload;
+    },
     setStartDate: (state, action: PayloadAction<Date | null>) => {
       state.startDate = action.payload;
     },
@@ -34,6 +49,8 @@ const searchFormSlice = createSlice({
 });
 
 export const {
+  setStartTown,
+  setEndTown,
   setStartDate,
   setStartDateTooltip,
   setEndDate,

@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import modalReducer from './modalSlice';
 import paramsReducer from './paramsSlice';
 import searchFormReducer from './searchFormSlice';
+import townsReducer from './townsSlice';
 
 const store = configureStore({
   reducer: {
     modal: modalReducer,
     params: paramsReducer,
     searchForm: searchFormReducer,
+    towns: townsReducer,
   },
   // настройка проверки сериализуемости - исключаем объект Date:
   middleware: (getDefaultMiddleware) =>

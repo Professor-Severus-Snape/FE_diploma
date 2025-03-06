@@ -7,8 +7,11 @@ import { setParamStartDate, setParamEndDate } from '../../redux/paramsSlice';
 import {
   setStartDateTooltip,
   setEndDateTooltip,
+  setStartTown,
+  setEndTown,
 } from '../../redux/searchFormSlice';
 
+import Destination from '../Destination/Destination';
 import MyDatePicker from '../MyDatePicker/MyDatePicker';
 import './searchForm.css';
 
@@ -16,13 +19,20 @@ const SearchForm = () => {
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
 
-  const { startDate, endDate } = useSelector(
+  const { startTown, endTown, startDate, endDate } = useSelector(
     (state: RootState) => state.searchForm
   );
 
   const { paramStartDate, paramEndDate } = useSelector(
     (state: RootState) => state.params
   );
+
+  // смена направлений местами:
+  const changeDestinations = () => {
+    const tmp = startTown ? { ...startTown } : null; // объекты копируем по ссылке
+    dispatch(setStartTown(endTown ? { ...endTown } : null)); // объекты копируем по ссылке
+    dispatch(setEndTown(tmp));
+  };
 
   const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -71,25 +81,13 @@ const SearchForm = () => {
       <div className="search-form__container">
         <fieldset className="search-form__fieldset">
           <legend className="search-form__legend">Направление</legend>
-
           <div className="search-form__destination">
-            <div className="search-form__input-destination-container">
-              <input
-                className="search-form__input-destination search-form__input-destination_from"
-                placeholder="Откуда"
-              />
-              <span className="search-form__destination-icon"></span>
-            </div>
-
-            <span className="search-form__swap"></span>
-
-            <div className="search-form__input-destination-container">
-              <input
-                className="search-form__input-destination search-form__input-destination_to"
-                placeholder="Куда"
-              />
-              <span className="search-form__destination-icon"></span>
-            </div>
+            <Destination isStart />
+            <span
+              className="search-form__swap"
+              onClick={changeDestinations}
+            ></span>
+            <Destination isStart={false} />
           </div>
         </fieldset>
 
