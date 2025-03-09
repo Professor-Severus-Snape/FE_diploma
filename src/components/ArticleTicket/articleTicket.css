@@ -7,20 +7,17 @@
 
 .ticket__wrapper-left {
   display: flex;
-  justify-content: center;
-
-  min-width: 198px;
-  padding: 30px 30px 50px 10px;
-
-  background-color: #e4e0e9;
-}
-
-.ticket__inner-wrapper {
-  display: flex;
   flex-direction: column;
+
   justify-content: center;
   align-items: center;
   gap: 15px;
+
+  min-width: 198px;
+  /* padding: 30px 30px 50px 10px; */
+  padding: 30px 10px 50px 10px; /* отступление от pixel perfect */
+
+  background-color: #e4e0e9;
 }
 
 .ticket__train-img {
@@ -55,6 +52,7 @@
 .ticket__train-town-to,
 .ticket__train-name {
   color: #292929;
+  text-transform: capitalize;
 }
 
 .ticket__wrapper-middle {
@@ -68,8 +66,8 @@
 
 .ticket__forward,
 .ticket__backward {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.3fr;
   gap: 10px;
 }
 
@@ -83,6 +81,7 @@
   font-weight: 400;
   font-size: 18px;
   color: #292929;
+  text-transform: capitalize;
 }
 
 .ticket__terminal {
@@ -94,7 +93,7 @@
 .ticket__duration-info {
   position: relative;
 
-  align-self: center;
+  place-self: center;
 }
 
 .ticket__duration-time {
@@ -133,10 +132,10 @@
 }
 
 .ticket__seat {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
   gap: 10px;
+  align-items: center;
 }
 
 .ticket__seat-type {
@@ -146,10 +145,10 @@
 }
 
 .ticket__seat-wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  gap: 10px;
+  place-items: center end;
 }
 
 .ticket__seat-count {

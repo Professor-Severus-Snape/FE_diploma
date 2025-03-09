@@ -6,7 +6,8 @@ const ArticleCheckTrain = () => {
   return (
     <article className="check-train">
       <TitleCheck text="Поезд" />
-      <ArticleTicket text="Изменить" />
+      {/* TODO: подставлять индекс выбранного билета!!! */}
+      <ArticleTicket index={1} text="Изменить" />
     </article>
   );
 };
