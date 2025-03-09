@@ -1,14 +1,19 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
+import { RootState } from '../../redux/store';
 
 import Header from '../../components/Header/Header';
 import LineCurrent from '../../components/LineCurrent/LineCurrent';
+import Loader from '../../components/Loader/Loader';
 import SectionLastTickets from '../../components/SectionLastTickets/SectionLastTickets';
 import SectionSettings from '../../components/SectionSettings/SectionSettings';
 import SectionTickets from '../../components/SectionTickets/SectionTickets';
 
 const Trains = () => {
   const location = useLocation();
+  const { trainsLoading } = useSelector((state: RootState) => state.trains); // загрузка поездов
 
   useEffect(() => {
     // переход по якорной ссылке:
@@ -25,16 +30,23 @@ const Trains = () => {
   return (
     <>
       <Header />
-      <LineCurrent num={1} />
-      <div className="page">
-        <aside className="sidebar">
-          <SectionSettings />
-          <SectionLastTickets />
-        </aside>
-        <main className="main">
-          <SectionTickets />
-        </main>
-      </div>
+
+      {trainsLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <LineCurrent num={1} />
+          <div className="page">
+            <aside className="sidebar">
+              <SectionSettings />
+              <SectionLastTickets />
+            </aside>
+            <main className="main">
+              <SectionTickets />
+            </main>
+          </div>
+        </>
+      )}
     </>
   );
 };

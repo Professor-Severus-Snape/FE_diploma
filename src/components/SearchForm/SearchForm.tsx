@@ -1,21 +1,31 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { isSameDay } from 'date-fns';
+import { format, isSameDay } from 'date-fns';
 
 import { AppDispatch, RootState } from '../../redux/store';
-import { setParamStartDate, setParamEndDate } from '../../redux/paramsSlice';
+import { openModal } from '../../redux/modalSlice';
 import {
+  setParamStartTown,
+  setParamEndTown,
+  setParamStartDate,
+  setParamEndDate,
+} from '../../redux/paramsSlice';
+import {
+  setStartTown,
+  setStartTownTooltip,
+  setEndTown,
+  setEndTownTooltip,
   setStartDateTooltip,
   setEndDateTooltip,
-  setStartTown,
-  setEndTown,
 } from '../../redux/searchFormSlice';
+import { fetchTrains } from '../../redux/trainsSlice';
 
 import Destination from '../Destination/Destination';
 import MyDatePicker from '../MyDatePicker/MyDatePicker';
 import './searchForm.css';
 
 const SearchForm = () => {
+  const location = useLocation(); // например, '/trains'
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
 
@@ -23,9 +33,8 @@ const SearchForm = () => {
     (state: RootState) => state.searchForm
   );
 
-  const { paramStartDate, paramEndDate } = useSelector(
-    (state: RootState) => state.params
-  );
+  const { paramStartTown, paramEndTown, paramStartDate, paramEndDate } =
+    useSelector((state: RootState) => state.params);
 
   // смена направлений местами:
   const changeDestinations = () => {
@@ -34,12 +43,17 @@ const SearchForm = () => {
     dispatch(setEndTown(tmp));
   };
 
-  const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleOnSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // проверка, что все поля заполнены перед отправкой запроса на сервер:
-    // TODO: добавить проверку городов!!!
-    if (!startDate || !endDate) {
+    // если какое-то поле не заполнено, то показываем подсказки:
+    if (!startTown || !endTown || !startDate || !endDate) {
+      if (!startTown) {
+        dispatch(setStartTownTooltip('Пожалуйста, выберите город'));
+      }
+      if (!endTown) {
+        dispatch(setEndTownTooltip('Пожалуйста, выберите город'));
+      }
       if (!startDate) {
         dispatch(setStartDateTooltip('Пожалуйста, выберите корректную дату'));
       }
@@ -49,31 +63,59 @@ const SearchForm = () => {
       return;
     }
 
-    // если данные остались прежними, то нет смысла отправлять тот же самый запрос:
-    // TODO: добавить проверку на города!!!
-    if (
-      paramStartDate &&
-      paramEndDate &&
-      isSameDay(startDate, paramStartDate) &&
-      isSameDay(endDate, paramEndDate)
-    ) {
-      // NOTE: теоретически можно здесь показать модалочку...
+    // если город отправления совпадает с городом прибытия, то показываем предупреждение:
+    if (startTown._id === endTown._id) {
+      const modalOptions = {
+        type: 'warning',
+        title: 'Нельзя путешествовать в одном городе!',
+        text: 'Город отправления и город прибытия должны отличаться. Пожалуйста, исправьте данные в форме!',
+      };
+
+      dispatch(openModal(modalOptions));
       return;
     }
 
-    // TODO:
-    // 1. посылаем запрос на сервер
-    // 2. пока идет запрос, отображаем линию загрузки
-    // 3. после завершения запроса (await):
-    //    - сохраняем данные в store (в paramsSlice)
-    //    - переходим на роут выбора билетов (если только мы уже не на нём..)
+    // если все данные в форме остались прежними, то показываем предупреждение:
+    if (
+      paramStartTown &&
+      paramEndTown &&
+      paramStartDate &&
+      paramEndDate &&
+      startTown._id === paramStartTown._id &&
+      endTown._id === paramEndTown._id &&
+      isSameDay(startDate, paramStartDate) &&
+      isSameDay(endDate, paramEndDate)
+    ) {
+      const modalOptions = {
+        type: 'warning',
+        title: 'Данные в форме не были изменены!',
+        text: 'Вы уже просматриваете билеты в соответствии с данным запросом.',
+      };
 
-    // Если форма валидна и запрос успешно завершился, то сохраняем все данные в paramsSlice:
-    // TODO: скопировать не только даты, но и города!!!
-    dispatch(setParamStartDate(startDate));
-    dispatch(setParamEndDate(endDate));
+      dispatch(openModal(modalOptions));
+      return;
+    }
 
-    navigate('/trains');
+    const requestOptions = {
+      from_city_id: startTown._id,
+      to_city_id: endTown._id,
+      date_start: format(startDate, 'yyyy-MM-dd'),
+      date_end: format(endDate, 'yyyy-MM-dd'),
+    };
+
+    // 1. если форма валидна и запрос успешно завершился, то сохраняем все данные в paramsSlice:
+    dispatch(setParamStartTown(startTown)); // сохраняем в параметры город отправления
+    dispatch(setParamEndTown(endTown)); // сохраняем в параметры город прибытия
+    dispatch(setParamStartDate(startDate)); // сохраняем в параметры дату отправления
+    dispatch(setParamEndDate(endDate)); // сохраняем в параметры дату прибытия
+
+    // 2. посылаем запрос на сервер:
+    await dispatch(fetchTrains(requestOptions));
+
+    // 3. после чего переходим на роут выбора билетов (если только мы уже не на нём..):
+    if (!location.pathname.endsWith('/trains')) {
+      await navigate('/trains');
+    }
   };
 
   return (

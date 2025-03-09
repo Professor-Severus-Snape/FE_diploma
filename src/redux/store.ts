@@ -3,6 +3,7 @@ import modalReducer from './modalSlice';
 import paramsReducer from './paramsSlice';
 import searchFormReducer from './searchFormSlice';
 import townsReducer from './townsSlice';
+import trainsReducer from './trainsSlice';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     params: paramsReducer,
     searchForm: searchFormReducer,
     towns: townsReducer,
+    trains: trainsReducer,
   },
   // настройка проверки сериализуемости - исключаем объект Date:
   middleware: (getDefaultMiddleware) =>

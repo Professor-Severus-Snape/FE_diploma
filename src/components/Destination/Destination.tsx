@@ -2,7 +2,12 @@ import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AppDispatch, RootState } from '../../redux/store';
-import { setEndTown, setStartTown } from '../../redux/searchFormSlice';
+import {
+  setStartTown,
+  setStartTownTooltip,
+  setEndTown,
+  setEndTownTooltip,
+} from '../../redux/searchFormSlice';
 import {
   clearTowns,
   fetchTowns,
@@ -13,13 +18,14 @@ import {
 
 import Towns from '../Towns/Towns';
 import './destination.css';
+import Tooltip from '../Tooltip/Tooltip';
 
 const Destination = ({ isStart }: { isStart: boolean }) => {
   const [currentValue, setCurrentValue] = useState(''); // до тех пор, пока нет объекта startTown
   const inputRef = useRef<HTMLInputElement | null>(null); // рефка для input-а
 
   const dispatch: AppDispatch = useDispatch();
-  const { startTown, endTown } = useSelector(
+  const { startTown, startTownTooltip, endTown, endTownTooltip } = useSelector(
     (state: RootState) => state.searchForm
   );
   const { towns, isClicked, isOpenedStartList, isOpenedEndList } = useSelector(
@@ -83,7 +89,8 @@ const Destination = ({ isStart }: { isStart: boolean }) => {
     );
 
     if (foundTown) {
-      dispatch(setStartTown(foundTown));
+      dispatch(setStartTown(foundTown)); // устанавливаем город отправления
+      dispatch(setStartTownTooltip('')); // убираем подсказку (если она есть)
     }
 
     // 3. очищаем содержимое input-а, чтобы не было бага при смене городов местами, если нет города:
@@ -111,7 +118,8 @@ const Destination = ({ isStart }: { isStart: boolean }) => {
     );
 
     if (foundTown) {
-      dispatch(setEndTown(foundTown));
+      dispatch(setEndTown(foundTown)); // устанавливаем город прибытия
+      dispatch(setEndTownTooltip('')); // убираем подсказку (если она есть)
     }
 
     // 3. очищаем содержимое input-а, чтобы не было бага при смене городов местами, если нет города:
@@ -140,6 +148,9 @@ const Destination = ({ isStart }: { isStart: boolean }) => {
       {(isStart ? isOpenedStartList : isOpenedEndList) && (
         <Towns isStart={isStart} />
       )}
+
+      {/* показываем подсказку если поле пустое или некорректное */}
+      <Tooltip text={isStart ? startTownTooltip : endTownTooltip} />
     </div>
   );
 };

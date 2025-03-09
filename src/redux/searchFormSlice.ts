@@ -3,9 +3,9 @@ import { ITown } from '../models/models';
 
 interface ISearchFormState {
   startTown: ITown | null;
-  // startTownTooltip: string;
+  startTownTooltip: string;
   endTown: ITown | null;
-  // endTownTooltip: string;
+  endTownTooltip: string;
   startDate: Date | null;
   startDateTooltip: string;
   endDate: Date | null;
@@ -14,9 +14,9 @@ interface ISearchFormState {
 
 const initialState: ISearchFormState = {
   startTown: null,
-  // startTownTooltip: '';
+  startTownTooltip: '',
   endTown: null,
-  // endTownTooltip: '';
+  endTownTooltip: '',
   startDate: null,
   startDateTooltip: '',
   endDate: null,
@@ -30,8 +30,14 @@ const searchFormSlice = createSlice({
     setStartTown: (state, action: PayloadAction<ITown | null>) => {
       state.startTown = action.payload;
     },
+    setStartTownTooltip: (state, action: PayloadAction<string>) => {
+      state.startTownTooltip = action.payload;
+    },
     setEndTown: (state, action: PayloadAction<ITown | null>) => {
       state.endTown = action.payload;
+    },
+    setEndTownTooltip: (state, action: PayloadAction<string>) => {
+      state.endTownTooltip = action.payload;
     },
     setStartDate: (state, action: PayloadAction<Date | null>) => {
       state.startDate = action.payload;
@@ -50,7 +56,9 @@ const searchFormSlice = createSlice({
 
 export const {
   setStartTown,
+  setStartTownTooltip,
   setEndTown,
+  setEndTownTooltip,
   setStartDate,
   setStartDateTooltip,
   setEndDate,

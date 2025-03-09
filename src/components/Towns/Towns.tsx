@@ -1,7 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AppDispatch, RootState } from '../../redux/store';
-import { setEndTown, setStartTown } from '../../redux/searchFormSlice';
+import {
+  setStartTown,
+  setStartTownTooltip,
+  setEndTown,
+  setEndTownTooltip,
+} from '../../redux/searchFormSlice';
 import {
   clearTowns,
   setIsClicked,
@@ -22,11 +27,13 @@ const Towns = ({ isStart }: { isStart: boolean }) => {
 
     if (isStart) {
       dispatch(setStartTown(town)); // устанавливаем выбранный город
+      dispatch(setStartTownTooltip('')); // убираем подсказку (если она есть)
       dispatch(setIsOpenedStartList(false)); // закрываем список с городами
       return;
     }
 
     dispatch(setEndTown(town)); // устанавливаем выбранный город
+    dispatch(setEndTownTooltip('')); // убираем подсказку (если она есть)
     dispatch(setIsOpenedEndList(false)); // закрываем список с городами
   };
 

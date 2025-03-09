@@ -1,7 +1,8 @@
 import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import DatePicker from 'react-datepicker'; // библиотека react-datepicker -> календарь
-import { addDays, isSameDay } from 'date-fns'; // библиотека date-fns -> валидация даты
+import { addDays, format, isSameDay } from 'date-fns'; // библиотека date-fns -> валидация даты
 import { ru } from 'date-fns/locale';
 
 import { AppDispatch, RootState } from '../../redux/store';
@@ -12,6 +13,7 @@ import {
   setStartDate,
   setStartDateTooltip,
 } from '../../redux/searchFormSlice';
+import { fetchTrains } from '../../redux/trainsSlice';
 
 import Tooltip from '../Tooltip/Tooltip';
 
@@ -24,6 +26,8 @@ interface IMyDatePickerProps {
 }
 
 const MyDatePicker = ({ isStart, isInForm }: IMyDatePickerProps) => {
+  const navigate = useNavigate();
+
   const [calendarOpen, setCalendarOpen] = useState<boolean>(false); // state для календаря
   const refIcon = useRef<HTMLSpanElement>(null); // рефка на иконку календаря
 
@@ -33,9 +37,8 @@ const MyDatePicker = ({ isStart, isInForm }: IMyDatePickerProps) => {
     (state: RootState) => state.searchForm
   );
 
-  const { paramStartDate, paramEndDate } = useSelector(
-    (state: RootState) => state.params
-  );
+  const { paramStartTown, paramEndTown, paramStartDate, paramEndDate } =
+    useSelector((state: RootState) => state.params);
 
   // функция, определяющая какую именно дату подставлять в selected:
   const selectDate = () => {
@@ -47,7 +50,7 @@ const MyDatePicker = ({ isStart, isInForm }: IMyDatePickerProps) => {
 
   // обработчик изменения даты отправления:
   // NB! дата либо валидна, либо её нет вовсе - валидность проверяет сам DatePicker!
-  const handleStartDateChange = (date: Date | null) => {
+  const handleStartDateChange = async (date: Date | null) => {
     // если `MyDatePicker` находится ВНУТРИ формы, то sidebar НЕ обновляем БЕЗ submit-а:
     if (isInForm) {
       // если дата отправления позже даты возврата, то сбрасываем дату отправления:
@@ -63,6 +66,8 @@ const MyDatePicker = ({ isStart, isInForm }: IMyDatePickerProps) => {
     // если `MyDatePicker` находится НЕ внутри формы, а в sidebar-е:
     // если всё ok (есть обе даты, возврат - после отправления или в один день и дата изменилась):
     if (
+      paramStartTown &&
+      paramEndTown &&
       date &&
       paramStartDate &&
       paramEndDate &&
@@ -73,13 +78,26 @@ const MyDatePicker = ({ isStart, isInForm }: IMyDatePickerProps) => {
       dispatch(setStartDate(date));
       dispatch(setParamStartDate(date));
 
-      // TODO: отправляем поисковый запрос на сервер с новой датой (date), проверяем роут...
+      const requestOptions = {
+        from_city_id: paramStartTown._id,
+        to_city_id: paramEndTown._id,
+        date_start: format(date, 'yyyy-MM-dd'),
+        date_end: format(paramEndDate, 'yyyy-MM-dd'),
+      };
+
+      // отправляем поисковый запрос на сервер с новой датой (date)
+      await dispatch(fetchTrains(requestOptions));
+
+      // после чего переходим на роут выбора билетов (если только мы уже не на нём..):
+      if (!location.pathname.endsWith('/trains')) {
+        await navigate('/trains');
+      }
     }
   };
 
   // обработчик изменения даты возвращения:
   // NB! дата либо валидна, либо её нет вовсе - валидность проверяет сам DatePicker!
-  const handleEndDateChange = (date: Date | null) => {
+  const handleEndDateChange = async (date: Date | null) => {
     // если `MyDatePicker` находится ВНУТРИ формы, то sidebar НЕ обновляем БЕЗ submit-а:
     if (isInForm) {
       // если дата возврата раньше даты отправления, то сбрасываем дату возврата:
@@ -100,6 +118,8 @@ const MyDatePicker = ({ isStart, isInForm }: IMyDatePickerProps) => {
     // если `MyDatePicker` находится НЕ внутри формы, а в sidebar-е:
     // если всё ok (есть обе даты, а возврат - после отправления или в один день и дата изменилась):
     if (
+      paramStartTown &&
+      paramEndTown &&
       date &&
       paramStartDate &&
       paramEndDate &&
@@ -110,7 +130,20 @@ const MyDatePicker = ({ isStart, isInForm }: IMyDatePickerProps) => {
       dispatch(setEndDate(date));
       dispatch(setParamEndDate(date));
 
-      // TODO: отправляем поисковый запрос на сервер с новой датой (date), проверяем роут...
+      const requestOptions = {
+        from_city_id: paramStartTown._id,
+        to_city_id: paramEndTown._id,
+        date_start: format(paramStartDate, 'yyyy-MM-dd'),
+        date_end: format(date, 'yyyy-MM-dd'),
+      };
+
+      // отправляем поисковый запрос на сервер с новой датой (date)
+      await dispatch(fetchTrains(requestOptions));
+
+      // после чего переходим на роут выбора билетов (если только мы уже не на нём..):
+      if (!location.pathname.endsWith('/trains')) {
+        await navigate('/trains');
+      }
     }
   };
 

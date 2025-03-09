@@ -1,0 +1,78 @@
+import { buildCreateSlice, asyncThunkCreator } from '@reduxjs/toolkit';
+import { ISearchParams, ITrain } from '../models/models';
+
+// ответ по запросу 'https://students.netoservices.ru/fe-diplom/routes?from_city_id=66ac8b69cb563f0052174f45&to_city_id=66ac8b69cb563f0052174f47&date_start=2025-03-10&date_end=2030-03-13':
+
+// {
+//   "total_count": 8, // количество найденных поездов - ??? (не всегда совпадает почему-то...)
+//   "items": [ITrain, ITrain, ITrain],
+// }
+
+interface IInitialState {
+  trains: ITrain[];
+  trainsLoading: boolean;
+}
+
+const initialState: IInitialState = {
+  trains: [], // найденные по запросу города
+  trainsLoading: false,
+};
+
+const createSliceWithThunk = buildCreateSlice({
+  creators: { asyncThunk: asyncThunkCreator },
+});
+
+const trainsSlice = createSliceWithThunk({
+  name: 'trains',
+  initialState,
+  reducers: (creators) => ({
+    clearTrains: creators.reducer((state) => {
+      state.trains = [];
+    }),
+    // asyncThunk<{ total_count: number; items: ITrain[] }, ISearchParams> изначает, что асинхронный экшен будет принимать объект queryParamObj вида ISearchParams и возвращать action.payload вида { total_count: number; items: ITrain[] }:
+    fetchTrains: creators.asyncThunk<
+      { total_count: number; items: ITrain[] },
+      ISearchParams
+    >(
+      async (queryParamObj, { rejectWithValue }) => {
+        try {
+          const fromCity = `from_city_id=${queryParamObj.from_city_id}`;
+          const toCity = `to_city_id=${queryParamObj.to_city_id}`;
+          const startDate = `date_start=${queryParamObj.date_start}`;
+          const endDate = `date_end=${queryParamObj.date_end}`;
+
+          const baseUrl = import.meta.env.VITE_BASE_URL;
+          const route = '/routes';
+          const queryParams = `?${fromCity}&${toCity}&${startDate}&${endDate}`;
+
+          const response = await fetch(baseUrl + route + queryParams);
+
+          if (!response.ok) {
+            return rejectWithValue('Ошибка при получении данных от сервера...');
+          }
+
+          return await response.json();
+        } catch (err) {
+          return rejectWithValue(err);
+        }
+      },
+      {
+        pending: (state) => {
+          state.trainsLoading = true;
+        },
+        fulfilled: (state, action) => {
+          state.trains = action.payload.items;
+        },
+        rejected: (state) => {
+          state.trains = [];
+        },
+        settled: (state) => {
+          state.trainsLoading = false;
+        },
+      }
+    ),
+  }),
+});
+
+export const { clearTrains, fetchTrains } = trainsSlice.actions;
+export default trainsSlice.reducer;
