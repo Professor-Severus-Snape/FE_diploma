@@ -9,3 +9,8 @@
 
   margin-bottom: 142px;
 }
+
+.tickets__empty {
+  font-size: 30px;
+  color: #3e3c41;
+}

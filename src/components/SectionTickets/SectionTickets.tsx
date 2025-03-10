@@ -12,15 +12,21 @@ const SectionTickets = () => {
     <section className="tickets">
       <h2 className="visually-hidden">Билеты</h2>
 
-      <TicketsView />
+      {trains.length ? (
+        <>
+          <TicketsView />
 
-      <div className="tickets__list">
-        {trains.map((_, index) => (
-          <ArticleTicket key={index} index={index} text="Выбрать места" />
-        ))}
-      </div>
+          <div className="tickets__list">
+            {trains.map((_, index) => (
+              <ArticleTicket key={index} index={index} text="Выбрать места" />
+            ))}
+          </div>
 
-      <Pagination />
+          <Pagination />
+        </>
+      ) : (
+        <p className="tickets__empty">По вашему запросу ничего не найдено...</p>
+      )}
     </section>
   );
 };

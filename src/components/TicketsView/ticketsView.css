@@ -17,12 +17,14 @@
 
 .tickets-view__filters {
   display: flex;
-  gap: 60px;
+  gap: 10px;
 }
 
 .tickets-view__sorting {
   display: flex;
   gap: 10px;
+
+  min-width: 270px;
 }
 
 .tickets-view__sorting-filters {
@@ -43,10 +45,6 @@
 
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   background: #f7f5f9;
-}
-
-.tickets-view__sorting-filter-list_hidden {
-  display: none;
 }
 
 .tickets-view__sorting-filter-item {

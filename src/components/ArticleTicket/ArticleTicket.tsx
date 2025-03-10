@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { fromUnixTime, format } from 'date-fns';
+import { fromUnixTime } from 'date-fns';
 
 import { RootState } from '../../redux/store';
 
@@ -104,7 +104,9 @@ const ArticleTicket = ({ text, index }: { text: string; index: number }) => {
         <div className="ticket__forward">
           <div className="ticket__forward-info">
             <div className="ticket__time">
-              {format(fromUnixTime(ticket.departure.from.datetime), 'HH:mm')}
+              {fromUnixTime(ticket.departure.from.datetime)
+                .toISOString()
+                .slice(11, 16)}
             </div>
             <div className="ticket__town">
               {ticket.departure.from.city.name}
@@ -127,7 +129,9 @@ const ArticleTicket = ({ text, index }: { text: string; index: number }) => {
           </div>
           <div className="ticket__backward-info">
             <div className="ticket__time">
-              {format(fromUnixTime(ticket.departure.to.datetime), 'HH:mm')}
+              {fromUnixTime(ticket.departure.to.datetime)
+                .toISOString()
+                .slice(11, 16)}
             </div>
             <div className="ticket__town">{ticket.departure.to.city.name}</div>
             <div className="ticket__terminal">
@@ -141,7 +145,9 @@ const ArticleTicket = ({ text, index }: { text: string; index: number }) => {
           <div className="ticket__backward">
             <div className="ticket__forward-info">
               <div className="ticket__time">
-                {format(fromUnixTime(ticket.arrival.to.datetime), 'HH:mm')}
+                {fromUnixTime(ticket.arrival.to.datetime)
+                  .toISOString()
+                  .slice(11, 16)}
               </div>
               <div className="ticket__town">{ticket.arrival.to.city.name}</div>
               <div className="ticket__terminal">
@@ -162,7 +168,9 @@ const ArticleTicket = ({ text, index }: { text: string; index: number }) => {
             </div>
             <div className="ticket__backward-info">
               <div className="ticket__time">
-                {format(fromUnixTime(ticket.arrival.from.datetime), 'HH:mm')}
+                {fromUnixTime(ticket.arrival.from.datetime)
+                  .toISOString()
+                  .slice(11, 16)}
               </div>
               <div className="ticket__town">
                 {ticket.arrival.from.city.name}
@@ -176,7 +184,6 @@ const ArticleTicket = ({ text, index }: { text: string; index: number }) => {
       </div>
 
       <div className="ticket__wrapper-right">
-        {/* информация о местах */}
         <ul className="ticket__seats">
           {/* сидячие места (4-ый класс): */}
           {(ticket.departure.have_fourth_class ||

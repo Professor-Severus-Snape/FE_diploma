@@ -61,7 +61,11 @@ const trainsSlice = createSliceWithThunk({
           state.trainsLoading = true;
         },
         fulfilled: (state, action) => {
-          state.trains = action.payload.items;
+          // сразу выполняем сортировку по времени:
+          state.trains = JSON.parse(JSON.stringify(action.payload.items)).sort(
+            (a: ITrain, b: ITrain) =>
+              a.departure.from.datetime - b.departure.from.datetime
+          );
         },
         rejected: (state) => {
           state.trains = [];
@@ -71,8 +75,11 @@ const trainsSlice = createSliceWithThunk({
         },
       }
     ),
+    setTrains: creators.reducer((state, action: { payload: ITrain[] }) => {
+      state.trains = action.payload;
+    }),
   }),
 });
 
-export const { clearTrains, fetchTrains } = trainsSlice.actions;
+export const { clearTrains, fetchTrains, setTrains } = trainsSlice.actions;
 export default trainsSlice.reducer;
