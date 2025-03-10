@@ -11,11 +11,15 @@ import { ISearchParams, ITrain } from '../models/models';
 interface IInitialState {
   trains: ITrain[];
   trainsLoading: boolean;
+  currentCount: number;
+  currentPage: number;
 }
 
 const initialState: IInitialState = {
   trains: [], // найденные по запросу города
-  trainsLoading: false,
+  trainsLoading: false, // процесс загрузки данных по билетам
+  currentCount: 5, // количество единовременно отображаемых на странице билетов
+  currentPage: 1, // текущая страница
 };
 
 const createSliceWithThunk = buildCreateSlice({
@@ -78,8 +82,21 @@ const trainsSlice = createSliceWithThunk({
     setTrains: creators.reducer((state, action: { payload: ITrain[] }) => {
       state.trains = action.payload;
     }),
+    setCurrentCount: creators.reducer((state, action: { payload: number }) => {
+      state.currentCount = action.payload;
+    }),
+    setCurrentPage: creators.reducer((state, action: { payload: number }) => {
+      state.currentPage = action.payload;
+    }),
   }),
 });
 
-export const { clearTrains, fetchTrains, setTrains } = trainsSlice.actions;
+export const {
+  clearTrains,
+  fetchTrains,
+  setTrains,
+  setCurrentCount,
+  setCurrentPage,
+} = trainsSlice.actions;
+
 export default trainsSlice.reducer;

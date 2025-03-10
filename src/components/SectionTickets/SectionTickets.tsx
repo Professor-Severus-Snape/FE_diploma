@@ -6,7 +6,16 @@ import TicketsView from '../TicketsView/TicketsView';
 import './sectionTickets.css';
 
 const SectionTickets = () => {
-  const { trains } = useSelector((state: RootState) => state.trains); // массив найденных поездов
+  const { trains, currentCount, currentPage } = useSelector(
+    (state: RootState) => state.trains
+  );
+
+  // вычисляем начальный и конечный индекс билетов для текущей страницы:
+  const startIndex = (currentPage - 1) * currentCount;
+  const endIndex = startIndex + currentCount;
+
+  // берём срез только тех билетов, которые должны быть отображены на текущей странице:
+  const trainsToDisplay = trains.slice(startIndex, endIndex);
 
   return (
     <section className="tickets">
@@ -17,8 +26,12 @@ const SectionTickets = () => {
           <TicketsView />
 
           <div className="tickets__list">
-            {trains.map((_, index) => (
-              <ArticleTicket key={index} index={index} text="Выбрать места" />
+            {trainsToDisplay.map((_, index) => (
+              <ArticleTicket
+                key={index}
+                index={startIndex + index}
+                text="Выбрать места"
+              />
             ))}
           </div>
 

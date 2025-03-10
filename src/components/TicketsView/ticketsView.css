@@ -66,7 +66,9 @@
   gap: 10px;
 }
 
-.tickets-view__displaying-filter:hover {
+.tickets-view__displaying-filter:not(
+    .tickets-view__displaying-filter_active
+  ):hover {
   color: #292929;
 
   cursor: pointer;

@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
-import { setTrains } from '../../redux/trainsSlice';
+import {
+  setCurrentCount,
+  setCurrentPage,
+  setTrains,
+} from '../../redux/trainsSlice';
 import { ITrain } from '../../models/models';
 import './ticketsView.css';
 
@@ -9,12 +13,15 @@ const TicketsView = () => {
   const timeFilter = 'времени';
   const priceFilter = 'стоимости';
   const durationFilter = 'длительности';
+  const shownCountOfTicketsList = [5, 10, 20]; // количество билетов, которое нужно отобразить
 
   const [currentfilter, setCurrentFilter] = useState<string>(timeFilter);
   const [isOpenFiltersList, setIsOpenFiltersList] = useState<boolean>(false);
 
   const dispatch: AppDispatch = useDispatch();
-  const { trains } = useSelector((state: RootState) => state.trains); // массив найденных поездов
+  const { trains, currentCount } = useSelector(
+    (state: RootState) => state.trains
+  ); // массив найденных поездов
 
   // сортировка билетов по времени отправления:
   const handleSetTimeFilter = () => {
@@ -72,6 +79,14 @@ const TicketsView = () => {
     dispatch(setTrains(sortedTrainsByDuration)); // изменяем список поездов
   };
 
+  // смена количества единовременно отображаемых билетов на странице:
+  const handleCountFilterClick = (count: number) => {
+    if (currentCount !== count) {
+      dispatch(setCurrentCount(count)); // задаем количество билетов для отображения
+      dispatch(setCurrentPage(1)); // переходим сразу на первую страницу
+    }
+  };
+
   return (
     <div className="tickets-view">
       <div className="tickets-view__found">
@@ -117,12 +132,21 @@ const TicketsView = () => {
 
         <div className="tickets-view__displaying">
           <span className="tickets-view__displaying-text">показывать по:</span>
-          {/* TODO: по клику на фильтр перемещать класс активности */}
-          <span className="tickets-view__displaying-filter tickets-view__displaying-filter_active">
-            5
-          </span>
-          <span className="tickets-view__displaying-filter">10</span>
-          <span className="tickets-view__displaying-filter">20</span>
+          <>
+            {shownCountOfTicketsList.map((count) => (
+              <span
+                key={count}
+                className={`tickets-view__displaying-filter${
+                  currentCount === count
+                    ? ' tickets-view__displaying-filter_active'
+                    : ''
+                }`}
+                onClick={() => handleCountFilterClick(count)}
+              >
+                {count}
+              </span>
+            ))}
+          </>
         </div>
       </div>
     </div>
