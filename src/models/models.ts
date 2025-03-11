@@ -6,8 +6,12 @@ export interface ITown {
 export interface ISearchParams {
   from_city_id: string;
   to_city_id: string;
+
   date_start: string;
   date_end: string;
+
+  minPrice: number;
+  maxPrice: number;
 
   firstClass: boolean;
   secondClass: boolean;

@@ -25,6 +25,8 @@ const Slider = ({ forId }: { forId: string }) => {
     paramEndTown,
     paramStartDate,
     paramEndDate,
+    minPrice,
+    maxPrice,
     haveFirstClass,
     haveSecondClass,
     haveThirdClass,
@@ -44,12 +46,15 @@ const Slider = ({ forId }: { forId: string }) => {
   };
 
   // локальное состояние для слайдера (используем маппинг):
-  const [isChecked, setIsChecked] = useState<boolean>(sliderStateMap[forId] || false);
+  const [isChecked, setIsChecked] = useState<boolean>(
+    sliderStateMap[forId] || false
+  );
 
   // маппинг для dispatch:
   const dispatchMap: { [key: string]: (checked: boolean) => void } = {
     'slider-lux': (checked: boolean) => dispatch(setFirstClass(checked)),
-    'slider-compartment': (checked: boolean) => dispatch(setSecondClass(checked)),
+    'slider-compartment': (checked: boolean) =>
+      dispatch(setSecondClass(checked)),
     'slider-platzkart': (checked: boolean) => dispatch(setThirdClass(checked)),
     'slider-seat': (checked: boolean) => dispatch(setFourthClass(checked)),
     'slider-wiFi': (checked: boolean) => dispatch(setWifi(checked)),
@@ -63,19 +68,26 @@ const Slider = ({ forId }: { forId: string }) => {
     // вызов функции из dispatchMap с аргументом checked:
     dispatchMap[forId]?.(checked);
 
-    if (!paramStartTown || !paramEndTown || !paramStartDate || !paramEndDate)
+    if (!paramStartTown || !paramEndTown || !paramStartDate || !paramEndDate) {
       return;
+    }
 
     // параметры для запроса на сервер:
     const requestOptions = {
       from_city_id: paramStartTown._id,
       to_city_id: paramEndTown._id,
+
       date_start: format(paramStartDate, 'yyyy-MM-dd'),
       date_end: format(paramEndDate, 'yyyy-MM-dd'),
+
+      minPrice,
+      maxPrice,
+
       firstClass: forId === 'slider-lux' ? checked : haveFirstClass,
       secondClass: forId === 'slider-compartment' ? checked : haveSecondClass,
       thirdClass: forId === 'slider-platzkart' ? checked : haveThirdClass,
       fourthClass: forId === 'slider-seat' ? checked : haveFourthClass,
+
       wifi: forId === 'slider-wiFi' ? checked : haveWifi,
       express: forId === 'slider-express' ? checked : haveExpress,
     };

@@ -42,29 +42,29 @@ const trainsSlice = createSliceWithThunk({
         try {
           const fromCity = `from_city_id=${data.from_city_id}`;
           const toCity = `to_city_id=${data.to_city_id}`;
+
           const startDate = `date_start=${data.date_start}`;
           const endDate = `date_end=${data.date_end}`;
+
+          const price = `price_from=${data.minPrice}&price_to=${data.maxPrice}`;
 
           const firstClass = data.firstClass ? '&have_first_class=true' : '';
           const secondClass = data.secondClass ? '&have_second_class=true' : '';
           const thirdClass = data.thirdClass ? '&have_third_class=true' : '';
           const fourthClass = data.fourthClass ? '&have_fourth_class=true' : '';
-
           const classes = `${firstClass}${secondClass}${thirdClass}${fourthClass}`;
+
           const wifi = data.wifi ? '&have_wifi=true' : '';
           const express = data.express ? '&have_express=true' : '';
 
           const baseUrl = import.meta.env.VITE_BASE_URL;
           const route = '/routes';
-          const reqQueryParams = `?${fromCity}&${toCity}&${startDate}&${endDate}`;
+          const reqQueryParams = `?${fromCity}&${toCity}&${startDate}&${endDate}&${price}`;
           const optQueryParams = `${classes}${wifi}${express}`;
 
           const request = baseUrl + route + reqQueryParams + optQueryParams;
 
-          // NOTE: данные получаемые с бэка не всегда верные - проблема со стороны сервера!!!
-
-          console.log('optQueryParams: ', optQueryParams); // NOTE: отладка!!!
-
+          // NOTE: Данные, получаемые с бэка, не всегда верные! Проблема - на стороне сервера!!!
           const response = await fetch(request);
 
           if (!response.ok) {

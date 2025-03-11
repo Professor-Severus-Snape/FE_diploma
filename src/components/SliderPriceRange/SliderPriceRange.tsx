@@ -1,14 +1,33 @@
-import { useEffect, useState } from 'react';
-import { useRef } from 'react';
+import { format } from 'date-fns';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { AppDispatch, RootState } from '../../redux/store';
+import { setMinPrice, setMaxPrice } from '../../redux/paramsSlice';
+import { fetchTrains } from '../../redux/trainsSlice';
 import './sliderPriceRange.css';
 
-// TODO: крайние значения диапазона и минимальный диапазон (1_000р) можно передавать пропсами:
-const initialRange = {
-  lowerValue: 0,
-  upperValue: 7_000,
-};
-
 const SliderPriceRange = () => {
+  const location = useLocation(); // например, '/trains'
+  const navigate = useNavigate();
+
+  const dispatch: AppDispatch = useDispatch();
+
+  const {
+    paramStartTown,
+    paramEndTown,
+    paramStartDate,
+    paramEndDate,
+    minPrice,
+    maxPrice,
+    haveFirstClass,
+    haveSecondClass,
+    haveThirdClass,
+    haveFourthClass,
+    haveWifi,
+    haveExpress,
+  } = useSelector((state: RootState) => state.params);
+
   const leftValueRef = useRef<HTMLSpanElement>(null); // ссылка на левый span
   const rightValueRef = useRef<HTMLSpanElement>(null); // ссылка на правый span
 
@@ -18,33 +37,62 @@ const SliderPriceRange = () => {
   });
   const { leftForValue, rightForValue } = valuePosition; // деструктурирование
 
-  const [sliderRange, setSliderRange] = useState(initialRange); // диапазон значений TODO: Redux
-  const { lowerValue, upperValue } = sliderRange; // деструктурирование TODO: Redux
-
-  const minRange = initialRange.lowerValue; // min значение диапазона = 0
-  const maxRange = initialRange.upperValue; // max значение диапазона = 7_000
+  const minRange = 0; // min значение диапазона = 0
+  const maxRange = 7_000; // max значение диапазона = 7_000
   const sliderWidth = 294; // 294px
-  const thumbRadius = 12; // Поскольку диаметр ползунка = 24px, то его радиус = 12px
+  const thumbRadius = 12; // т.к. диаметр ползунка = 24px, то его радиус = 12px
 
-  const handleMinInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const result =
-      Number(event.target.value) < upperValue
+  // обработчик изменения минимальной стоимости билета:
+  const handleMinChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newPrice =
+      Number(event.target.value) < maxPrice
         ? Number(event.target.value)
-        : upperValue - 1_000; // минимальный диапазон - 1_000 рублей
+        : maxPrice - 1_000; // минимальный диапазон - 1_000 рублей
 
-    setSliderRange({ ...sliderRange, lowerValue: result }); // TODO: Redux
+    dispatch(setMinPrice(newPrice)); // обновляем minPrice в store
   };
 
-  const handleMaxInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const result =
-      Number(event.target.value) > lowerValue
+  // обработчик изменения максимальной стоимости билета:
+  const handleMaxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newPrice =
+      Number(event.target.value) > minPrice
         ? Number(event.target.value)
-        : lowerValue + 1_000; // минимальный диапазон - 1_000 рублей
+        : minPrice + 1_000; // минимальный диапазон - 1_000 рублей
 
-    setSliderRange({ ...sliderRange, upperValue: result }); // TODO: Redux
+    dispatch(setMaxPrice(newPrice)); // обновляем maxPrice в store
   };
 
-  // функция, вычисляющая положение ползунков:
+  // отправка запроса только ПОСЛЕ отпускания ползунка:
+  const handleMouseUp = () => {
+    if (!paramStartTown || !paramEndTown || !paramStartDate || !paramEndDate) {
+      return;
+    }
+
+    const requestOptions = {
+      from_city_id: paramStartTown._id,
+      to_city_id: paramEndTown._id,
+      date_start: format(paramStartDate, 'yyyy-MM-dd'),
+      date_end: format(paramEndDate, 'yyyy-MM-dd'),
+      minPrice,
+      maxPrice,
+      firstClass: haveFirstClass,
+      secondClass: haveSecondClass,
+      thirdClass: haveThirdClass,
+      fourthClass: haveFourthClass,
+      wifi: haveWifi,
+      express: haveExpress,
+    };
+
+    // отправляем поисковый запрос на сервер с обновленными данными:
+    dispatch(fetchTrains(requestOptions));
+
+    // переходим на роут выбора билетов (если только мы уже не на нём..):
+    if (!location.pathname.endsWith('/trains')) {
+      navigate('/trains');
+    }
+  };
+
+  // вычисление позиции ползунков:
   const calculateSliderPositions = (
     lowerValue: number,
     upperValue: number,
@@ -53,27 +101,27 @@ const SliderPriceRange = () => {
     sliderWidth: number,
     thumbRadius: number
   ) => {
-    // Преобразуем значения диапазона в проценты для позиционирования ползунков:
+    // преобразуем значения диапазона в проценты для позиционирования ползунков:
     // FIXME: почему-то диапазон между ползунками считается не равномерно...
     const lowerPercent =
       ((lowerValue - minRange) / (maxRange - minRange)) * 100;
     const upperPercent =
       ((upperValue - minRange) / (maxRange - minRange)) * 100;
 
-    let left = lowerPercent; // Значение left для левого ползунка
-    let right = 100 - upperPercent; // Значение right для правого ползунка
+    let left = lowerPercent; // значение left для левого ползунка
+    let right = 100 - upperPercent; // значение right для правого ползунка
 
-    // Переводим радиус ползунка в проценты относительно ширины слайдера ~ 4.08%:
+    // переводим радиус ползунка в проценты относительно ширины слайдера ~ 4.08%:
     const thumbRadiusPercent = (thumbRadius * 100) / sliderWidth;
 
-    // Проверяем правую границу:
+    // проверяем правую границу:
     if (right < thumbRadiusPercent) {
       right = thumbRadiusPercent; // если она < 12px, то задаем её равной 12px
       // NOTE: костыли:
       left = left > 100 - thumbRadius * 4 ? left - thumbRadiusPercent : left; // изменяем левую
     }
 
-    // Проверяем левую границу:
+    // проверяем левую границу:
     if (left < thumbRadiusPercent) {
       left = thumbRadiusPercent; // если она < 12px, то задаем её равной 12px
       // NOTE: костыли:
@@ -84,10 +132,10 @@ const SliderPriceRange = () => {
     return { left, right };
   };
 
-  // Используем функцию для вычисления позиций ползунков
+  // вычисление позиций ползунков:
   const { left, right } = calculateSliderPositions(
-    lowerValue,
-    upperValue,
+    minPrice,
+    maxPrice,
     minRange,
     maxRange,
     sliderWidth,
@@ -96,12 +144,12 @@ const SliderPriceRange = () => {
 
   // при изменении стоимости пересчитываем размер элемента span с актуальной ценой:
   useEffect(() => {
-    // Обновляем позиции ползунков в состоянии
-    setValuePosition((prevState) => ({
-      ...prevState,
-      leftForValue: left,
-      rightForValue: right,
-    }));
+    // NOTE: по идее это не нужно...
+    // обновляем позиции ползунков в состоянии:
+    // setValuePosition({
+    //   leftForValue: left,
+    //   rightForValue: right,
+    // });
 
     // если ссылка на левый span уже установлена:
     if (leftValueRef.current) {
@@ -128,67 +176,67 @@ const SliderPriceRange = () => {
         rightForValue: rightValuePosition,
       }));
     }
-  }, [lowerValue, upperValue, left, right]); // TODO: Redux (отслеживать зав-сти глобального стейта)
+  }, [left, right]);
 
   return (
-    <>
-      <div className="slider-price-range">
-        {/* Фоновая полоса */}
-        <div
-          className="slider-price-range__fill"
-          style={{
-            left: `${left}%`, // позиция начала полосы
-            right: `${right}%`, // позиция конца полосы
-          }}
-        ></div>
+    <div className="slider-price-range">
+      {/* Фоновая полоса */}
+      <div
+        className="slider-price-range__fill"
+        style={{
+          left: `${left}%`, // позиция начала полосы
+          right: `${right}%`, // позиция конца полосы
+        }}
+      ></div>
 
-        {/* Левый ползунок */}
-        <input
-          className="slider-price-range__lower"
-          type="range"
-          id="lower"
-          min="0"
-          max="7000"
-          step="100"
-          onInput={handleMinInput}
-          value={lowerValue}
-        />
+      {/* Левый ползунок */}
+      <input
+        className="slider-price-range__lower"
+        type="range"
+        id="lower"
+        min="0"
+        max="7000"
+        step="100"
+        onChange={handleMinChange}
+        onMouseUp={handleMouseUp}
+        value={minPrice}
+      />
 
-        {/* Значение под левым ползунком */}
-        <span
-          ref={leftValueRef}
-          className="slider-price-range__min-value"
-          style={{
-            left: `${leftForValue}%`,
-          }}
-        >
-          {lowerValue}
-        </span>
+      {/* Значение под левым ползунком */}
+      <span
+        ref={leftValueRef}
+        className="slider-price-range__min-value"
+        style={{
+          left: `${leftForValue}%`,
+        }}
+      >
+        {minPrice}
+      </span>
 
-        {/* Правый ползунок */}
-        <input
-          className="slider-price-range__upper"
-          type="range"
-          id="upper"
-          min="0"
-          max="7000"
-          step="100"
-          onInput={handleMaxInput}
-          value={upperValue}
-        />
+      {/* Правый ползунок */}
+      <input
+        className="slider-price-range__upper"
+        type="range"
+        id="upper"
+        min="0"
+        max="7000"
+        step="100"
+        onChange={handleMaxChange}
+        onMouseUp={handleMouseUp}
+        value={maxPrice}
+      />
 
-        {/* Значение под правым ползунком */}
-        <span
-          ref={rightValueRef}
-          className="slider-price-range__max-value"
-          style={{
-            right: `${rightForValue}%`,
-          }}
-        >
-          {upperValue}
-        </span>
-      </div>
-    </>
+      {/* Значение под правым ползунком */}
+      <span
+        ref={rightValueRef}
+        className="slider-price-range__max-value"
+        style={{
+          right: `${rightForValue}%`,
+        }}
+      >
+        {maxPrice}
+      </span>
+    </div>
   );
 };
 

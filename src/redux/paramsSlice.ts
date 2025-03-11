@@ -8,6 +8,9 @@ interface IParamsSliceState {
   paramStartDate: Date | null;
   paramEndDate: Date | null;
 
+  minPrice: number;
+  maxPrice: number;
+
   haveFirstClass: boolean;
   haveSecondClass: boolean;
   haveThirdClass: boolean;
@@ -23,6 +26,9 @@ const initialState: IParamsSliceState = {
 
   paramStartDate: null,
   paramEndDate: null,
+
+  minPrice: 0,
+  maxPrice: 7000,
 
   haveFirstClass: false,
   haveSecondClass: false,
@@ -49,6 +55,13 @@ const paramsSlice = createSlice({
     },
     setParamEndDate: (state, action: PayloadAction<Date | null>) => {
       state.paramEndDate = action.payload;
+    },
+
+    setMinPrice: (state, action: PayloadAction<number>) => {
+      state.minPrice = action.payload;
+    },
+    setMaxPrice: (state, action: PayloadAction<number>) => {
+      state.maxPrice = action.payload;
     },
 
     setFirstClass: (state, action: PayloadAction<boolean>) => {
@@ -84,5 +97,7 @@ export const {
   setFourthClass,
   setWifi,
   setExpress,
+  setMinPrice,
+  setMaxPrice,
 } = paramsSlice.actions;
 export default paramsSlice.reducer;

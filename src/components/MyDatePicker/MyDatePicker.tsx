@@ -42,6 +42,8 @@ const MyDatePicker = ({ isStart, isInForm }: IMyDatePickerProps) => {
     paramEndTown,
     paramStartDate,
     paramEndDate,
+    minPrice,
+    maxPrice,
     haveFirstClass,
     haveSecondClass,
     haveThirdClass,
@@ -91,8 +93,12 @@ const MyDatePicker = ({ isStart, isInForm }: IMyDatePickerProps) => {
       const requestOptions = {
         from_city_id: paramStartTown._id,
         to_city_id: paramEndTown._id,
+
         date_start: format(date, 'yyyy-MM-dd'),
         date_end: format(paramEndDate, 'yyyy-MM-dd'),
+
+        minPrice,
+        maxPrice,
 
         firstClass: haveFirstClass,
         secondClass: haveSecondClass,
@@ -151,8 +157,12 @@ const MyDatePicker = ({ isStart, isInForm }: IMyDatePickerProps) => {
       const requestOptions = {
         from_city_id: paramStartTown._id,
         to_city_id: paramEndTown._id,
+
         date_start: format(paramStartDate, 'yyyy-MM-dd'),
         date_end: format(date, 'yyyy-MM-dd'),
+
+        minPrice,
+        maxPrice,
 
         firstClass: haveFirstClass,
         secondClass: haveSecondClass,

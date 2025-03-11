@@ -38,6 +38,8 @@ const SearchForm = () => {
     paramEndTown,
     paramStartDate,
     paramEndDate,
+    minPrice,
+    maxPrice,
     haveFirstClass,
     haveSecondClass,
     haveThirdClass,
@@ -109,8 +111,12 @@ const SearchForm = () => {
     const requestOptions = {
       from_city_id: startTown._id,
       to_city_id: endTown._id,
+
       date_start: format(startDate, 'yyyy-MM-dd'),
       date_end: format(endDate, 'yyyy-MM-dd'),
+
+      minPrice,
+      maxPrice,
 
       firstClass: haveFirstClass,
       secondClass: haveSecondClass,
