@@ -33,8 +33,18 @@ const SearchForm = () => {
     (state: RootState) => state.searchForm
   );
 
-  const { paramStartTown, paramEndTown, paramStartDate, paramEndDate } =
-    useSelector((state: RootState) => state.params);
+  const {
+    paramStartTown,
+    paramEndTown,
+    paramStartDate,
+    paramEndDate,
+    haveFirstClass,
+    haveSecondClass,
+    haveThirdClass,
+    haveFourthClass,
+    haveWifi,
+    haveExpress,
+  } = useSelector((state: RootState) => state.params);
 
   // смена направлений местами:
   const changeDestinations = () => {
@@ -43,7 +53,7 @@ const SearchForm = () => {
     dispatch(setEndTown(tmp));
   };
 
-  const handleOnSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     // если какое-то поле не заполнено, то показываем подсказки:
@@ -101,6 +111,14 @@ const SearchForm = () => {
       to_city_id: endTown._id,
       date_start: format(startDate, 'yyyy-MM-dd'),
       date_end: format(endDate, 'yyyy-MM-dd'),
+
+      firstClass: haveFirstClass,
+      secondClass: haveSecondClass,
+      thirdClass: haveThirdClass,
+      fourthClass: haveFourthClass,
+
+      wifi: haveWifi,
+      express: haveExpress,
     };
 
     // 1. если форма валидна и запрос успешно завершился, то сохраняем все данные в paramsSlice:
@@ -110,11 +128,11 @@ const SearchForm = () => {
     dispatch(setParamEndDate(endDate)); // сохраняем в параметры дату прибытия
 
     // 2. посылаем запрос на сервер:
-    await dispatch(fetchTrains(requestOptions));
+    dispatch(fetchTrains(requestOptions));
 
-    // 3. после чего переходим на роут выбора билетов (если только мы уже не на нём..):
+    // 3. переходим на роут выбора билетов (если только мы уже не на нём..):
     if (!location.pathname.endsWith('/trains')) {
-      await navigate('/trains');
+      navigate('/trains');
     }
   };
 

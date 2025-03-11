@@ -8,6 +8,14 @@ export interface ISearchParams {
   to_city_id: string;
   date_start: string;
   date_end: string;
+
+  firstClass: boolean;
+  secondClass: boolean;
+  thirdClass: boolean;
+  fourthClass: boolean;
+
+  wifi: boolean;
+  express: boolean;
 }
 
 export interface ITrain {

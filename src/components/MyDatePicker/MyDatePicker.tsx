@@ -37,8 +37,18 @@ const MyDatePicker = ({ isStart, isInForm }: IMyDatePickerProps) => {
     (state: RootState) => state.searchForm
   );
 
-  const { paramStartTown, paramEndTown, paramStartDate, paramEndDate } =
-    useSelector((state: RootState) => state.params);
+  const {
+    paramStartTown,
+    paramEndTown,
+    paramStartDate,
+    paramEndDate,
+    haveFirstClass,
+    haveSecondClass,
+    haveThirdClass,
+    haveFourthClass,
+    haveWifi,
+    haveExpress,
+  } = useSelector((state: RootState) => state.params);
 
   // функция, определяющая какую именно дату подставлять в selected:
   const selectDate = () => {
@@ -50,7 +60,7 @@ const MyDatePicker = ({ isStart, isInForm }: IMyDatePickerProps) => {
 
   // обработчик изменения даты отправления:
   // NB! дата либо валидна, либо её нет вовсе - валидность проверяет сам DatePicker!
-  const handleStartDateChange = async (date: Date | null) => {
+  const handleStartDateChange = (date: Date | null) => {
     // если `MyDatePicker` находится ВНУТРИ формы, то sidebar НЕ обновляем БЕЗ submit-а:
     if (isInForm) {
       // если дата отправления позже даты возврата, то сбрасываем дату отправления:
@@ -83,21 +93,29 @@ const MyDatePicker = ({ isStart, isInForm }: IMyDatePickerProps) => {
         to_city_id: paramEndTown._id,
         date_start: format(date, 'yyyy-MM-dd'),
         date_end: format(paramEndDate, 'yyyy-MM-dd'),
+
+        firstClass: haveFirstClass,
+        secondClass: haveSecondClass,
+        thirdClass: haveThirdClass,
+        fourthClass: haveFourthClass,
+
+        wifi: haveWifi,
+        express: haveExpress,
       };
 
       // отправляем поисковый запрос на сервер с новой датой (date)
-      await dispatch(fetchTrains(requestOptions));
+      dispatch(fetchTrains(requestOptions));
 
-      // после чего переходим на роут выбора билетов (если только мы уже не на нём..):
+      // переходим на роут выбора билетов (если только мы уже не на нём..):
       if (!location.pathname.endsWith('/trains')) {
-        await navigate('/trains');
+        navigate('/trains');
       }
     }
   };
 
   // обработчик изменения даты возвращения:
   // NB! дата либо валидна, либо её нет вовсе - валидность проверяет сам DatePicker!
-  const handleEndDateChange = async (date: Date | null) => {
+  const handleEndDateChange = (date: Date | null) => {
     // если `MyDatePicker` находится ВНУТРИ формы, то sidebar НЕ обновляем БЕЗ submit-а:
     if (isInForm) {
       // если дата возврата раньше даты отправления, то сбрасываем дату возврата:
@@ -135,14 +153,22 @@ const MyDatePicker = ({ isStart, isInForm }: IMyDatePickerProps) => {
         to_city_id: paramEndTown._id,
         date_start: format(paramStartDate, 'yyyy-MM-dd'),
         date_end: format(date, 'yyyy-MM-dd'),
+
+        firstClass: haveFirstClass,
+        secondClass: haveSecondClass,
+        thirdClass: haveThirdClass,
+        fourthClass: haveFourthClass,
+
+        wifi: haveWifi,
+        express: haveExpress,
       };
 
       // отправляем поисковый запрос на сервер с новой датой (date)
-      await dispatch(fetchTrains(requestOptions));
+      dispatch(fetchTrains(requestOptions));
 
-      // после чего переходим на роут выбора билетов (если только мы уже не на нём..):
+      // переходим на роут выбора билетов (если только мы уже не на нём..):
       if (!location.pathname.endsWith('/trains')) {
-        await navigate('/trains');
+        navigate('/trains');
       }
     }
   };

@@ -33,23 +33,39 @@ const trainsSlice = createSliceWithThunk({
     clearTrains: creators.reducer((state) => {
       state.trains = [];
     }),
-    // asyncThunk<{ total_count: number; items: ITrain[] }, ISearchParams> изначает, что асинхронный экшен будет принимать объект queryParamObj вида ISearchParams и возвращать action.payload вида { total_count: number; items: ITrain[] }:
+    // asyncThunk<{ total_count: number; items: ITrain[] }, ISearchParams> изначает, что асинхронный экшен будет принимать объект data вида ISearchParams и возвращать action.payload вида { total_count: number; items: ITrain[] }:
     fetchTrains: creators.asyncThunk<
       { total_count: number; items: ITrain[] },
       ISearchParams
     >(
-      async (queryParamObj, { rejectWithValue }) => {
+      async (data, { rejectWithValue }) => {
         try {
-          const fromCity = `from_city_id=${queryParamObj.from_city_id}`;
-          const toCity = `to_city_id=${queryParamObj.to_city_id}`;
-          const startDate = `date_start=${queryParamObj.date_start}`;
-          const endDate = `date_end=${queryParamObj.date_end}`;
+          const fromCity = `from_city_id=${data.from_city_id}`;
+          const toCity = `to_city_id=${data.to_city_id}`;
+          const startDate = `date_start=${data.date_start}`;
+          const endDate = `date_end=${data.date_end}`;
+
+          const firstClass = data.firstClass ? '&have_first_class=true' : '';
+          const secondClass = data.secondClass ? '&have_second_class=true' : '';
+          const thirdClass = data.thirdClass ? '&have_third_class=true' : '';
+          const fourthClass = data.fourthClass ? '&have_fourth_class=true' : '';
+
+          const classes = `${firstClass}${secondClass}${thirdClass}${fourthClass}`;
+          const wifi = data.wifi ? '&have_wifi=true' : '';
+          const express = data.express ? '&have_express=true' : '';
 
           const baseUrl = import.meta.env.VITE_BASE_URL;
           const route = '/routes';
-          const queryParams = `?${fromCity}&${toCity}&${startDate}&${endDate}`;
+          const reqQueryParams = `?${fromCity}&${toCity}&${startDate}&${endDate}`;
+          const optQueryParams = `${classes}${wifi}${express}`;
 
-          const response = await fetch(baseUrl + route + queryParams);
+          const request = baseUrl + route + reqQueryParams + optQueryParams;
+
+          // NOTE: данные получаемые с бэка не всегда верные - проблема со стороны сервера!!!
+
+          console.log('optQueryParams: ', optQueryParams); // NOTE: отладка!!!
+
+          const response = await fetch(request);
 
           if (!response.ok) {
             return rejectWithValue('Ошибка при получении данных от сервера...');
