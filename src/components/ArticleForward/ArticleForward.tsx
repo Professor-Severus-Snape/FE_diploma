@@ -1,15 +1,20 @@
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/store';
+import { setArticleForwardCheckbox } from '../../redux/checkboxSlice';
 import Arrival from '../Arrival/Arrival';
 import Departure from '../Departure/Departure';
-
 import forward from '../../assets/forward.svg';
 import './articleForward.css';
 
 const ArticleForward = () => {
-  const [isChecked, setIsChecked] = useState(false);
+  const dispatch: AppDispatch = useDispatch();
+
+  const { articleForwardCheckbox } = useSelector(
+    (state: RootState) => state.checkbox
+  );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsChecked(event.target.checked);
+    dispatch(setArticleForwardCheckbox(event.target.checked));
   };
 
   return (
@@ -25,13 +30,14 @@ const ArticleForward = () => {
           type="checkbox"
           className="forward__checkbox"
           onChange={handleChange}
+          checked={articleForwardCheckbox}
         />
         <label htmlFor="forward" className="forward__label"></label>
       </header>
 
       <div
         className={
-          isChecked
+          articleForwardCheckbox
             ? 'forward__content forward__content_active'
             : 'forward__content'
         }

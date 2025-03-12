@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import checkboxReducer from './checkboxSlice';
 import modalReducer from './modalSlice';
 import paramsReducer from './paramsSlice';
 import searchFormReducer from './searchFormSlice';
@@ -7,6 +8,7 @@ import trainsReducer from './trainsSlice';
 
 const store = configureStore({
   reducer: {
+    checkbox: checkboxReducer,
     modal: modalReducer,
     params: paramsReducer,
     searchForm: searchFormReducer,

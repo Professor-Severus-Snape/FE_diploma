@@ -1,15 +1,20 @@
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/store';
+import { setArticleBackwardCheckbox } from '../../redux/checkboxSlice';
 import Arrival from '../Arrival/Arrival';
 import Departure from '../Departure/Departure';
-
 import backward from '../../assets/backward.svg';
 import './articleBackward.css';
 
 const ArticleBackward = () => {
-  const [isChecked, setIsChecked] = useState(false);
+  const dispatch: AppDispatch = useDispatch();
+
+  const { articleBackwardCheckbox } = useSelector(
+    (state: RootState) => state.checkbox
+  );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsChecked(event.target.checked);
+    dispatch(setArticleBackwardCheckbox(event.target.checked));
   };
 
   return (
@@ -25,13 +30,14 @@ const ArticleBackward = () => {
           type="checkbox"
           className="backward__checkbox"
           onChange={handleChange}
+          checked={articleBackwardCheckbox}
         />
         <label htmlFor="backward" className="backward__label"></label>
       </header>
 
       <div
         className={
-          isChecked
+          articleBackwardCheckbox
             ? 'backward__content backward__content_active'
             : 'backward__content'
         }
