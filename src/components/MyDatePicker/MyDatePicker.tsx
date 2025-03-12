@@ -44,6 +44,14 @@ const MyDatePicker = ({ isStart, isInForm }: IMyDatePickerProps) => {
     paramEndDate,
     minPrice,
     maxPrice,
+    startDepartureHourFrom,
+    startDepartureHourTo,
+    endDepartureHourFrom,
+    endDepartureHourTo,
+    startArrivalHourFrom,
+    startArrivalHourTo,
+    endArrivalHourFrom,
+    endArrivalHourTo,
     haveFirstClass,
     haveSecondClass,
     haveThirdClass,
@@ -99,6 +107,16 @@ const MyDatePicker = ({ isStart, isInForm }: IMyDatePickerProps) => {
 
         minPrice,
         maxPrice,
+
+        startDepartureHourFrom,
+        startDepartureHourTo,
+        endDepartureHourFrom,
+        endDepartureHourTo,
+
+        startArrivalHourFrom,
+        startArrivalHourTo,
+        endArrivalHourFrom,
+        endArrivalHourTo,
 
         firstClass: haveFirstClass,
         secondClass: haveSecondClass,
@@ -163,6 +181,16 @@ const MyDatePicker = ({ isStart, isInForm }: IMyDatePickerProps) => {
 
         minPrice,
         maxPrice,
+
+        startDepartureHourFrom,
+        startDepartureHourTo,
+        endDepartureHourFrom,
+        endDepartureHourTo,
+
+        startArrivalHourFrom,
+        startArrivalHourTo,
+        endArrivalHourFrom,
+        endArrivalHourTo,
 
         firstClass: haveFirstClass,
         secondClass: haveSecondClass,

@@ -10,16 +10,28 @@ export interface ISearchParams {
   date_start: string;
   date_end: string;
 
-  minPrice: number;
-  maxPrice: number;
+  minPrice?: number;
+  maxPrice?: number;
 
-  firstClass: boolean;
-  secondClass: boolean;
-  thirdClass: boolean;
-  fourthClass: boolean;
+  startDepartureHourFrom?: number;
+  startDepartureHourTo?: number;
 
-  wifi: boolean;
-  express: boolean;
+  endDepartureHourFrom?: number;
+  endDepartureHourTo?: number;
+
+  startArrivalHourFrom?: number;
+  startArrivalHourTo?: number;
+
+  endArrivalHourFrom?: number;
+  endArrivalHourTo?: number;
+
+  firstClass?: boolean;
+  secondClass?: boolean;
+  thirdClass?: boolean;
+  fourthClass?: boolean;
+
+  wifi?: boolean;
+  express?: boolean;
 }
 
 export interface ITrain {

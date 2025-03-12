@@ -1,11 +1,15 @@
 import SliderTimeRange from '../SliderTimeRange/SliderTimeRange';
 import './arrival.css';
 
-const Arrival = () => {
+interface IArrivalProps {
+  destination: 'forward' | 'backward';
+}
+
+const Arrival = ({ destination }: IArrivalProps) => {
   return (
     <div className="arrival">
       <h4 className="arrival__title">Время прибытия</h4>
-      <SliderTimeRange />
+      <SliderTimeRange destination={destination} type="arrival" />
     </div>
   );
 };

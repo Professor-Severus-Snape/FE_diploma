@@ -36,8 +36,8 @@ const ArticleBackward = () => {
             : 'backward__content'
         }
       >
-        <Departure />
-        <Arrival />
+        <Departure destination="backward" />
+        <Arrival destination="backward" />
       </div>
     </article>
   );

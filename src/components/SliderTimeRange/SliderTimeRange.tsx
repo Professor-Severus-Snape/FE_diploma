@@ -1,14 +1,55 @@
-import { useEffect, useState } from 'react';
-import { useRef } from 'react';
+import { format } from 'date-fns';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { AppDispatch, RootState } from '../../redux/store';
+import {
+  setStartDepartureHourFrom,
+  setStartDepartureHourTo,
+  setEndDepartureHourFrom,
+  setEndDepartureHourTo,
+  setStartArrivalHourFrom,
+  setStartArrivalHourTo,
+  setEndArrivalHourFrom,
+  setEndArrivalHourTo,
+} from '../../redux/paramsSlice';
+import { fetchTrains } from '../../redux/trainsSlice';
 import './sliderTimeRange.css';
 
-// TODO: крайние значения диапазона и минимальный диапазон (4 часа) можно передавать пропсами:
-const initialRange = {
-  lowerValue: 0,
-  upperValue: 24,
-};
+interface ISliderTimeRangeProps {
+  destination: 'forward' | 'backward';
+  type: 'departure' | 'arrival';
+}
 
-const SliderTimeRange = () => {
+const SliderTimeRange = ({ destination, type }: ISliderTimeRangeProps) => {
+  const location = useLocation(); // например, '/trains'
+  const navigate = useNavigate();
+
+  const dispatch: AppDispatch = useDispatch();
+
+  const {
+    paramStartTown,
+    paramEndTown,
+    paramStartDate,
+    paramEndDate,
+    minPrice,
+    maxPrice,
+    startDepartureHourFrom,
+    startDepartureHourTo,
+    endDepartureHourFrom,
+    endDepartureHourTo,
+    startArrivalHourFrom,
+    startArrivalHourTo,
+    endArrivalHourFrom,
+    endArrivalHourTo,
+    haveFirstClass,
+    haveSecondClass,
+    haveThirdClass,
+    haveFourthClass,
+    haveWifi,
+    haveExpress,
+  } = useSelector((state: RootState) => state.params);
+
   const leftValueRef = useRef<HTMLSpanElement>(null); // ссылка на левый span
   const rightValueRef = useRef<HTMLSpanElement>(null); // ссылка на правый span
 
@@ -18,47 +59,127 @@ const SliderTimeRange = () => {
   });
   const { leftForValue, rightForValue } = valuePosition; // деструктурирование
 
-  const [sliderRange, setSliderRange] = useState(initialRange); // диапазон значений TODO: Redux
-  const { lowerValue, upperValue } = sliderRange; // деструктурирование TODO: Redux
+  const minRange = 0; // допустимое минимальное значение
+  const maxRange = 24; // допустимое максимальное значение
+  const sliderWidth = 300;
 
-  const minRange = initialRange.lowerValue; // min значение диапазона = 0
-  const maxRange = initialRange.upperValue; // max значение диапазона = 24
-  const sliderWidth = 300; // 300px // NOTE: поправить ширину!
+  let lowerValue: number;
+  let upperValue: number;
 
-  const handleMinInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const result =
-      Number(event.target.value) < upperValue
-        ? Number(event.target.value)
-        : upperValue - 5; // минимальный диапазон - 5 часов
-
-    setSliderRange({ ...sliderRange, lowerValue: result }); // TODO: Redux
-  };
-
-  const handleMaxInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const result =
-      Number(event.target.value) > lowerValue
-        ? Number(event.target.value)
-        : lowerValue + 5; // минимальный диапазон - 5 часов
-
-    setSliderRange({ ...sliderRange, upperValue: result }); // TODO: Redux
-  };
+  // Динамически изменяем диапазоны в зависимости от полученных пропсов:
+  if (destination === 'forward') {
+    lowerValue =
+      type === 'departure' ? startDepartureHourFrom : startArrivalHourFrom;
+    upperValue =
+      type === 'departure' ? startDepartureHourTo : startArrivalHourTo;
+  } else {
+    lowerValue =
+      type === 'departure' ? endDepartureHourFrom : endArrivalHourFrom;
+    upperValue = type === 'departure' ? endDepartureHourTo : endArrivalHourTo;
+  }
 
   // 1. Преобразуем значения диапазона в проценты для позиционирования ползунков:
   // FIXME: почему-то диапазон между ползунками считается не равномерно...
   const lowerPercent = ((lowerValue - minRange) / (maxRange - minRange)) * 100;
   const upperPercent = ((upperValue - minRange) / (maxRange - minRange)) * 100;
+
   // 2. Вычисляем положение ползунков:
   const left = lowerPercent; // Значение left для левого ползунка
   const right = 100 - upperPercent; // Значение right для правого ползунка
 
-  // при изменении стоимости пересчитываем размер элемента span с актуальной ценой:
+  // обработчик изменения минимального часа:
+  const handleMinChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newHour =
+      Number(event.target.value) < upperValue
+        ? Number(event.target.value)
+        : upperValue - 5; // минимальный диапазон - 5 часов
+
+    // обновляем минимальный час в store:
+    if (destination === 'forward') {
+      dispatch(
+        type === 'departure'
+          ? setStartDepartureHourFrom(newHour)
+          : setStartArrivalHourFrom(newHour)
+      );
+    } else {
+      dispatch(
+        type === 'departure'
+          ? setEndDepartureHourFrom(newHour)
+          : setEndArrivalHourFrom(newHour)
+      );
+    }
+  };
+
+  // обработчик изменения максимального часа:
+  const handleMaxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newHour =
+      Number(event.target.value) > lowerValue
+        ? Number(event.target.value)
+        : lowerValue + 5; // минимальный диапазон - 5 часов
+
+    // обновляем максимальный час в store:
+    if (destination === 'forward') {
+      dispatch(
+        type === 'departure'
+          ? setStartDepartureHourTo(newHour)
+          : setStartArrivalHourTo(newHour)
+      );
+    } else {
+      dispatch(
+        type === 'departure'
+          ? setEndDepartureHourTo(newHour)
+          : setEndArrivalHourTo(newHour)
+      );
+    }
+  };
+
+  // отправка запроса только ПОСЛЕ отпускания ползунка:
+  const handleMouseUp = () => {
+    if (!paramStartTown || !paramEndTown || !paramStartDate || !paramEndDate) {
+      return;
+    }
+
+    const requestOptions = {
+      from_city_id: paramStartTown._id,
+      to_city_id: paramEndTown._id,
+      date_start: format(paramStartDate, 'yyyy-MM-dd'),
+      date_end: format(paramEndDate, 'yyyy-MM-dd'),
+      minPrice,
+      maxPrice,
+      startDepartureHourFrom,
+      startDepartureHourTo,
+      endDepartureHourFrom,
+      endDepartureHourTo,
+      startArrivalHourFrom,
+      startArrivalHourTo,
+      endArrivalHourFrom,
+      endArrivalHourTo,
+      firstClass: haveFirstClass,
+      secondClass: haveSecondClass,
+      thirdClass: haveThirdClass,
+      fourthClass: haveFourthClass,
+      wifi: haveWifi,
+      express: haveExpress,
+    };
+
+    // отправляем поисковый запрос на сервер с обновленными данными:
+    dispatch(fetchTrains(requestOptions));
+
+    // переходим на роут выбора билетов (если только мы уже не на нём..):
+    if (!location.pathname.endsWith('/trains')) {
+      navigate('/trains');
+    }
+  };
+
+  // при изменении времени пересчитываем размер элемента span с актуальной ценой:
   useEffect(() => {
+    // NOTE: по идее это не нужно...
     // Обновляем позиции ползунков в локальном стейт:
-    setValuePosition((prevState) => ({
-      ...prevState,
-      leftForValue: left,
-      rightForValue: right,
-    }));
+    // setValuePosition((prevState) => ({
+    //   ...prevState,
+    //   leftForValue: left,
+    //   rightForValue: right,
+    // }));
 
     // если ссылка на левый span уже установлена:
     if (leftValueRef.current) {
@@ -85,7 +206,7 @@ const SliderTimeRange = () => {
         rightForValue: rightValuePosition,
       }));
     }
-  }, [lowerValue, upperValue, left, right]); // TODO: Redux (отслеживать зав-сти глобального стейта)
+  }, [left, right]);
 
   return (
     <>
@@ -107,7 +228,8 @@ const SliderTimeRange = () => {
           min="0"
           max="24"
           step="1"
-          onInput={handleMinInput}
+          onChange={handleMinChange}
+          onMouseUp={handleMouseUp}
           value={lowerValue}
         />
 
@@ -130,7 +252,8 @@ const SliderTimeRange = () => {
           min="0"
           max="24"
           step="1"
-          onInput={handleMaxInput}
+          onChange={handleMaxChange}
+          onMouseUp={handleMouseUp}
           value={upperValue}
         />
 

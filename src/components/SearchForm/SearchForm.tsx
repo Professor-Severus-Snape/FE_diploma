@@ -40,6 +40,14 @@ const SearchForm = () => {
     paramEndDate,
     minPrice,
     maxPrice,
+    startDepartureHourFrom,
+    startDepartureHourTo,
+    endDepartureHourFrom,
+    endDepartureHourTo,
+    startArrivalHourFrom,
+    startArrivalHourTo,
+    endArrivalHourFrom,
+    endArrivalHourTo,
     haveFirstClass,
     haveSecondClass,
     haveThirdClass,
@@ -117,6 +125,16 @@ const SearchForm = () => {
 
       minPrice,
       maxPrice,
+
+      startDepartureHourFrom,
+      startDepartureHourTo,
+      endDepartureHourFrom,
+      endDepartureHourTo,
+
+      startArrivalHourFrom,
+      startArrivalHourTo,
+      endArrivalHourFrom,
+      endArrivalHourTo,
 
       firstClass: haveFirstClass,
       secondClass: haveSecondClass,

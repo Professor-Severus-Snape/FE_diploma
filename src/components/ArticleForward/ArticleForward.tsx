@@ -36,8 +36,8 @@ const ArticleForward = () => {
             : 'forward__content'
         }
       >
-        <Departure />
-        <Arrival />
+        <Departure destination="forward" />
+        <Arrival destination="forward" />
       </div>
     </article>
   );

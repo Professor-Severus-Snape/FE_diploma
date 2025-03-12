@@ -46,7 +46,59 @@ const trainsSlice = createSliceWithThunk({
           const startDate = `date_start=${data.date_start}`;
           const endDate = `date_end=${data.date_end}`;
 
-          const price = `price_from=${data.minPrice}&price_to=${data.maxPrice}`;
+          const minPrice = data.minPrice ? `&price_from=${data.minPrice}` : '';
+          const maxPrice =
+            data.maxPrice && data.maxPrice !== 7000
+              ? `&price_to=${data.maxPrice}`
+              : '';
+
+          const price = `${minPrice}${maxPrice}`;
+
+          const startDepartureHourFrom = data.startDepartureHourFrom
+            ? `&start_departure_hour_from=${data.startDepartureHourFrom}`
+            : '';
+
+          const startDepartureHourTo =
+            data.startDepartureHourTo && data.startDepartureHourTo !== 24
+              ? `&start_departure_hour_to=${data.startDepartureHourTo}`
+              : '';
+
+          const endDepartureHourFrom = data.endDepartureHourFrom
+            ? `&end_departure_hour_from=${data.endDepartureHourFrom}`
+            : '';
+
+          const endDepartureHourTo =
+            data.endDepartureHourTo && data.endDepartureHourTo !== 24
+              ? `&end_departure_hour_to=${data.endDepartureHourTo}`
+              : '';
+
+          const startDepartureHours = `${startDepartureHourFrom}${startDepartureHourTo}`;
+          const endDepartureHours = `${endDepartureHourFrom}${endDepartureHourTo}`;
+          const departureHours = `${startDepartureHours}${endDepartureHours}`;
+
+          const startArrivalHourFrom = data.startArrivalHourFrom
+            ? `&start_arrival_hour_from=${data.startArrivalHourFrom}`
+            : '';
+
+          const startArrivalHourTo =
+            data.startArrivalHourTo && data.startArrivalHourTo !== 24
+              ? `&start_arrival_hour_to=${data.startArrivalHourTo}`
+              : '';
+
+          const endArrivalHourFrom = data.endArrivalHourFrom
+            ? `&end_arrival_hour_from=${data.endArrivalHourFrom}`
+            : '';
+
+          const endArrivalHourTo =
+            data.endArrivalHourTo && data.endArrivalHourTo !== 24
+              ? `&end_arrival_hour_to=${data.endArrivalHourTo}`
+              : '';
+
+          const startArrivalHours = `${startArrivalHourFrom}${startArrivalHourTo}`;
+          const endArrivalHours = `${endArrivalHourFrom}${endArrivalHourTo}`;
+          const arrivalHours = `${startArrivalHours}${endArrivalHours}`;
+
+          const hours = `${departureHours}${arrivalHours}`;
 
           const firstClass = data.firstClass ? '&have_first_class=true' : '';
           const secondClass = data.secondClass ? '&have_second_class=true' : '';
@@ -59,12 +111,15 @@ const trainsSlice = createSliceWithThunk({
 
           const baseUrl = import.meta.env.VITE_BASE_URL;
           const route = '/routes';
-          const reqQueryParams = `?${fromCity}&${toCity}&${startDate}&${endDate}&${price}`;
-          const optQueryParams = `${classes}${wifi}${express}`;
+          const reqQueryParams = `?${fromCity}&${toCity}&${startDate}&${endDate}`;
+          const optQueryParams = `${classes}${price}${hours}${wifi}${express}`;
 
           const request = baseUrl + route + reqQueryParams + optQueryParams;
 
-          // NOTE: Данные, получаемые с бэка, не всегда верные! Проблема - на стороне сервера!!!
+          // NOTE: Данные, получаемые с бэка, не всегда верные! Проблема, по-видимому, на сервере...
+          // не срабатывают, в частности: 'startArrivalHourFrom', 'startArrivalHourTo', 'endArrivalHourFrom' и 'endArrivalHourTo', хотя запрос формируется верно..
+          // а подбор билетов по классам вагонов, вай-фай и минимальной цене не всегда соответствует внутреннему содержимому билета в полях 'arrival' и 'departure'
+
           const response = await fetch(request);
 
           if (!response.ok) {

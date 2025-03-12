@@ -27,6 +27,14 @@ const Slider = ({ forId }: { forId: string }) => {
     paramEndDate,
     minPrice,
     maxPrice,
+    startDepartureHourFrom,
+    startDepartureHourTo,
+    endDepartureHourFrom,
+    endDepartureHourTo,
+    startArrivalHourFrom,
+    startArrivalHourTo,
+    endArrivalHourFrom,
+    endArrivalHourTo,
     haveFirstClass,
     haveSecondClass,
     haveThirdClass,
@@ -53,8 +61,7 @@ const Slider = ({ forId }: { forId: string }) => {
   // маппинг для dispatch:
   const dispatchMap: { [key: string]: (checked: boolean) => void } = {
     'slider-lux': (checked: boolean) => dispatch(setFirstClass(checked)),
-    'slider-compartment': (checked: boolean) =>
-      dispatch(setSecondClass(checked)),
+    'slider-compartment': (checked: boolean) => dispatch(setSecondClass(checked)),
     'slider-platzkart': (checked: boolean) => dispatch(setThirdClass(checked)),
     'slider-seat': (checked: boolean) => dispatch(setFourthClass(checked)),
     'slider-wiFi': (checked: boolean) => dispatch(setWifi(checked)),
@@ -82,6 +89,16 @@ const Slider = ({ forId }: { forId: string }) => {
 
       minPrice,
       maxPrice,
+
+      startDepartureHourFrom,
+      startDepartureHourTo,
+      endDepartureHourFrom,
+      endDepartureHourTo,
+
+      startArrivalHourFrom,
+      startArrivalHourTo,
+      endArrivalHourFrom,
+      endArrivalHourTo,
 
       firstClass: forId === 'slider-lux' ? checked : haveFirstClass,
       secondClass: forId === 'slider-compartment' ? checked : haveSecondClass,
