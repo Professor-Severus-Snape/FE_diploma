@@ -30,6 +30,14 @@ const ArticleTicket = ({ text, index }: { text: string; index: number }) => {
       ticket.arrival?.price_info.fourth?.top_price || +Infinity,
       ticket.arrival?.price_info.fourth?.bottom_price || +Infinity
     ),
+    topPrice: Math.min(
+      ticket.departure.price_info.fourth?.top_price || +Infinity,
+      ticket.arrival?.price_info.fourth?.top_price || +Infinity
+    ),
+    bottomPrice: Math.min(
+      ticket.departure.price_info.fourth?.bottom_price || +Infinity,
+      ticket.arrival?.price_info.fourth?.bottom_price || +Infinity
+    ),
   };
 
   const thirdClass = {
@@ -44,6 +52,18 @@ const ArticleTicket = ({ text, index }: { text: string; index: number }) => {
       ticket.arrival?.price_info.third?.bottom_price || +Infinity,
       ticket.arrival?.price_info.third?.side_price || +Infinity
     ),
+    topPrice: Math.min(
+      ticket.departure.price_info.third?.top_price || +Infinity,
+      ticket.arrival?.price_info.third?.top_price || +Infinity
+    ),
+    bottomPrice: Math.min(
+      ticket.departure.price_info.third?.bottom_price || +Infinity,
+      ticket.arrival?.price_info.third?.bottom_price || +Infinity
+    ),
+    sidePrice: Math.min(
+      ticket.departure.price_info.third?.side_price || +Infinity,
+      ticket.arrival?.price_info.third?.side_price || +Infinity
+    ),
   };
 
   const secondClass = {
@@ -56,6 +76,14 @@ const ArticleTicket = ({ text, index }: { text: string; index: number }) => {
       ticket.arrival?.price_info.second?.top_price || +Infinity,
       ticket.arrival?.price_info.second?.bottom_price || +Infinity
     ),
+    topPrice: Math.min(
+      ticket.departure.price_info.second?.top_price || +Infinity,
+      ticket.arrival?.price_info.second?.top_price || +Infinity
+    ),
+    bottomPrice: Math.min(
+      ticket.departure.price_info.second?.bottom_price || +Infinity,
+      ticket.arrival?.price_info.second?.bottom_price || +Infinity
+    ),
   };
 
   const firstClass = {
@@ -66,6 +94,18 @@ const ArticleTicket = ({ text, index }: { text: string; index: number }) => {
       ticket.departure.price_info.first?.top_price || +Infinity,
       ticket.departure.price_info.first?.bottom_price || +Infinity,
       ticket.arrival?.price_info.first?.top_price || +Infinity,
+      ticket.arrival?.price_info.first?.bottom_price || +Infinity
+    ),
+    luxPrice: Math.min(
+      ticket.departure.price_info.first?.price || +Infinity,
+      ticket.arrival?.price_info.first?.price || +Infinity
+    ),
+    topPrice: Math.min(
+      ticket.departure.price_info.first?.top_price || +Infinity,
+      ticket.arrival?.price_info.first?.top_price || +Infinity
+    ),
+    bottomPrice: Math.min(
+      ticket.departure.price_info.first?.bottom_price || +Infinity,
       ticket.arrival?.price_info.first?.bottom_price || +Infinity
     ),
   };
@@ -200,6 +240,45 @@ const ArticleTicket = ({ text, index }: { text: string; index: number }) => {
                   <span className="ticket__seat-price-currency">₽</span>
                 </div>
               </div>
+
+              <div className="ticket__tooltip">
+                <div className="ticket__tooltip-arrow"></div>
+                <div className="ticket__tooltip-container">
+                  {/* NOTE: верхние места в сидячем вагоне - внезапненько... */}
+                  {fourthClass.topPrice !== +Infinity && (
+                    <div className="ticket__tooltip-row">
+                      <span className="ticket__tooltip-text">верхние</span>
+                      <div className="ticket__tooltip-info">
+                        {/* TODO: откуда брать количество мест ??? */}
+                        <span className="ticket__tooltip-count">19</span>
+                        <span className="ticket__tooltip-price-container">
+                          <span className="ticket__tooltip-price">
+                            {fourthClass.topPrice}
+                          </span>
+                          <span className="ticket__tooltip-currency">₽</span>
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* NOTE: нижние места в сидячем вагоне - внезапненько... */}
+                  {fourthClass.bottomPrice !== +Infinity && (
+                    <div className="ticket__tooltip-row">
+                      <span className="ticket__tooltip-text">нижние</span>
+                      <div className="ticket__tooltip-info">
+                        {/* TODO: откуда брать количество мест ??? */}
+                        <span className="ticket__tooltip-count">19</span>
+                        <span className="ticket__tooltip-price-container">
+                          <span className="ticket__tooltip-price">
+                            {fourthClass.bottomPrice}
+                          </span>
+                          <span className="ticket__tooltip-currency">₽</span>
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
             </li>
           )}
 
@@ -216,6 +295,62 @@ const ArticleTicket = ({ text, index }: { text: string; index: number }) => {
                     {thirdClass.minPrice.toLocaleString('ru-RU')}
                   </span>
                   <span className="ticket__seat-price-currency">₽</span>
+                </div>
+              </div>
+
+              <div className="ticket__tooltip">
+                <div className="ticket__tooltip-arrow"></div>
+                <div className="ticket__tooltip-container">
+                  {/* верхние места в платцкарте: */}
+                  {thirdClass.topPrice !== +Infinity && (
+                    <div className="ticket__tooltip-row">
+                      <span className="ticket__tooltip-text">верхние</span>
+                      <div className="ticket__tooltip-info">
+                        {/* TODO: откуда брать количество мест ??? */}
+                        <span className="ticket__tooltip-count">19</span>
+                        <span className="ticket__tooltip-price-container">
+                          <span className="ticket__tooltip-price">
+                            {thirdClass.topPrice}
+                          </span>
+                          <span className="ticket__tooltip-currency">₽</span>
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* нижние места в платцкарте: */}
+                  {thirdClass.bottomPrice !== +Infinity && (
+                    <div className="ticket__tooltip-row">
+                      <span className="ticket__tooltip-text">нижние</span>
+                      <div className="ticket__tooltip-info">
+                        {/* TODO: откуда брать количество мест ??? */}
+                        <span className="ticket__tooltip-count">19</span>
+                        <span className="ticket__tooltip-price-container">
+                          <span className="ticket__tooltip-price">
+                            {thirdClass.bottomPrice}
+                          </span>
+                          <span className="ticket__tooltip-currency">₽</span>
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* боковые места в платцкарте: */}
+                  {thirdClass.sidePrice !== +Infinity && (
+                    <div className="ticket__tooltip-row">
+                      <span className="ticket__tooltip-text">боковые</span>
+                      <div className="ticket__tooltip-info">
+                        {/* TODO: откуда брать количество мест ??? */}
+                        <span className="ticket__tooltip-count">19</span>
+                        <span className="ticket__tooltip-price-container">
+                          <span className="ticket__tooltip-price">
+                            {thirdClass.sidePrice}
+                          </span>
+                          <span className="ticket__tooltip-currency">₽</span>
+                        </span>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </li>
@@ -236,6 +371,45 @@ const ArticleTicket = ({ text, index }: { text: string; index: number }) => {
                   <span className="ticket__seat-price-currency">₽</span>
                 </div>
               </div>
+
+              <div className="ticket__tooltip">
+                <div className="ticket__tooltip-arrow"></div>
+                <div className="ticket__tooltip-container">
+                  {/* верхние места в купе: */}
+                  {secondClass.topPrice !== +Infinity && (
+                    <div className="ticket__tooltip-row">
+                      <span className="ticket__tooltip-text">верхние</span>
+                      <div className="ticket__tooltip-info">
+                        {/* TODO: откуда брать количество мест ??? */}
+                        <span className="ticket__tooltip-count">19</span>
+                        <span className="ticket__tooltip-price-container">
+                          <span className="ticket__tooltip-price">
+                            {secondClass.topPrice}
+                          </span>
+                          <span className="ticket__tooltip-currency">₽</span>
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* нижние места в купе: */}
+                  {secondClass.bottomPrice !== +Infinity && (
+                    <div className="ticket__tooltip-row">
+                      <span className="ticket__tooltip-text">нижние</span>
+                      <div className="ticket__tooltip-info">
+                        {/* TODO: откуда брать количество мест ??? */}
+                        <span className="ticket__tooltip-count">19</span>
+                        <span className="ticket__tooltip-price-container">
+                          <span className="ticket__tooltip-price">
+                            {secondClass.bottomPrice}
+                          </span>
+                          <span className="ticket__tooltip-currency">₽</span>
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
             </li>
           )}
 
@@ -252,6 +426,62 @@ const ArticleTicket = ({ text, index }: { text: string; index: number }) => {
                     {firstClass.minPrice.toLocaleString('ru-RU')}
                   </span>
                   <span className="ticket__seat-price-currency"> ₽</span>
+                </div>
+              </div>
+
+              <div className="ticket__tooltip">
+                <div className="ticket__tooltip-arrow"></div>
+                <div className="ticket__tooltip-container">
+                  {/* NOTE: люксовые места в люксе (что логично..): */}
+                  {firstClass.luxPrice !== +Infinity && (
+                    <div className="ticket__tooltip-row">
+                      <span className="ticket__tooltip-text">люкс</span>
+                      <div className="ticket__tooltip-info">
+                        {/* TODO: откуда брать количество мест ??? */}
+                        <span className="ticket__tooltip-count">19</span>
+                        <span className="ticket__tooltip-price-container">
+                          <span className="ticket__tooltip-price">
+                            {firstClass.luxPrice}
+                          </span>
+                          <span className="ticket__tooltip-currency">₽</span>
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* NOTE: верхние места в люксе (что не особо логично..): */}
+                  {firstClass.topPrice !== +Infinity && (
+                    <div className="ticket__tooltip-row">
+                      <span className="ticket__tooltip-text">верхние</span>
+                      <div className="ticket__tooltip-info">
+                        {/* TODO: откуда брать количество мест ??? */}
+                        <span className="ticket__tooltip-count">19</span>
+                        <span className="ticket__tooltip-price-container">
+                          <span className="ticket__tooltip-price">
+                            {firstClass.topPrice}
+                          </span>
+                          <span className="ticket__tooltip-currency">₽</span>
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* NOTE: нижние места в люксе (что не особо логично..): */}
+                  {firstClass.bottomPrice !== +Infinity && (
+                    <div className="ticket__tooltip-row">
+                      <span className="ticket__tooltip-text">нижние</span>
+                      <div className="ticket__tooltip-info">
+                        {/* TODO: откуда брать количество мест ??? */}
+                        <span className="ticket__tooltip-count">19</span>
+                        <span className="ticket__tooltip-price-container">
+                          <span className="ticket__tooltip-price">
+                            {firstClass.bottomPrice}
+                          </span>
+                          <span className="ticket__tooltip-currency">₽</span>
+                        </span>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </li>

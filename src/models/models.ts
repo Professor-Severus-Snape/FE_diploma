@@ -63,22 +63,22 @@ export interface ITrain {
     // стоимость мест по классам:
     price_info: {
       first?: {
-        price: number;
-        top_price: number;
-        bottom_price: number;
+        price?: number;
+        top_price?: number;
+        bottom_price?: number;
       };
       second?: {
-        top_price: number;
-        bottom_price: number;
+        top_price?: number;
+        bottom_price?: number;
       };
       third?: {
-        top_price: number;
-        bottom_price: number;
-        side_price: number;
+        top_price?: number;
+        bottom_price?: number;
+        side_price?: number;
       };
       fourth?: {
-        top_price: number;
-        bottom_price: number;
+        top_price?: number;
+        bottom_price?: number;
       };
     };
 
@@ -148,22 +148,22 @@ export interface ITrain {
     // стоимость мест по классам:
     price_info: {
       first?: {
-        price: number;
-        top_price: number;
-        bottom_price: number;
+        price?: number;
+        top_price?: number;
+        bottom_price?: number;
       };
       second?: {
-        top_price: number;
-        bottom_price: number;
+        top_price?: number;
+        bottom_price?: number;
       };
       third?: {
-        top_price: number;
-        bottom_price: number;
-        side_price: number;
+        top_price?: number;
+        bottom_price?: number;
+        side_price?: number;
       };
       fourth?: {
-        top_price: number;
-        bottom_price: number;
+        top_price?: number;
+        bottom_price?: number;
       };
     };
 
