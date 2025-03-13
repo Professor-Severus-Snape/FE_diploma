@@ -262,7 +262,12 @@ const ArticleTicket = ({ text, index }: { text: string; index: number }) => {
           <div className="ticket__features">
             {/* наличие wi-fi: */}
             {(ticket.departure.have_wifi || ticket.arrival?.have_wifi) && (
-              <img className="ticket__feature-icon" src={wiFi} alt="wiFi" />
+              <img
+                className="ticket__feature-icon"
+                src={wiFi}
+                alt="wi-fi"
+                title="wi-fi"
+              />
             )}
 
             {/* поезд-экспресс: */}
@@ -271,11 +276,17 @@ const ArticleTicket = ({ text, index }: { text: string; index: number }) => {
                 className="ticket__feature-icon"
                 src={express}
                 alt="express"
+                title="экспресс"
               />
             )}
 
             {/* кипяток: */}
-            <img className="ticket__feature-icon" src={tea} alt="tea" />
+            <img
+              className="ticket__feature-icon"
+              src={tea}
+              alt="tea"
+              title="кипяток"
+            />
           </div>
 
           {text === 'Выбрать места' ? <ChooseSeats /> : null}

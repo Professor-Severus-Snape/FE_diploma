@@ -41,24 +41,27 @@ const ArticleLastTicket = ({ index }: { index: number }) => {
         <div className="last-ticket__icons">
           {lastTicket.have_wifi && (
             <img
+              className="last-ticket__icon last-ticket__icon_wifi"
               src={wiFi}
               alt="wi-fi"
-              className="last-ticket__icon last-ticket__icon_wifi"
+              title="wi-fi"
             />
           )}
 
           {lastTicket.is_express && (
             <img
+              className="last-ticket__icon last-ticket__icon_express"
               src={express}
               alt="express"
-              className="last-ticket__icon last-ticket__icon_express"
+              title="экспресс"
             />
           )}
 
           <img
+            className="last-ticket__icon last-ticket__icon_tea"
             src={tea}
             alt="tea"
-            className="last-ticket__icon last-ticket__icon_tea"
+            title="кипяток"
           />
         </div>
 
