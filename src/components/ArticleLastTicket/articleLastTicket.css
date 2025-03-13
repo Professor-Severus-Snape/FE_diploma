@@ -1,6 +1,6 @@
 .last-ticket {
   padding: 18px 9px 7px 9px;
-  
+
   background-color: #fff;
   outline: 1px solid #c4c4c4;
 
@@ -9,12 +9,6 @@
 
 .last-ticket:not(:last-child) {
   margin-bottom: 17px;
-}
-
-.last-ticket:hover {
-  cursor: pointer;
-  outline: 2px solid rgb(255, 168, 0);
-  box-shadow: 0 4px 4px 0 rgba(255, 168, 0, 0.25);
 }
 
 .last-ticket__towns {
@@ -28,6 +22,7 @@
   font-weight: 400;
   font-size: 20px;
   color: #292929;
+  text-transform: capitalize;
 }
 
 .last-ticket__terminals {

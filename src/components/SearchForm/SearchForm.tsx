@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { format, isSameDay } from 'date-fns';
 
 import { AppDispatch, RootState } from '../../redux/store';
+import { fetchLastTickets } from '../../redux/lastTicketsSlice';
 import { openModal } from '../../redux/modalSlice';
 import {
   setParamStartTown,
@@ -156,6 +157,7 @@ const SearchForm = () => {
 
     // 3. переходим на роут выбора билетов (если только мы уже не на нём..):
     if (!location.pathname.endsWith('/trains')) {
+      dispatch(fetchLastTickets()); // запрос на последние билеты - только 1 раз при 1-ом сабмите!!!
       navigate('/trains');
     }
   };
