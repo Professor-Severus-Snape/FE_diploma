@@ -1,10 +1,12 @@
 import { useSelector } from 'react-redux';
 import { fromUnixTime } from 'date-fns';
+import getClassInfo from '../../libs/getClassInfo';
 
 import { RootState } from '../../redux/store';
 
 import ChangeData from '../ChangeData/ChangeData';
 import ChooseSeats from '../ChooseSeats/ChooseSeats';
+import TooltipPrice from '../TooltipPrice/TooltipPrice';
 
 import arrowLeft from '../../assets/arrow-left.svg';
 import arrowRight from '../../assets/arrow-right.svg';
@@ -20,95 +22,74 @@ const ArticleTicket = ({ text, index }: { text: string; index: number }) => {
   const ticket = trains[index]; // конкретный билет
   const [trainName, trainNumber] = ticket.departure.train.name.split(' - '); // номер и имя поезда
 
-  const fourthClass = {
-    count:
-      (ticket.departure.available_seats_info.fourth || 0) +
-      (ticket.arrival?.available_seats_info.fourth || 0),
-    minPrice: Math.min(
-      ticket.departure.price_info.fourth?.top_price || +Infinity,
-      ticket.departure.price_info.fourth?.bottom_price || +Infinity,
-      ticket.arrival?.price_info.fourth?.top_price || +Infinity,
-      ticket.arrival?.price_info.fourth?.bottom_price || +Infinity
-    ),
-    topPrice: Math.min(
-      ticket.departure.price_info.fourth?.top_price || +Infinity,
-      ticket.arrival?.price_info.fourth?.top_price || +Infinity
-    ),
-    bottomPrice: Math.min(
-      ticket.departure.price_info.fourth?.bottom_price || +Infinity,
-      ticket.arrival?.price_info.fourth?.bottom_price || +Infinity
-    ),
-  };
+  const fourthClass = getClassInfo(
+    ticket.departure.available_seats_info.fourth,
+    ticket.arrival?.available_seats_info.fourth,
+    ticket.departure.price_info.fourth || {},
+    ticket.arrival?.price_info.fourth || {}
+  );
 
-  const thirdClass = {
-    count:
-      (ticket.departure.available_seats_info.third || 0) +
-      (ticket.arrival?.available_seats_info.third || 0),
-    minPrice: Math.min(
-      ticket.departure.price_info.third?.top_price || +Infinity,
-      ticket.departure.price_info.third?.bottom_price || +Infinity,
-      ticket.departure.price_info.third?.side_price || +Infinity,
-      ticket.arrival?.price_info.third?.top_price || +Infinity,
-      ticket.arrival?.price_info.third?.bottom_price || +Infinity,
-      ticket.arrival?.price_info.third?.side_price || +Infinity
-    ),
-    topPrice: Math.min(
-      ticket.departure.price_info.third?.top_price || +Infinity,
-      ticket.arrival?.price_info.third?.top_price || +Infinity
-    ),
-    bottomPrice: Math.min(
-      ticket.departure.price_info.third?.bottom_price || +Infinity,
-      ticket.arrival?.price_info.third?.bottom_price || +Infinity
-    ),
-    sidePrice: Math.min(
-      ticket.departure.price_info.third?.side_price || +Infinity,
-      ticket.arrival?.price_info.third?.side_price || +Infinity
-    ),
-  };
+  const thirdClass = getClassInfo(
+    ticket.departure.available_seats_info.third,
+    ticket.arrival?.available_seats_info.third,
+    ticket.departure.price_info.third || {},
+    ticket.arrival?.price_info.third || {}
+  );
 
-  const secondClass = {
-    count:
-      (ticket.departure.available_seats_info.second || 0) +
-      (ticket.arrival?.available_seats_info.second || 0),
-    minPrice: Math.min(
-      ticket.departure.price_info.second?.top_price || +Infinity,
-      ticket.departure.price_info.second?.bottom_price || +Infinity,
-      ticket.arrival?.price_info.second?.top_price || +Infinity,
-      ticket.arrival?.price_info.second?.bottom_price || +Infinity
-    ),
-    topPrice: Math.min(
-      ticket.departure.price_info.second?.top_price || +Infinity,
-      ticket.arrival?.price_info.second?.top_price || +Infinity
-    ),
-    bottomPrice: Math.min(
-      ticket.departure.price_info.second?.bottom_price || +Infinity,
-      ticket.arrival?.price_info.second?.bottom_price || +Infinity
-    ),
-  };
+  const secondClass = getClassInfo(
+    ticket.departure.available_seats_info.second,
+    ticket.arrival?.available_seats_info.second,
+    ticket.departure.price_info.second || {},
+    ticket.arrival?.price_info.second || {}
+  );
 
-  const firstClass = {
-    count:
-      (ticket.departure.available_seats_info.first || 0) +
-      (ticket.arrival?.available_seats_info.first || 0),
-    minPrice: Math.min(
-      ticket.departure.price_info.first?.top_price || +Infinity,
-      ticket.departure.price_info.first?.bottom_price || +Infinity,
-      ticket.arrival?.price_info.first?.top_price || +Infinity,
-      ticket.arrival?.price_info.first?.bottom_price || +Infinity
-    ),
-    luxPrice: Math.min(
-      ticket.departure.price_info.first?.price || +Infinity,
-      ticket.arrival?.price_info.first?.price || +Infinity
-    ),
-    topPrice: Math.min(
-      ticket.departure.price_info.first?.top_price || +Infinity,
-      ticket.arrival?.price_info.first?.top_price || +Infinity
-    ),
-    bottomPrice: Math.min(
-      ticket.departure.price_info.first?.bottom_price || +Infinity,
-      ticket.arrival?.price_info.first?.bottom_price || +Infinity
-    ),
-  };
+  const firstClass = getClassInfo(
+    ticket.departure.available_seats_info.first,
+    ticket.arrival?.available_seats_info.first,
+    ticket.departure.price_info.first || {},
+    ticket.arrival?.price_info.first || {}
+  );
+
+  const seatData = [
+    {
+      condition:
+        ticket.departure.have_fourth_class || ticket.arrival?.have_fourth_class,
+      seatType: 'Сидячий',
+      seatData: fourthClass,
+    },
+    {
+      condition:
+        ticket.departure.have_third_class || ticket.arrival?.have_third_class,
+      seatType: 'Плацкарт',
+      seatData: thirdClass,
+    },
+    {
+      condition:
+        ticket.departure.have_second_class || ticket.arrival?.have_second_class,
+      seatType: 'Купе',
+      seatData: secondClass,
+    },
+    {
+      condition:
+        ticket.departure.have_first_class || ticket.arrival?.have_first_class,
+      seatType: 'Люкс',
+      seatData: firstClass,
+    },
+  ];
+
+  const featureData = [
+    {
+      condition: ticket.departure.have_wifi || ticket.arrival?.have_wifi,
+      icon: wiFi,
+      alt: 'wi-fi',
+    },
+    {
+      condition: ticket.departure.is_express || ticket.arrival?.is_express,
+      icon: express,
+      alt: 'express',
+    },
+    { condition: true, icon: tea, alt: 'tea' },
+  ];
 
   return (
     <article className="ticket">
@@ -225,298 +206,50 @@ const ArticleTicket = ({ text, index }: { text: string; index: number }) => {
 
       <div className="ticket__wrapper-right">
         <ul className="ticket__seats">
-          {/* сидячие места (4-ый класс): */}
-          {(ticket.departure.have_fourth_class ||
-            ticket.arrival?.have_fourth_class) && (
-            <li className="ticket__seat">
-              <div className="ticket__seat-type">Сидячий</div>
-              <div className="ticket__seat-wrapper">
-                <div className="ticket__seat-count">{fourthClass.count}</div>
-                <div className="ticket__seat-price-info">
-                  <span className="ticket__seat-price-text">от</span>
-                  <span className="ticket__seat-price">
-                    {fourthClass.minPrice.toLocaleString('ru-RU')}
-                  </span>
-                  <span className="ticket__seat-price-currency">₽</span>
-                </div>
-              </div>
-
-              <div className="ticket__tooltip">
-                <div className="ticket__tooltip-arrow"></div>
-                <div className="ticket__tooltip-container">
-                  {/* NOTE: верхние места в сидячем вагоне - внезапненько... */}
-                  {fourthClass.topPrice !== +Infinity && (
-                    <div className="ticket__tooltip-row">
-                      <span className="ticket__tooltip-text">верхние</span>
-                      <div className="ticket__tooltip-info">
-                        {/* TODO: откуда брать количество мест ??? */}
-                        <span className="ticket__tooltip-count">19</span>
-                        <span className="ticket__tooltip-price-container">
-                          <span className="ticket__tooltip-price">
-                            {fourthClass.topPrice}
-                          </span>
-                          <span className="ticket__tooltip-currency">₽</span>
-                        </span>
-                      </div>
+          {seatData.map(
+            (seat, index) =>
+              // если таковые места вообще есть:
+              seat.seatData.count !== 0 && (
+                <li key={index} className="ticket__seat">
+                  <div className="ticket__seat-type">{seat.seatType}</div>
+                  <div className="ticket__seat-wrapper">
+                    <div className="ticket__seat-count">
+                      {seat.seatData.count}
                     </div>
-                  )}
-
-                  {/* NOTE: нижние места в сидячем вагоне - внезапненько... */}
-                  {fourthClass.bottomPrice !== +Infinity && (
-                    <div className="ticket__tooltip-row">
-                      <span className="ticket__tooltip-text">нижние</span>
-                      <div className="ticket__tooltip-info">
-                        {/* TODO: откуда брать количество мест ??? */}
-                        <span className="ticket__tooltip-count">19</span>
-                        <span className="ticket__tooltip-price-container">
-                          <span className="ticket__tooltip-price">
-                            {fourthClass.bottomPrice}
-                          </span>
-                          <span className="ticket__tooltip-currency">₽</span>
-                        </span>
-                      </div>
+                    <div className="ticket__seat-price-info">
+                      <span className="ticket__seat-price-text">от</span>
+                      <span className="ticket__seat-price">
+                        {seat.seatData.minPrice.toLocaleString('ru-RU')}
+                      </span>
+                      <span className="ticket__seat-price-currency">₽</span>
                     </div>
-                  )}
-                </div>
-              </div>
-            </li>
-          )}
+                  </div>
 
-          {/* платцкарт (3-ий класс): */}
-          {(ticket.departure.have_third_class ||
-            ticket.arrival?.have_third_class) && (
-            <li className="ticket__seat">
-              <div className="ticket__seat-type">Плацкарт</div>
-              <div className="ticket__seat-wrapper">
-                <div className="ticket__seat-count">{thirdClass.count}</div>
-                <div className="ticket__seat-price-info">
-                  <span className="ticket__seat-price-text">от</span>
-                  <span className="ticket__seat-price">
-                    {thirdClass.minPrice.toLocaleString('ru-RU')}
-                  </span>
-                  <span className="ticket__seat-price-currency">₽</span>
-                </div>
-              </div>
-
-              <div className="ticket__tooltip">
-                <div className="ticket__tooltip-arrow"></div>
-                <div className="ticket__tooltip-container">
-                  {/* верхние места в платцкарте: */}
-                  {thirdClass.topPrice !== +Infinity && (
-                    <div className="ticket__tooltip-row">
-                      <span className="ticket__tooltip-text">верхние</span>
-                      <div className="ticket__tooltip-info">
-                        {/* TODO: откуда брать количество мест ??? */}
-                        <span className="ticket__tooltip-count">19</span>
-                        <span className="ticket__tooltip-price-container">
-                          <span className="ticket__tooltip-price">
-                            {thirdClass.topPrice}
-                          </span>
-                          <span className="ticket__tooltip-currency">₽</span>
-                        </span>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* нижние места в платцкарте: */}
-                  {thirdClass.bottomPrice !== +Infinity && (
-                    <div className="ticket__tooltip-row">
-                      <span className="ticket__tooltip-text">нижние</span>
-                      <div className="ticket__tooltip-info">
-                        {/* TODO: откуда брать количество мест ??? */}
-                        <span className="ticket__tooltip-count">19</span>
-                        <span className="ticket__tooltip-price-container">
-                          <span className="ticket__tooltip-price">
-                            {thirdClass.bottomPrice}
-                          </span>
-                          <span className="ticket__tooltip-currency">₽</span>
-                        </span>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* боковые места в платцкарте: */}
-                  {thirdClass.sidePrice !== +Infinity && (
-                    <div className="ticket__tooltip-row">
-                      <span className="ticket__tooltip-text">боковые</span>
-                      <div className="ticket__tooltip-info">
-                        {/* TODO: откуда брать количество мест ??? */}
-                        <span className="ticket__tooltip-count">19</span>
-                        <span className="ticket__tooltip-price-container">
-                          <span className="ticket__tooltip-price">
-                            {thirdClass.sidePrice}
-                          </span>
-                          <span className="ticket__tooltip-currency">₽</span>
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </li>
-          )}
-
-          {/* купе (2-ой класс): */}
-          {(ticket.departure.have_second_class ||
-            ticket.arrival?.have_second_class) && (
-            <li className="ticket__seat">
-              <div className="ticket__seat-type">Купе</div>
-              <div className="ticket__seat-wrapper">
-                <div className="ticket__seat-count">{secondClass.count}</div>
-                <div className="ticket__seat-price-info">
-                  <span className="ticket__seat-price-text">от</span>
-                  <span className="ticket__seat-price">
-                    {secondClass.minPrice.toLocaleString('ru-RU')}
-                  </span>
-                  <span className="ticket__seat-price-currency">₽</span>
-                </div>
-              </div>
-
-              <div className="ticket__tooltip">
-                <div className="ticket__tooltip-arrow"></div>
-                <div className="ticket__tooltip-container">
-                  {/* верхние места в купе: */}
-                  {secondClass.topPrice !== +Infinity && (
-                    <div className="ticket__tooltip-row">
-                      <span className="ticket__tooltip-text">верхние</span>
-                      <div className="ticket__tooltip-info">
-                        {/* TODO: откуда брать количество мест ??? */}
-                        <span className="ticket__tooltip-count">19</span>
-                        <span className="ticket__tooltip-price-container">
-                          <span className="ticket__tooltip-price">
-                            {secondClass.topPrice}
-                          </span>
-                          <span className="ticket__tooltip-currency">₽</span>
-                        </span>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* нижние места в купе: */}
-                  {secondClass.bottomPrice !== +Infinity && (
-                    <div className="ticket__tooltip-row">
-                      <span className="ticket__tooltip-text">нижние</span>
-                      <div className="ticket__tooltip-info">
-                        {/* TODO: откуда брать количество мест ??? */}
-                        <span className="ticket__tooltip-count">19</span>
-                        <span className="ticket__tooltip-price-container">
-                          <span className="ticket__tooltip-price">
-                            {secondClass.bottomPrice}
-                          </span>
-                          <span className="ticket__tooltip-currency">₽</span>
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </li>
-          )}
-
-          {/* люкс (1-ый класс): */}
-          {(ticket.departure.have_first_class ||
-            ticket.arrival?.have_first_class) && (
-            <li className="ticket__seat">
-              <div className="ticket__seat-type">Люкс</div>
-              <div className="ticket__seat-wrapper">
-                <div className="ticket__seat-count">{firstClass.count}</div>
-                <div className="ticket__seat-price-info">
-                  <span className="ticket__seat-price-text">от </span>
-                  <span className="ticket__seat-price">
-                    {firstClass.minPrice.toLocaleString('ru-RU')}
-                  </span>
-                  <span className="ticket__seat-price-currency"> ₽</span>
-                </div>
-              </div>
-
-              <div className="ticket__tooltip">
-                <div className="ticket__tooltip-arrow"></div>
-                <div className="ticket__tooltip-container">
-                  {/* NOTE: люксовые места в люксе (что логично..): */}
-                  {firstClass.luxPrice !== +Infinity && (
-                    <div className="ticket__tooltip-row">
-                      <span className="ticket__tooltip-text">люкс</span>
-                      <div className="ticket__tooltip-info">
-                        {/* TODO: откуда брать количество мест ??? */}
-                        <span className="ticket__tooltip-count">19</span>
-                        <span className="ticket__tooltip-price-container">
-                          <span className="ticket__tooltip-price">
-                            {firstClass.luxPrice}
-                          </span>
-                          <span className="ticket__tooltip-currency">₽</span>
-                        </span>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* NOTE: верхние места в люксе (что не особо логично..): */}
-                  {firstClass.topPrice !== +Infinity && (
-                    <div className="ticket__tooltip-row">
-                      <span className="ticket__tooltip-text">верхние</span>
-                      <div className="ticket__tooltip-info">
-                        {/* TODO: откуда брать количество мест ??? */}
-                        <span className="ticket__tooltip-count">19</span>
-                        <span className="ticket__tooltip-price-container">
-                          <span className="ticket__tooltip-price">
-                            {firstClass.topPrice}
-                          </span>
-                          <span className="ticket__tooltip-currency">₽</span>
-                        </span>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* NOTE: нижние места в люксе (что не особо логично..): */}
-                  {firstClass.bottomPrice !== +Infinity && (
-                    <div className="ticket__tooltip-row">
-                      <span className="ticket__tooltip-text">нижние</span>
-                      <div className="ticket__tooltip-info">
-                        {/* TODO: откуда брать количество мест ??? */}
-                        <span className="ticket__tooltip-count">19</span>
-                        <span className="ticket__tooltip-price-container">
-                          <span className="ticket__tooltip-price">
-                            {firstClass.bottomPrice}
-                          </span>
-                          <span className="ticket__tooltip-currency">₽</span>
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </li>
+                  <TooltipPrice
+                    luxPrice={seat.seatData.luxPrice}
+                    topPrice={seat.seatData.topPrice}
+                    bottomPrice={seat.seatData.bottomPrice}
+                    sidePrice={seat.seatData.sidePrice}
+                  />
+                </li>
+              )
           )}
         </ul>
 
         <div className="ticket__footer">
           <div className="ticket__features">
-            {/* наличие wi-fi: */}
-            {(ticket.departure.have_wifi || ticket.arrival?.have_wifi) && (
-              <img
-                className="ticket__feature-icon"
-                src={wiFi}
-                alt="wi-fi"
-                title="wi-fi"
-              />
+            {featureData.map(
+              ({ condition, icon, alt }, index) =>
+                condition && (
+                  <img
+                    key={index}
+                    className="ticket__feature-icon"
+                    src={icon}
+                    alt={alt}
+                    title={alt}
+                  />
+                )
             )}
-
-            {/* поезд-экспресс: */}
-            {(ticket.departure.is_express || ticket.arrival?.is_express) && (
-              <img
-                className="ticket__feature-icon"
-                src={express}
-                alt="express"
-                title="экспресс"
-              />
-            )}
-
-            {/* кипяток: */}
-            <img
-              className="ticket__feature-icon"
-              src={tea}
-              alt="tea"
-              title="кипяток"
-            />
           </div>
 
           {text === 'Выбрать места' ? <ChooseSeats /> : null}
