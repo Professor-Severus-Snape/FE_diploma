@@ -49,6 +49,7 @@
 .train-info__train-town-from,
 .train-info__train-town-to {
   color: #292929;
+  text-transform: capitalize;
 }
 
 .train-info__time {
@@ -60,6 +61,7 @@
 .train-info__town {
   font-size: 18px;
   color: #292929;
+  text-transform: capitalize;
 }
 
 .train-info__terminal {

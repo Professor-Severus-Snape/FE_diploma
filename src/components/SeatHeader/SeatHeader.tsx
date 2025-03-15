@@ -3,16 +3,14 @@ import backwardWhite from '../../assets/backward-white.svg';
 import forwardWhite from '../../assets/forward-white.svg';
 import './seatHeader.css';
 
-const SeatHeader = ({ direction }: { direction: string }) => {
+const SeatHeader = ({ isForward }: { isForward: boolean }) => {
   return (
     <header
-      className={`seat-header${
-        direction === 'forward' ? '' : ' seat-header_backward'
-      }`}
+      className={`seat-header${isForward ? '' : ' seat-header_backward'}`}
     >
       <img
-        src={direction === 'forward' ? forwardWhite : backwardWhite}
-        alt={direction === 'forward' ? 'туда' : 'обратно'}
+        src={isForward ? forwardWhite : backwardWhite}
+        alt={isForward ? 'туда' : 'обратно'}
         className="seat-header__icon"
       />
 

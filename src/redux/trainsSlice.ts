@@ -13,13 +13,15 @@ interface IInitialState {
   trainsLoading: boolean;
   currentCount: number;
   currentPage: number;
+  currentTrainIndex: number;
 }
 
 const initialState: IInitialState = {
-  trains: [], // найденные по запросу города
+  trains: [], // найденные по запросу поезда
   trainsLoading: false, // процесс загрузки данных по билетам
   currentCount: 5, // количество единовременно отображаемых на странице билетов
   currentPage: 1, // текущая страница
+  currentTrainIndex: 0, // индекс выбранного билета
 };
 
 const createSliceWithThunk = buildCreateSlice({
@@ -159,6 +161,11 @@ const trainsSlice = createSliceWithThunk({
     setCurrentPage: creators.reducer((state, action: { payload: number }) => {
       state.currentPage = action.payload;
     }),
+    setCurrentTrainIndex: creators.reducer(
+      (state, action: { payload: number }) => {
+        state.currentTrainIndex = action.payload;
+      }
+    ),
   }),
 });
 
@@ -168,6 +175,7 @@ export const {
   setTrains,
   setCurrentCount,
   setCurrentPage,
+  setCurrentTrainIndex,
 } = trainsSlice.actions;
 
 export default trainsSlice.reducer;

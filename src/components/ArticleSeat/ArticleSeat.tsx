@@ -6,12 +6,14 @@ import TrainInfo from '../TrainInfo/TrainInfo';
 
 import './articleSeat.css';
 
-const ArticleSeat = ({ direction }: { direction: string }) => {
+const ArticleSeat = ({ isForward }: { isForward: boolean }) => {
+  const titleText = `Выбор мест ${isForward ? 'туда' : 'обратно'}`;
+
   return (
     <article className="seat">
-      <h3 className="visually-hidden">Выбор мест туда</h3>
-      <SeatHeader direction={direction} />
-      <TrainInfo direction={direction} />
+      <h3 className="visually-hidden">{titleText}</h3>
+      <SeatHeader isForward={isForward} />
+      <TrainInfo isForward={isForward} />
       <SeatsCount />
       <CarriageType />
       <Carriages />

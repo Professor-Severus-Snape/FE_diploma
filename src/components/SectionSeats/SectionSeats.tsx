@@ -1,13 +1,30 @@
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 import ArticleSeat from '../ArticleSeat/ArticleSeat';
 import NextPage from '../NextPage/NextPage';
 import './sectionSeats.css';
 
 const SectionSeats = () => {
+  // NOTE: отладка:
+  const { forwardCarriages, backwardCarriages } = useSelector(
+    (state: RootState) => state.carriages
+  );
+
+  console.log('forwardCarriages: ', forwardCarriages); // NOTE: отладка
+  console.log('backwardCarriages: ', backwardCarriages); // NOTE: отладка
+
+  const { trains, currentTrainIndex } = useSelector(
+    (state: RootState) => state.trains
+  );
+
+  const ticket = trains[currentTrainIndex];
+  const hasArrivalProperty: boolean = ticket.arrival !== undefined;
+
   return (
     <section className="seats">
       <h2 className="seats__title">Выбор мест</h2>
-      <ArticleSeat direction="forward" />
-      <ArticleSeat direction="backward" />
+      <ArticleSeat isForward />
+      {hasArrivalProperty && <ArticleSeat isForward={false} />}
       <NextPage route="/passengers" text="далее" />
     </section>
   );
