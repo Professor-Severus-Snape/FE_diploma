@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import arrivalReducer from './arrivalSlice';
-import carriagesReducer from './сarriagesSlice';
+import carriagesReducer from './carriagesSlice';
 import checkboxReducer from './checkboxSlice';
 import departureReducer from './departureSlice';
 import lastTicketsReducer from './lastTicketsSlice';

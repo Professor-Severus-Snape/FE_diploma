@@ -5,7 +5,7 @@ import { setArrivalRouteDestinationId } from '../../redux/arrivalSlice';
 import {
   fetchForwardCarriages,
   fetchBackwardCarriages,
-} from '../../redux/сarriagesSlice';
+} from '../../redux/carriagesSlice';
 import { setDepartureRouteDestinationId } from '../../redux/departureSlice';
 import { setCurrentTrainIndex } from '../../redux/trainsSlice';
 import './chooseSeats.css';

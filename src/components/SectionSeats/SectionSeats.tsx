@@ -5,14 +5,6 @@ import NextPage from '../NextPage/NextPage';
 import './sectionSeats.css';
 
 const SectionSeats = () => {
-  // NOTE: отладка:
-  const { forwardCarriages, backwardCarriages } = useSelector(
-    (state: RootState) => state.carriages
-  );
-
-  console.log('forwardCarriages: ', forwardCarriages); // NOTE: отладка
-  console.log('backwardCarriages: ', backwardCarriages); // NOTE: отладка
-
   const { trains, currentTrainIndex } = useSelector(
     (state: RootState) => state.trains
   );

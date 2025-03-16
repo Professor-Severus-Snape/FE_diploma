@@ -1,4 +1,5 @@
 import { buildCreateSlice, asyncThunkCreator } from '@reduxjs/toolkit';
+import transformCarriagesPayload from '../libs/transformCarriagesPayload';
 import { IСarriage } from '../models/models';
 
 // ответ по запросу 'https://students.netoservices.ru/fe-diplom/routes/67ceb8c28c75f00047cb0db0/seats':
@@ -74,8 +75,11 @@ const carriagesSlice = createSliceWithThunk({
         pending: (state) => {
           state.forwardCarriagesLoading = true;
         },
-        fulfilled: (state, action) => {
-          state.forwardCarriages = action.payload;
+        fulfilled: (state, { payload }) => {
+          // NOTE: т.к. данные от бэка приходят кривые и неполные, то сразу преобразуем их под себя:
+          const transformedPayload = transformCarriagesPayload(payload);
+          console.log('forwardCarriages: ', transformedPayload); // NOTE: отладка !!!
+          state.forwardCarriages = transformedPayload;
         },
         rejected: (state) => {
           state.forwardCarriages = [];
@@ -109,8 +113,11 @@ const carriagesSlice = createSliceWithThunk({
         pending: (state) => {
           state.backwardCarriagesLoading = true;
         },
-        fulfilled: (state, action) => {
-          state.backwardCarriages = action.payload;
+        fulfilled: (state, { payload }) => {
+          // NOTE: т.к. данные от бэка приходят кривые и неполные, то сразу преобразуем их под себя:
+          const transformedPayload = transformCarriagesPayload(payload);
+          console.log('backwardCarriages: ', transformedPayload); // NOTE: отладка !!!
+          state.backwardCarriages = transformedPayload;
         },
         rejected: (state) => {
           state.backwardCarriages = [];

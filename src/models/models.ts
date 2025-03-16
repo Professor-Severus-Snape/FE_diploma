@@ -212,19 +212,23 @@ export interface ITrain {
 export interface IСarriage {
   coach: {
     _id: string;
+    carriage_number: number; // номер вагона - сгенерирован самостоятельно!!!
+    top: number; // количество верхних мест в вагоне - сгенерировано самостоятельно!!!
+    bottom: number; // количество нижних мест в вагоне - сгенерировано самостоятельно!!!
+    side: number; // количество боковых мест в вагоне - сгенерировано самостоятельно!!!
     name: string;
-    class_type: string; // класс вагона
-    have_wifi: true;
-    have_air_conditioning: false;
-    price: number;
-    top_price: number;
-    bottom_price: number;
-    side_price: number;
-    linens_price: number;
-    wifi_price: number;
-    is_linens_included: true;
-    available_seats: number;
+    class_type: string; // класс вагона - 'first', 'second', 'third' или 'fourth'
+    have_wifi: true; // наличие Wi-Fi в вагоне
+    have_air_conditioning: false; // наличие кондиционера в вагоне
+    price: number; // стоимость места в вагоне класс 'first'
+    top_price: number; // стоимость верхнего места - вагоны классов 'second', 'third' и 'fourth'
+    bottom_price: number; // стоимость нижнего места - вагоны классов 'second', 'third' и 'fourth'
+    side_price: number; // стоимость бокового места в вагоне класс 'third' - люкс
+    linens_price: number; // стоимость постельного белья
+    wifi_price: number; // стоимость Wi-Fi
+    is_linens_included: true; // стоимость белья включена в стоимость (и не может быть исключена)
+    available_seats: number; // количество доступных мест в вагоне
     train: string;
   };
-  seats: { index: number; available: boolean }[];
+  seats: { index: number; available: boolean }[]; // массив - сгенерирован заново самостоятельно!!!
 }
