@@ -15,25 +15,25 @@
   color: #292929;
 }
 
-.seats-count__content {
+.seats-count__list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 }
 
-.seats-count__column {
+.seats-count__item {
   padding: 20px 39px;
   border: 1px solid transparent;
 }
 
-/* цветная рамка при наведении */
-.seats-count__column:hover {
-  border: 1px solid rgba(255, 168, 0, 0.79);
-}
-
-/* изменение фона при выборе элемента */
-.seats-count__column_active:not(.seats-count__column:hover) {
+.seats-count__item_active {
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
   background: #f7f6f6;
+}
+
+/* цветная рамка при наведении */
+.seats-count__item:not(.seats-count__item_active):hover {
+  cursor: pointer;
+  border: 1px solid rgba(255, 168, 0, 0.79);
 }
 
 .seats-count__details {
@@ -52,10 +52,6 @@
   background-color: #fff;
 }
 
-.seats-count__details:hover {
-  cursor: pointer;
-}
-
-.seats-count__text:not(.seats-count__column_active > .seats-count__text) {
+.seats-count__text:not(.seats-count__item_active > .seats-count__text) {
   color: #928f94;
 }

@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
+import { setArrivalRouteDestinationId } from '../../redux/arrivalSlice';
 import {
   fetchForwardCarriages,
   fetchBackwardCarriages,
 } from '../../redux/сarriagesSlice';
+import { setDepartureRouteDestinationId } from '../../redux/departureSlice';
 import { setCurrentTrainIndex } from '../../redux/trainsSlice';
 import './chooseSeats.css';
 
@@ -19,10 +21,12 @@ const ChooseSeats = ({ index }: { index: number }) => {
     const backwardDestinationId = trains[index].arrival?._id || ''; // id направления (обратно)
 
     dispatch(setCurrentTrainIndex(index)); // 1. сохраняем индекс выбранного билета в store
-    dispatch(fetchForwardCarriages(forwardDestinationId)); // 2. запрос на вагоны (туда)
+    dispatch(setDepartureRouteDestinationId(forwardDestinationId)); // 2. сохраняем id в store
+    dispatch(fetchForwardCarriages(forwardDestinationId)); // 3. запрос на вагоны (туда)
 
     if (backwardDestinationId) {
-      dispatch(fetchBackwardCarriages(backwardDestinationId)); // 3. запрос на вагоны (обратно)
+      dispatch(setArrivalRouteDestinationId(backwardDestinationId)); // 4. сохраняем id в store
+      dispatch(fetchBackwardCarriages(backwardDestinationId)); // 5. запрос на вагоны (обратно)
     }
   };
 

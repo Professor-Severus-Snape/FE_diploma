@@ -14,8 +14,8 @@ const ArticleSeat = ({ isForward }: { isForward: boolean }) => {
       <h3 className="visually-hidden">{titleText}</h3>
       <SeatHeader isForward={isForward} />
       <TrainInfo isForward={isForward} />
-      <SeatsCount />
-      <CarriageType />
+      <SeatsCount isForward={isForward} />
+      <CarriageType isForward={isForward} />
       <Carriages />
     </article>
   );
