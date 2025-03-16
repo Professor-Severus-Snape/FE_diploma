@@ -17,6 +17,8 @@ interface IArrivalState {
     count: number;
     isActive: boolean;
   };
+
+  currentCarriageType: string;
 }
 
 const initialState: IArrivalState = {
@@ -36,6 +38,8 @@ const initialState: IArrivalState = {
     count: 0, // количество детских билетов (без места)
     isActive: false, // активность вкладки
   },
+
+  currentCarriageType: '', // выбранный тип вагона ('first', 'second', 'third', 'fourth' или '')
 
   // NOTE: объект, который позже надо будет передать в order по ключу 'arrival':
   // route_direction_id: '',
@@ -90,6 +94,9 @@ const arrivalSlice = createSlice({
         state.baby.isActive = false;
       }
     },
+    setArrivalCurrentCarriageType: (state, action: PayloadAction<string>) => {
+      state.currentCarriageType = action.payload;
+    },
   },
 });
 
@@ -99,6 +106,7 @@ export const {
   setArrivalChildrenCount,
   setArrivalBabyCount,
   setArrivalActivePerson,
+  setArrivalCurrentCarriageType,
 } = arrivalSlice.actions;
 
 export default arrivalSlice.reducer;
