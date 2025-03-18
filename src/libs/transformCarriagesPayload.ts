@@ -2,9 +2,9 @@ import getCarriageNumbers from './getCarriageNumbers';
 import getSeatTypesCountCompartment from './getSeatTypesCountCompartment';
 import getSeatTypesCountPlatzkart from './getSeatTypesCountPlatzkart';
 import transformCarriageSeats from './transformCarriageSeats';
-import { IСarriage } from '../models/models';
+import { ICarriage } from '../models/models';
 
-const transformCarriagesPayload = (payload: IСarriage[]) => {
+const transformCarriagesPayload = (payload: ICarriage[]) => {
   // 1. создадим клон для преобразования полученных данных от сервера:
   const newPayload = JSON.parse(JSON.stringify(payload));
 
@@ -12,7 +12,7 @@ const transformCarriagesPayload = (payload: IСarriage[]) => {
   const carriageNumbersArray = getCarriageNumbers(newPayload.length); // [13, 2, 9]
 
   newPayload.map(
-    (item: IСarriage, index: number) =>
+    (item: ICarriage, index: number) =>
       (item.coach.carriage_number = carriageNumbersArray[index]) // 13
   );
 
@@ -24,7 +24,7 @@ const transformCarriagesPayload = (payload: IСarriage[]) => {
     fourth: 4,
   };
 
-  newPayload.sort((a: IСarriage, b: IСarriage) => {
+  newPayload.sort((a: ICarriage, b: ICarriage) => {
     // уточнения для typescript:
     const classA: keyof typeof classPriority = a.coach
       .class_type as keyof typeof classPriority;
@@ -46,7 +46,7 @@ const transformCarriagesPayload = (payload: IСarriage[]) => {
 
   // 4. преобразуем номера доступныx мест:
   newPayload.map(
-    (item: IСarriage) =>
+    (item: ICarriage) =>
       (item.seats = transformCarriageSeats(
         item.coach.class_type, // класс вагона
         item.coach.available_seats // количество доступных мест
@@ -54,7 +54,7 @@ const transformCarriagesPayload = (payload: IСarriage[]) => {
   );
 
   // 5. добавим поля с количеством мест определенного типа (верхние, нижние, боковые):
-  newPayload.map((item: IСarriage) => {
+  newPayload.map((item: ICarriage) => {
     // для люкса и сидячего вагона нет смысла определять дополнительные поля
     if (item.coach.class_type === 'second') {
       const seatTypes = getSeatTypesCountCompartment(item.seats); // передаем ISeat[]

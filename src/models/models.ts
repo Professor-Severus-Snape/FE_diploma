@@ -209,7 +209,7 @@ export interface ITrain {
   min_price: number;
 }
 
-export interface IСarriage {
+export interface ICarriage {
   coach: {
     _id: string;
     carriage_number: number; // номер вагона - сгенерирован самостоятельно!!!
@@ -220,10 +220,10 @@ export interface IСarriage {
     class_type: string; // класс вагона - 'first', 'second', 'third' или 'fourth'
     have_wifi: true; // наличие Wi-Fi в вагоне
     have_air_conditioning: false; // наличие кондиционера в вагоне
-    price: number; // стоимость места в вагоне класс 'first'
+    price: number; // стоимость места в вагоне класс 'first' - люкс
     top_price: number; // стоимость верхнего места - вагоны классов 'second', 'third' и 'fourth'
     bottom_price: number; // стоимость нижнего места - вагоны классов 'second', 'third' и 'fourth'
-    side_price: number; // стоимость бокового места в вагоне класс 'third' - люкс
+    side_price: number; // стоимость бокового места в вагоне класс 'third' - платцкарт
     linens_price: number; // стоимость постельного белья
     wifi_price: number; // стоимость Wi-Fi
     is_linens_included: true; // стоимость белья включена в стоимость (и не может быть исключена)

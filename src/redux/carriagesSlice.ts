@@ -1,6 +1,6 @@
 import { buildCreateSlice, asyncThunkCreator } from '@reduxjs/toolkit';
 import transformCarriagesPayload from '../libs/transformCarriagesPayload';
-import { IСarriage } from '../models/models';
+import { ICarriage } from '../models/models';
 
 // ответ по запросу 'https://students.netoservices.ru/fe-diplom/routes/67ceb8c28c75f00047cb0db0/seats':
 
@@ -28,10 +28,10 @@ import { IСarriage } from '../models/models';
 // ]
 
 interface IInitialState {
-  forwardCarriages: IСarriage[];
+  forwardCarriages: ICarriage[];
   forwardCarriagesLoading: boolean;
 
-  backwardCarriages: IСarriage[];
+  backwardCarriages: ICarriage[];
   backwardCarriagesLoading: boolean;
 }
 
@@ -51,8 +51,8 @@ const carriagesSlice = createSliceWithThunk({
   name: 'carriages',
   initialState,
   reducers: (creators) => ({
-    // асинхронный экшен на вход принимает строку 'id' и возвращает action.payload вида IСarriage[]:
-    fetchForwardCarriages: creators.asyncThunk<IСarriage[], string>(
+    // асинхронный экшен на вход принимает строку 'id' и возвращает action.payload вида ICarriage[]:
+    fetchForwardCarriages: creators.asyncThunk<ICarriage[], string>(
       async (id, { rejectWithValue }) => {
         try {
           const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -89,8 +89,8 @@ const carriagesSlice = createSliceWithThunk({
         },
       }
     ),
-    // асинхронный экшен на вход принимает строку 'id' и возвращает action.payload вида IСarriage[]:
-    fetchBackwardCarriages: creators.asyncThunk<IСarriage[], string>(
+    // асинхронный экшен на вход принимает строку 'id' и возвращает action.payload вида ICarriage[]:
+    fetchBackwardCarriages: creators.asyncThunk<ICarriage[], string>(
       async (id, { rejectWithValue }) => {
         try {
           const baseUrl = import.meta.env.VITE_BASE_URL;

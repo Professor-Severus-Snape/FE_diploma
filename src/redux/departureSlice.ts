@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { ICarriage } from '../models/models';
 
 interface IDepartureState {
   route_direction_id: string;
@@ -19,6 +20,8 @@ interface IDepartureState {
   };
 
   currentCarriageType: string;
+  currentTypeCarriagesList: ICarriage[];
+  activeCarriageIndex: number;
 }
 
 const initialState: IDepartureState = {
@@ -40,6 +43,8 @@ const initialState: IDepartureState = {
   },
 
   currentCarriageType: '', // выбранный тип вагона ('first', 'second', 'third', 'fourth' или '')
+  currentTypeCarriagesList: [], // массив вагонов выбранного класса
+  activeCarriageIndex: 0, // индекс активного вагона
 
   // NOTE: объект, который позже надо будет передать в order по ключу 'departure':
   // route_direction_id: '',
@@ -97,6 +102,17 @@ const departureSlice = createSlice({
     setDepartureCurrentCarriageType: (state, action: PayloadAction<string>) => {
       state.currentCarriageType = action.payload;
     },
+    setDepartureCurrentTypeCarriagesList: (
+      state,
+      action: PayloadAction<ICarriage[]>
+    ) => {
+      state.currentTypeCarriagesList = JSON.parse(
+        JSON.stringify(action.payload)
+      );
+    },
+    setDepartureActiveCarriageIndex: (state, action: PayloadAction<number>) => {
+      state.activeCarriageIndex = action.payload;
+    },
   },
 });
 
@@ -107,6 +123,8 @@ export const {
   setDepartureBabyCount,
   setDepartureActivePerson,
   setDepartureCurrentCarriageType,
+  setDepartureCurrentTypeCarriagesList,
+  setDepartureActiveCarriageIndex,
 } = departureSlice.actions;
 
 export default departureSlice.reducer;

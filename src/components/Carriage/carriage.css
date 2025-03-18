@@ -6,10 +6,11 @@
   padding-bottom: 69px;
 }
 
-.carriage:nth-child(2n + 1) {
+/* функциональность на случай отображения нескольких вагонов сразу: */
+/* .carriage:nth-child(2n + 1) {
   padding-top: 33px;
   border-top: 1px dotted #c4c4c4;
-}
+} */
 
 .carriage__content {
   display: grid;

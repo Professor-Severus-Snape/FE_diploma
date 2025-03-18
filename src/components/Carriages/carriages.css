@@ -47,3 +47,12 @@
   font-size: 16px;
   color: #292929;
 }
+
+.carriages__not-found {
+  padding: 26px 18px;
+
+  text-align: center;
+  font-size: 32px;
+  font-weight: 500;
+  color: #292929;
+}

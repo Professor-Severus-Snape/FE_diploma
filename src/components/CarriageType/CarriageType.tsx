@@ -1,7 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { setDepartureCurrentCarriageType } from '../../redux/departureSlice';
-import { setArrivalCurrentCarriageType } from '../../redux/arrivalSlice';
 import { AppDispatch, RootState } from '../../redux/store';
+import {
+  setArrivalCurrentCarriageType,
+  setArrivalCurrentTypeCarriagesList,
+  setArrivalActiveCarriageIndex,
+} from '../../redux/arrivalSlice';
+import {
+  setDepartureCurrentCarriageType,
+  setDepartureCurrentTypeCarriagesList,
+  setDepartureActiveCarriageIndex,
+} from '../../redux/departureSlice';
 import './carriageType.css';
 
 const CarriageType = ({ isForward }: { isForward: boolean }) => {
@@ -9,6 +17,10 @@ const CarriageType = ({ isForward }: { isForward: boolean }) => {
 
   const { currentCarriageType } = useSelector((state: RootState) =>
     isForward ? state.departure : state.arrival
+  );
+
+  const { forwardCarriages, backwardCarriages } = useSelector(
+    (state: RootState) => state.carriages
   );
 
   const carriageTypes = [
@@ -24,14 +36,24 @@ const CarriageType = ({ isForward }: { isForward: boolean }) => {
 
     // билет туда:
     if (isForward) {
-      dispatch(setDepartureCurrentCarriageType(carriageType));
-      // TODO: по клику на вкладку менять тип вагона, если вагон такого типа есть...
+      const matchedCarriagesList = forwardCarriages.filter(
+        (carriage) => carriage.coach.class_type === carriageType
+      );
+
+      dispatch(setDepartureCurrentCarriageType(carriageType)); // сохраняем в store класс вагона
+      dispatch(setDepartureCurrentTypeCarriagesList(matchedCarriagesList)); // сохраняем вагоны
+      dispatch(setDepartureActiveCarriageIndex(0)); // делаем активным первый элемент списка
       return;
     }
 
     // билет обратно:
-    dispatch(setArrivalCurrentCarriageType(carriageType));
-    // TODO: по клику на вкладку менять тип вагона, если вагон такого типа есть...
+    const matchedCarriagesList = backwardCarriages.filter(
+      (carriage) => carriage.coach.class_type === carriageType
+    );
+
+    dispatch(setArrivalCurrentCarriageType(carriageType)); // сохраняем в store класс вагона
+    dispatch(setArrivalCurrentTypeCarriagesList(matchedCarriagesList)); // сохраняем вагоны
+    dispatch(setArrivalActiveCarriageIndex(0)); // делаем активным первый элемент списка
   };
 
   return (
