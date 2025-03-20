@@ -1,13 +1,19 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
+import CarriageFeatures from '../CarriageFeatures/CarriageFeatures';
 import CarriageView from '../CarriageView/CarriageView';
 import './carriage.css';
 
 const Carriage = ({ isForward }: { isForward: boolean }) => {
-  const { activeCarriageIndex, currentCarriageType, currentTypeCarriagesList } =
-    useSelector((state: RootState) =>
-      isForward ? state.departure : state.arrival
-    );
+  const {
+    activeCarriageIndex,
+    currentCarriageType,
+    currentTypeCarriagesList,
+    wiFiPrice,
+    linensPrice,
+  } = useSelector((state: RootState) =>
+    isForward ? state.departure : state.arrival
+  );
 
   const currentCarriage = currentTypeCarriagesList[activeCarriageIndex]; // выбранный вагон
 
@@ -22,6 +28,11 @@ const Carriage = ({ isForward }: { isForward: boolean }) => {
     bottom_price,
     side_price,
     available_seats,
+    have_air_conditioning,
+    have_wifi,
+    wifi_price,
+    is_linens_included,
+    linens_price,
   } = currentCarriage.coach;
 
   const currentCarriageNumber = carriage_number.toString().padStart(2, '0');
@@ -86,14 +97,32 @@ const Carriage = ({ isForward }: { isForward: boolean }) => {
       return null;
     }
 
+    // если в вагоне есть wi-fi и эта услуга подключена:
+    const wifi = have_wifi && wiFiPrice ? wiFiPrice : 0;
+
+    // если постельное белье не включено в стоимость изначально и клиент подключил услугу:
+    const linens = !is_linens_included && linensPrice ? linensPrice : 0;
+
+    // итоговая стоимость билета со всеми дополнительными опциями:
+    const finalPrice = price + wifi + linens;
+
     return (
       <div key={index} className="carriage__price-info-price">
         <span className="carriage__price-info-count">
-          {price.toLocaleString('ru-RU')}
+          {finalPrice.toLocaleString('ru-RU')}
         </span>
         <span className="carriage__price-info-currency">₽</span>
       </div>
     );
+  };
+
+  const featuresData = {
+    isForward,
+    have_air_conditioning,
+    have_wifi,
+    wifi_price,
+    is_linens_included,
+    linens_price,
   };
 
   return (
@@ -135,24 +164,7 @@ const Carriage = ({ isForward }: { isForward: boolean }) => {
             <span className="carriage__service-info-company">ФПК</span>
           </div>
 
-          <ul className="carriage__service-features">
-            {/* TODO: подбирать нужные иконки в зависимости от конкретного сервиса: */}
-            <li className="carriage__service-feature air-condition"></li>
-            {/* <li className="carriage__service-feature air-condition air-condition_active"></li> */}
-            {/* <li className="carriage__service-feature air-condition air-condition_included"></li> */}
-
-            {/* <li className="carriage__service-feature wifi"></li> */}
-            <li className="carriage__service-feature wifi wifi_active"></li>
-            {/* <li className="carriage__service-feature wifi wifi_included"></li> */}
-
-            {/* <li className="carriage__service-feature tea"></li> */}
-            {/* <li className="carriage__service-feature tea tea_active"></li> */}
-            <li className="carriage__service-feature tea tea_included"></li>
-
-            {/* <li className="carriage__service-feature bed-sheets"></li> */}
-            {/* <li className="carriage__service-feature bed-sheets bed-sheets_active"></li> */}
-            <li className="carriage__service-feature bed-sheets bed-sheets_included"></li>
-          </ul>
+          <CarriageFeatures data={featuresData} />
         </div>
       </div>
 

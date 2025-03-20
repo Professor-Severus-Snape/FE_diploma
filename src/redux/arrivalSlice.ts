@@ -22,6 +22,9 @@ interface IArrivalState {
   currentCarriageType: string;
   currentTypeCarriagesList: ICarriage[];
   activeCarriageIndex: number;
+
+  wiFiPrice: number;
+  linensPrice: number;
 }
 
 const initialState: IArrivalState = {
@@ -45,6 +48,9 @@ const initialState: IArrivalState = {
   currentCarriageType: '', // выбранный тип вагона ('first', 'second', 'third', 'fourth' или '')
   currentTypeCarriagesList: [], // массив вагонов выбранного класса
   activeCarriageIndex: 0, // индекс активного вагона
+
+  wiFiPrice: 0, // стоимость услуги 'wi-fi'
+  linensPrice: 0, // стоимость постельного белья
 
   // NOTE: объект, который позже надо будет передать в order по ключу 'arrival':
   // route_direction_id: '',
@@ -113,6 +119,12 @@ const arrivalSlice = createSlice({
     setArrivalActiveCarriageIndex: (state, action: PayloadAction<number>) => {
       state.activeCarriageIndex = action.payload;
     },
+    setArrivalWiFiPrice: (state, action: PayloadAction<number>) => {
+      state.wiFiPrice = action.payload;
+    },
+    setArrivalLinensPrice: (state, action: PayloadAction<number>) => {
+      state.linensPrice = action.payload;
+    },
   },
 });
 
@@ -125,6 +137,8 @@ export const {
   setArrivalCurrentCarriageType,
   setArrivalCurrentTypeCarriagesList,
   setArrivalActiveCarriageIndex,
+  setArrivalWiFiPrice,
+  setArrivalLinensPrice,
 } = arrivalSlice.actions;
 
 export default arrivalSlice.reducer;
