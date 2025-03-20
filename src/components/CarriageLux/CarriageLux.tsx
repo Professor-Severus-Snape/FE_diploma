@@ -1,3 +1,4 @@
+import { IMyCarriageProps } from '../../models/models';
 import CarriageNumber from '../CarriageNumber/CarriageNumber';
 import CarriageTotalPrice from '../CarriageTotalPrice/CarriageTotalPrice';
 import PotentialPassengers from '../PotentialPassengers/PotentialPassengers';
@@ -5,49 +6,56 @@ import PotentialPassengers from '../PotentialPassengers/PotentialPassengers';
 import carriageLux from '../../assets/carriage-compartment-lux.svg';
 import './carriageLux.css';
 
-const CarriageLux = () => {
-  const luxSeatsNumbers: number[] = []; // места 1-16
+const CarriageLux = ({ data }: { data: IMyCarriageProps }) => {
+  // деструктурируем данные:
+  const {
+    // isForward,
+    currentSeats,
+    carriage_number,
+    price,
+    have_wifi,
+    wiFiPrice,
+    is_linens_included,
+    linensPrice,
+  } = data;
 
-  for (let i = 1; i <= 16; i++) {
-    luxSeatsNumbers.push(i);
-  }
+  const priceTooltip = () => {
+    const wifi = have_wifi ? wiFiPrice : 0;
+    const linens = !is_linens_included ? linensPrice : 0;
 
-  const CarriageLuxSeat = ({ seatNumber }: { seatNumber: number }) => {
-    // обработчик события 'click' на элементе с доступным классом:
-    const handleClick = () => {
-      // TODO: добавить логику!
-      console.log('click');
-    };
+    const priceWithFeatures = price + wifi + linens;
 
-    let seatClassName = `carriage-lux__seat carriage-lux__seat_${seatNumber}`;
-    let isAvailable = false;
+    return priceWithFeatures.toLocaleString('ru-RU');
+  };
 
-    // TODO: изменить условие!
-    if (seatNumber % 3 === 0) {
-      seatClassName += ` carriage-lux__seat_available`;
-      isAvailable = true;
-    }
-
-    return (
-      <li
-        className={seatClassName}
-        onClick={isAvailable ? handleClick : undefined}
-      >
-        {seatNumber}
-      </li>
-    );
+  // TODO: по клику на место формировать объект с данными заказа!
+  const handleClick = (seatIndex: number) => {
+    console.log(`Lux -> click on seat № ${seatIndex}`); // NOTE: отладка !!!
   };
 
   return (
     <div className="carriage-lux">
       <PotentialPassengers />
+
       <img className="carriage-lux__img" src={carriageLux} alt="lux" />
-      <CarriageNumber />
+
+      <CarriageNumber carriageNumber={carriage_number} />
+
       <ul className="carriage-lux__scheme">
-        {luxSeatsNumbers.map((num) => (
-          <CarriageLuxSeat key={num} seatNumber={num} />
+        {currentSeats.map((seat) => (
+          <li
+            key={seat.index}
+            className={`carriage-lux__seat carriage-lux__seat_${seat.index}${
+              seat.available ? ' carriage-lux__seat_available' : ''
+            }`}
+            title={priceTooltip()}
+            onClick={seat.available ? () => handleClick(seat.index) : undefined}
+          >
+            {seat.index}
+          </li>
         ))}
       </ul>
+
       <CarriageTotalPrice />
     </div>
   );

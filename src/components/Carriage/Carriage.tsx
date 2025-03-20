@@ -168,11 +168,7 @@ const Carriage = ({ isForward }: { isForward: boolean }) => {
         </div>
       </div>
 
-      {/* TODO: реализовать выбор нужного типа вагона: */}
-      {/* <CarriageView type={'seat'} /> */}
-      {/* <CarriageView type={'platzkart'} /> */}
-      <CarriageView type={'compartment'} />
-      {/* <CarriageView type={'lux'} /> */}
+      <CarriageView isForward={isForward} />
     </div>
   );
 };

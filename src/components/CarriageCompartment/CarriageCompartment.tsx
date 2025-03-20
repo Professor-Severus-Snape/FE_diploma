@@ -1,3 +1,4 @@
+import { IMyCarriageProps } from '../../models/models';
 import CarriageNumber from '../CarriageNumber/CarriageNumber';
 import CarriageTotalPrice from '../CarriageTotalPrice/CarriageTotalPrice';
 import PotentialPassengers from '../PotentialPassengers/PotentialPassengers';
@@ -5,53 +6,62 @@ import PotentialPassengers from '../PotentialPassengers/PotentialPassengers';
 import carriageCompartment from '../../assets/carriage-compartment-lux.svg';
 import './carriageCompartment.css';
 
-const CarriageCompartment = () => {
-  const compartmentSeatsNumbers: number[] = []; // места 1-32
+const CarriageCompartment = ({ data }: { data: IMyCarriageProps }) => {
+  // деструктурируем данные:
+  const {
+    // isForward,
+    currentSeats,
+    carriage_number,
+    top_price,
+    bottom_price,
+    have_wifi,
+    wiFiPrice,
+    is_linens_included,
+    linensPrice,
+  } = data;
 
-  for (let i = 1; i <= 32; i++) {
-    compartmentSeatsNumbers.push(i);
-  }
+  const priceTooltip = (num: number) => {
+    const price = num % 2 ? bottom_price : top_price;
+    const wifi = have_wifi ? wiFiPrice : 0;
+    const linens = !is_linens_included ? linensPrice : 0;
 
-  const CarriageCompartmentSeat = ({ seatNumber }: { seatNumber: number }) => {
-    // обработчик события 'click' на элементе с доступным классом:
-    const handleClick = () => {
-      // TODO: добавить логику!
-      console.log('click');
-    };
+    const priceWithFeatures = price + wifi + linens;
 
-    let seatClassName = `carriage-compartment__seat carriage-compartment__seat_${seatNumber}`;
-    let isAvailable = false;
+    return priceWithFeatures.toLocaleString('ru-RU');
+  };
 
-    // TODO: изменить условие!
-    if (seatNumber % 3 === 0) {
-      seatClassName += ` carriage-compartment__seat_available`;
-      isAvailable = true;
-    }
-
-    return (
-      <li
-        className={seatClassName}
-        onClick={isAvailable ? handleClick : undefined}
-      >
-        {seatNumber}
-      </li>
-    );
+  // TODO: по клику на место формировать объект с данными заказа!
+  const handleClick = (seatIndex: number) => {
+    console.log(`Compartment -> click on seat № ${seatIndex}`); // NOTE: отладка !!!
   };
 
   return (
     <div className="carriage-compartment">
       <PotentialPassengers />
+
       <img
         className="carriage-compartment__img"
         src={carriageCompartment}
         alt="compartment"
       />
-      <CarriageNumber />
+
+      <CarriageNumber carriageNumber={carriage_number} />
+
       <ul className="carriage-compartment__scheme">
-        {compartmentSeatsNumbers.map((num) => (
-          <CarriageCompartmentSeat key={num} seatNumber={num} />
+        {currentSeats.map((seat) => (
+          <li
+            key={seat.index}
+            className={`carriage-compartment__seat carriage-compartment__seat_${
+              seat.index
+            }${seat.available ? ' carriage-compartment__seat_available' : ''}`}
+            title={priceTooltip(seat.index)}
+            onClick={seat.available ? () => handleClick(seat.index) : undefined}
+          >
+            {seat.index}
+          </li>
         ))}
       </ul>
+
       <CarriageTotalPrice />
     </div>
   );

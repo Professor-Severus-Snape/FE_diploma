@@ -1,7 +1,7 @@
 import './carriageNumber.css';
 
-const CarriageNumber = () => {
-  return <div className="carriage-number">7</div>;
+const CarriageNumber = ({ carriageNumber }: { carriageNumber: number }) => {
+  return <div className="carriage-number">{carriageNumber}</div>;
 };
 
 export default CarriageNumber;

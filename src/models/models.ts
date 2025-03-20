@@ -232,3 +232,17 @@ export interface ICarriage {
   };
   seats: { index: number; available: boolean }[]; // массив - сгенерирован заново самостоятельно!!!
 }
+
+export interface IMyCarriageProps {
+  isForward: boolean;
+  currentSeats: { index: number; available: boolean }[];
+  carriage_number: number;
+  price: number;
+  top_price: number;
+  bottom_price: number;
+  side_price: number;
+  have_wifi: boolean;
+  wiFiPrice: number;
+  is_linens_included: boolean;
+  linensPrice: number;
+}

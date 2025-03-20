@@ -1,3 +1,4 @@
+import { IMyCarriageProps } from '../../models/models';
 import CarriageNumber from '../CarriageNumber/CarriageNumber';
 import CarriageTotalPrice from '../CarriageTotalPrice/CarriageTotalPrice';
 import PotentialPassengers from '../PotentialPassengers/PotentialPassengers';
@@ -5,53 +6,69 @@ import PotentialPassengers from '../PotentialPassengers/PotentialPassengers';
 import carriagePlatzkart from '../../assets/carriage-platzkart.svg';
 import './carriagePlatzkart.css';
 
-const CarriagePlatzkart = () => {
-  const platzkartSeatsNumbers: number[] = []; // места 1-48
+const CarriagePlatzkart = ({ data }: { data: IMyCarriageProps }) => {
+  // деструктурируем данные:
+  const {
+    // isForward,
+    currentSeats,
+    carriage_number,
+    top_price,
+    bottom_price,
+    side_price,
+    have_wifi,
+    wiFiPrice,
+    is_linens_included,
+    linensPrice,
+  } = data;
 
-  for (let i = 1; i <= 48; i++) {
-    platzkartSeatsNumbers.push(i);
-  }
+  const priceTooltip = (num: number) => {
+    let price = 0;
 
-  const CarriagePlatzkartSeat = ({ seatNumber }: { seatNumber: number }) => {
-    // обработчик события 'click' на элементе с доступным классом:
-    const handleClick = () => {
-      // TODO: добавить логику!
-      console.log('click');
-    };
-
-    let seatClassName = `carriage-platzkart__seat carriage-platzkart__seat_${seatNumber}`;
-    let isAvailable = false;
-
-    // TODO: изменить условие!
-    if (seatNumber % 3 === 0) {
-      seatClassName += ` carriage-platzkart__seat_available`;
-      isAvailable = true;
+    if (num > 32) {
+      price = side_price;
+    } else {
+      price = num % 2 ? bottom_price : top_price;
     }
 
-    return (
-      <li
-        className={seatClassName}
-        onClick={isAvailable ? handleClick : undefined}
-      >
-        {seatNumber}
-      </li>
-    );
+    const wifi = have_wifi ? wiFiPrice : 0;
+    const linens = !is_linens_included ? linensPrice : 0;
+    const priceWithFeatures = price + wifi + linens;
+
+    return priceWithFeatures.toLocaleString('ru-RU');
+  };
+
+  // TODO: по клику на место формировать объект с данными заказа!
+  const handleClick = (seatIndex: number) => {
+    console.log(`Platzkart -> click on seat № ${seatIndex}`); // NOTE: отладка !!!
   };
 
   return (
     <div className="carriage-platzkart">
       <PotentialPassengers />
+
       <img
         className="carriage-platzkart__img"
         src={carriagePlatzkart}
         alt="platzkart"
       />
-      <CarriageNumber />
+
+      <CarriageNumber carriageNumber={carriage_number} />
+
       <ul className="carriage-platzkart__scheme">
-        {platzkartSeatsNumbers.map((num) => (
-          <CarriagePlatzkartSeat key={num} seatNumber={num} />
+        {currentSeats.map((seat) => (
+          <li
+            key={seat.index}
+            className={`carriage-platzkart__seat carriage-platzkart__seat_${
+              seat.index
+            }${seat.available ? ' carriage-platzkart__seat_available' : ''}`}
+            title={priceTooltip(seat.index)}
+            onClick={seat.available ? () => handleClick(seat.index) : undefined}
+          >
+            {seat.index}
+          </li>
         ))}
       </ul>
+
       <CarriageTotalPrice />
     </div>
   );
