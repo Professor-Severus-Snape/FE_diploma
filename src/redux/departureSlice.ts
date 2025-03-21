@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ICarriage } from '../models/models';
+import { ICarriage, IOrder } from '../models/models';
 
 interface IDepartureState {
   route_direction_id: string;
@@ -21,17 +21,20 @@ interface IDepartureState {
 
   currentCarriageType: string;
   currentTypeCarriagesList: ICarriage[];
+  currentCopyTypeCarriagesList: ICarriage[];
   activeCarriageIndex: number;
 
   wiFiPrice: number;
   linensPrice: number;
+
+  orderList: IOrder[];
 }
 
 const initialState: IDepartureState = {
   route_direction_id: '',
 
   adults: {
-    count: 3, // количество взрослых билетов
+    count: 0, // количество взрослых билетов
     isActive: true, // активность вкладки
   },
 
@@ -46,11 +49,14 @@ const initialState: IDepartureState = {
   },
 
   currentCarriageType: '', // выбранный тип вагона ('first', 'second', 'third', 'fourth' или '')
-  currentTypeCarriagesList: [], // массив вагонов выбранного класса
+  currentTypeCarriagesList: [], // массив вагонов выбранного класса - для блокировки выбора мест
+  currentCopyTypeCarriagesList: [], // массив вагонов выбранного класса - с выбранными местами
   activeCarriageIndex: 0, // индекс активного вагона
 
   wiFiPrice: 0, // стоимость услуги 'wi-fi'
   linensPrice: 0, // стоимость постельного белья
+
+  orderList: [], // массив объектов с заказанными билетами
 
   // NOTE: объект, который позже надо будет передать в order по ключу 'departure':
   // route_direction_id: '',
@@ -116,6 +122,14 @@ const departureSlice = createSlice({
         JSON.stringify(action.payload)
       );
     },
+    setDepartureCopyCurrentTypeCarriagesList: (
+      state,
+      action: PayloadAction<ICarriage[]>
+    ) => {
+      state.currentCopyTypeCarriagesList = JSON.parse(
+        JSON.stringify(action.payload)
+      );
+    },
     setDepartureActiveCarriageIndex: (state, action: PayloadAction<number>) => {
       state.activeCarriageIndex = action.payload;
     },
@@ -124,6 +138,9 @@ const departureSlice = createSlice({
     },
     setDepartureLinensPrice: (state, action: PayloadAction<number>) => {
       state.linensPrice = action.payload;
+    },
+    setDepartureOrder: (state, action: PayloadAction<IOrder[]>) => {
+      state.orderList = action.payload;
     },
   },
 });
@@ -136,9 +153,11 @@ export const {
   setDepartureActivePerson,
   setDepartureCurrentCarriageType,
   setDepartureCurrentTypeCarriagesList,
+  setDepartureCopyCurrentTypeCarriagesList,
   setDepartureActiveCarriageIndex,
   setDepartureWiFiPrice,
   setDepartureLinensPrice,
+  setDepartureOrder,
 } = departureSlice.actions;
 
 export default departureSlice.reducer;

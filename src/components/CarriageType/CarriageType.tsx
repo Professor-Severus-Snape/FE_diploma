@@ -4,18 +4,20 @@ import {
   setArrivalCurrentCarriageType,
   setArrivalCurrentTypeCarriagesList,
   setArrivalActiveCarriageIndex,
+  setArrivalCopyCurrentTypeCarriagesList,
 } from '../../redux/arrivalSlice';
 import {
   setDepartureCurrentCarriageType,
   setDepartureCurrentTypeCarriagesList,
   setDepartureActiveCarriageIndex,
+  setDepartureCopyCurrentTypeCarriagesList,
 } from '../../redux/departureSlice';
 import './carriageType.css';
 
 const CarriageType = ({ isForward }: { isForward: boolean }) => {
   const dispatch: AppDispatch = useDispatch();
 
-  const { currentCarriageType } = useSelector((state: RootState) =>
+  const { currentCarriageType, orderList } = useSelector((state: RootState) =>
     isForward ? state.departure : state.arrival
   );
 
@@ -34,25 +36,56 @@ const CarriageType = ({ isForward }: { isForward: boolean }) => {
   const handleChangeActiveItem = (index: number) => {
     const carriageType = carriageTypes[index].type;
 
+    // фильтруем список вагонов по типу вагона:
+    const matchedCarriagesList = (
+      isForward ? forwardCarriages : backwardCarriages
+    ).filter((carriage) => carriage.coach.class_type === carriageType);
+
+    // создаем обновленный список без учёта занятых мест:
+    const newCopyList = matchedCarriagesList.map((carriage) => ({
+      ...carriage,
+      seats: carriage.seats.map((seat) => {
+        const isSelected = orderList.some(
+          (order) =>
+            order.coach_id === carriage.coach._id &&
+            order.seat_number === seat.index
+        );
+
+        return {
+          ...seat,
+          available: isSelected ? !isSelected : seat.available,
+          isActive: isSelected, // выбранные места остаются активными
+        };
+      }),
+    }));
+
+    // проверяем, выбраны ли уже 4 места:
+    const isMaxSeatsSelected = orderList.length >= 4;
+
+    // создаем обновленный список с учётом занятых мест:
+    const newList = newCopyList.map((carriage) => ({
+      ...carriage,
+      seats: carriage.seats.map((seat) => {
+        return {
+          ...seat,
+          available: isMaxSeatsSelected ? false : seat.available,
+        };
+      }),
+    }));
+
     // билет туда:
     if (isForward) {
-      const matchedCarriagesList = forwardCarriages.filter(
-        (carriage) => carriage.coach.class_type === carriageType
-      );
-
       dispatch(setDepartureCurrentCarriageType(carriageType)); // сохраняем в store класс вагона
-      dispatch(setDepartureCurrentTypeCarriagesList(matchedCarriagesList)); // сохраняем вагоны
-      dispatch(setDepartureActiveCarriageIndex(0)); // делаем активным первый элемент списка
+      dispatch(setDepartureCopyCurrentTypeCarriagesList(newCopyList)); // без блокировки мест
+      dispatch(setDepartureCurrentTypeCarriagesList(newList)); // c блокировкой мест
+      dispatch(setDepartureActiveCarriageIndex(0));
       return;
     }
 
     // билет обратно:
-    const matchedCarriagesList = backwardCarriages.filter(
-      (carriage) => carriage.coach.class_type === carriageType
-    );
-
     dispatch(setArrivalCurrentCarriageType(carriageType)); // сохраняем в store класс вагона
-    dispatch(setArrivalCurrentTypeCarriagesList(matchedCarriagesList)); // сохраняем вагоны
+    dispatch(setArrivalCopyCurrentTypeCarriagesList(newCopyList)); // без блокировки мест
+    dispatch(setArrivalCurrentTypeCarriagesList(newList)); // c блокировкой мест
     dispatch(setArrivalActiveCarriageIndex(0)); // делаем активным первый элемент списка
   };
 

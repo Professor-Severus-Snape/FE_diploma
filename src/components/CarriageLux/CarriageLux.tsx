@@ -17,6 +17,7 @@ const CarriageLux = ({ data }: { data: IMyCarriageProps }) => {
     wiFiPrice,
     is_linens_included,
     linensPrice,
+    onSeatClick,
   } = data;
 
   const priceTooltip = () => {
@@ -25,12 +26,7 @@ const CarriageLux = ({ data }: { data: IMyCarriageProps }) => {
 
     const priceWithFeatures = price + wifi + linens;
 
-    return priceWithFeatures.toLocaleString('ru-RU');
-  };
-
-  // TODO: по клику на место формировать объект с данными заказа!
-  const handleClick = (seatIndex: number) => {
-    console.log(`Lux -> click on seat № ${seatIndex}`); // NOTE: отладка !!!
+    return priceWithFeatures;
   };
 
   return (
@@ -47,9 +43,13 @@ const CarriageLux = ({ data }: { data: IMyCarriageProps }) => {
             key={seat.index}
             className={`carriage-lux__seat carriage-lux__seat_${seat.index}${
               seat.available ? ' carriage-lux__seat_available' : ''
-            }`}
-            title={priceTooltip()}
-            onClick={seat.available ? () => handleClick(seat.index) : undefined}
+            }${seat.isActive ? ' carriage-lux__seat_active' : ''}`}
+            title={priceTooltip().toLocaleString('ru-RU')}
+            onClick={
+              seat.available || seat.isActive
+                ? () => onSeatClick(seat.index, priceTooltip(), seat.isActive)
+                : undefined
+            }
           >
             {seat.index}
           </li>

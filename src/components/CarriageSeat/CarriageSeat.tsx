@@ -9,7 +9,6 @@ import './carriageSeat.css';
 const CarriageSeat = ({ data }: { data: IMyCarriageProps }) => {
   // деструктурируем данные:
   const {
-    // isForward,
     currentSeats,
     carriage_number,
     top_price,
@@ -18,6 +17,7 @@ const CarriageSeat = ({ data }: { data: IMyCarriageProps }) => {
     wiFiPrice,
     is_linens_included,
     linensPrice,
+    onSeatClick,
   } = data;
 
   const priceTooltip = () => {
@@ -27,12 +27,7 @@ const CarriageSeat = ({ data }: { data: IMyCarriageProps }) => {
 
     const priceWithFeatures = price + wifi + linens;
 
-    return priceWithFeatures.toLocaleString('ru-RU');
-  };
-
-  // TODO: по клику на место формировать объект с данными заказа!
-  const handleClick = (seatIndex: number) => {
-    console.log(`Сидячий вагон -> click on seat № ${seatIndex}`); // NOTE: отладка !!!
+    return priceWithFeatures;
   };
 
   return (
@@ -49,9 +44,13 @@ const CarriageSeat = ({ data }: { data: IMyCarriageProps }) => {
             key={seat.index}
             className={`carriage-seat__seat carriage-seat__seat_${seat.index}${
               seat.available ? ' carriage-seat__seat_available' : ''
-            }`}
-            title={priceTooltip()}
-            onClick={seat.available ? () => handleClick(seat.index) : undefined}
+            }${seat.isActive ? ' carriage-seat__seat_active' : ''}`}
+            title={priceTooltip().toLocaleString('ru-RU')}
+            onClick={
+              seat.available || seat.isActive
+                ? () => onSeatClick(seat.index, priceTooltip(), seat.isActive)
+                : undefined
+            }
           >
             {seat.index}
           </li>

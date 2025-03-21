@@ -9,7 +9,6 @@ import './carriageCompartment.css';
 const CarriageCompartment = ({ data }: { data: IMyCarriageProps }) => {
   // деструктурируем данные:
   const {
-    // isForward,
     currentSeats,
     carriage_number,
     top_price,
@@ -18,6 +17,7 @@ const CarriageCompartment = ({ data }: { data: IMyCarriageProps }) => {
     wiFiPrice,
     is_linens_included,
     linensPrice,
+    onSeatClick,
   } = data;
 
   const priceTooltip = (num: number) => {
@@ -27,24 +27,17 @@ const CarriageCompartment = ({ data }: { data: IMyCarriageProps }) => {
 
     const priceWithFeatures = price + wifi + linens;
 
-    return priceWithFeatures.toLocaleString('ru-RU');
-  };
-
-  // TODO: по клику на место формировать объект с данными заказа!
-  const handleClick = (seatIndex: number) => {
-    console.log(`Compartment -> click on seat № ${seatIndex}`); // NOTE: отладка !!!
+    return priceWithFeatures;
   };
 
   return (
     <div className="carriage-compartment">
       <PotentialPassengers />
-
       <img
         className="carriage-compartment__img"
         src={carriageCompartment}
         alt="compartment"
       />
-
       <CarriageNumber carriageNumber={carriage_number} />
 
       <ul className="carriage-compartment__scheme">
@@ -53,15 +46,25 @@ const CarriageCompartment = ({ data }: { data: IMyCarriageProps }) => {
             key={seat.index}
             className={`carriage-compartment__seat carriage-compartment__seat_${
               seat.index
-            }${seat.available ? ' carriage-compartment__seat_available' : ''}`}
-            title={priceTooltip(seat.index)}
-            onClick={seat.available ? () => handleClick(seat.index) : undefined}
+            }${seat.available ? ' carriage-compartment__seat_available' : ''}${
+              seat.isActive ? ' carriage-compartment__seat_active' : ''
+            }`}
+            title={priceTooltip(seat.index).toLocaleString('ru-RU')}
+            onClick={
+              seat.available || seat.isActive
+                ? () =>
+                    onSeatClick(
+                      seat.index,
+                      priceTooltip(seat.index),
+                      seat.isActive
+                    )
+                : undefined
+            }
           >
             {seat.index}
           </li>
         ))}
       </ul>
-
       <CarriageTotalPrice />
     </div>
   );

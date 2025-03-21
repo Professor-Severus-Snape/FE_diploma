@@ -22,6 +22,7 @@ const transformCarriageSeats = (classType: string, availableCount: number) => {
   const availableSeatsArray = Array.from({ length: maxCount }, (_, index) => ({
     index: index + 1, // индексы с 1
     available: false, // изначально все места не доступны
+    isActive: false, // изначально все места не выбраны
   }));
 
   // генерируем массив индексов от 0 до maxCount - 1:

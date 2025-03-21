@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ICarriage } from '../models/models';
+import { ICarriage, IOrder } from '../models/models';
 
 interface IArrivalState {
   route_direction_id: string;
@@ -21,10 +21,13 @@ interface IArrivalState {
 
   currentCarriageType: string;
   currentTypeCarriagesList: ICarriage[];
+  currentCopyTypeCarriagesList: ICarriage[];
   activeCarriageIndex: number;
 
   wiFiPrice: number;
   linensPrice: number;
+
+  orderList: IOrder[];
 }
 
 const initialState: IArrivalState = {
@@ -36,7 +39,7 @@ const initialState: IArrivalState = {
   },
 
   children: {
-    count: 1, // количество детских билетов
+    count: 0, // количество детских билетов
     isActive: false, // активность вкладки
   },
 
@@ -46,11 +49,14 @@ const initialState: IArrivalState = {
   },
 
   currentCarriageType: '', // выбранный тип вагона ('first', 'second', 'third', 'fourth' или '')
-  currentTypeCarriagesList: [], // массив вагонов выбранного класса
+  currentTypeCarriagesList: [], // массив вагонов выбранного класса - для блокировки выбора мест
+  currentCopyTypeCarriagesList: [], // массив вагонов выбранного класса - с выбранными местами
   activeCarriageIndex: 0, // индекс активного вагона
 
   wiFiPrice: 0, // стоимость услуги 'wi-fi'
   linensPrice: 0, // стоимость постельного белья
+
+  orderList: [],
 
   // NOTE: объект, который позже надо будет передать в order по ключу 'arrival':
   // route_direction_id: '',
@@ -116,6 +122,14 @@ const arrivalSlice = createSlice({
         JSON.stringify(action.payload)
       );
     },
+    setArrivalCopyCurrentTypeCarriagesList: (
+      state,
+      action: PayloadAction<ICarriage[]>
+    ) => {
+      state.currentCopyTypeCarriagesList = JSON.parse(
+        JSON.stringify(action.payload)
+      );
+    },
     setArrivalActiveCarriageIndex: (state, action: PayloadAction<number>) => {
       state.activeCarriageIndex = action.payload;
     },
@@ -124,6 +138,9 @@ const arrivalSlice = createSlice({
     },
     setArrivalLinensPrice: (state, action: PayloadAction<number>) => {
       state.linensPrice = action.payload;
+    },
+    setArrivalOrder: (state, action: PayloadAction<IOrder[]>) => {
+      state.orderList = action.payload;
     },
   },
 });
@@ -136,9 +153,11 @@ export const {
   setArrivalActivePerson,
   setArrivalCurrentCarriageType,
   setArrivalCurrentTypeCarriagesList,
+  setArrivalCopyCurrentTypeCarriagesList,
   setArrivalActiveCarriageIndex,
   setArrivalWiFiPrice,
   setArrivalLinensPrice,
+  setArrivalOrder,
 } = arrivalSlice.actions;
 
 export default arrivalSlice.reducer;

@@ -9,7 +9,6 @@ import './carriagePlatzkart.css';
 const CarriagePlatzkart = ({ data }: { data: IMyCarriageProps }) => {
   // деструктурируем данные:
   const {
-    // isForward,
     currentSeats,
     carriage_number,
     top_price,
@@ -19,6 +18,7 @@ const CarriagePlatzkart = ({ data }: { data: IMyCarriageProps }) => {
     wiFiPrice,
     is_linens_included,
     linensPrice,
+    onSeatClick,
   } = data;
 
   const priceTooltip = (num: number) => {
@@ -34,12 +34,7 @@ const CarriagePlatzkart = ({ data }: { data: IMyCarriageProps }) => {
     const linens = !is_linens_included ? linensPrice : 0;
     const priceWithFeatures = price + wifi + linens;
 
-    return priceWithFeatures.toLocaleString('ru-RU');
-  };
-
-  // TODO: по клику на место формировать объект с данными заказа!
-  const handleClick = (seatIndex: number) => {
-    console.log(`Platzkart -> click on seat № ${seatIndex}`); // NOTE: отладка !!!
+    return priceWithFeatures;
   };
 
   return (
@@ -60,9 +55,20 @@ const CarriagePlatzkart = ({ data }: { data: IMyCarriageProps }) => {
             key={seat.index}
             className={`carriage-platzkart__seat carriage-platzkart__seat_${
               seat.index
-            }${seat.available ? ' carriage-platzkart__seat_available' : ''}`}
-            title={priceTooltip(seat.index)}
-            onClick={seat.available ? () => handleClick(seat.index) : undefined}
+            }${seat.available ? ' carriage-platzkart__seat_available' : ''}${
+              seat.isActive ? ' carriage-platzkart__seat_active' : ''
+            }`}
+            title={priceTooltip(seat.index).toLocaleString('ru-RU')}
+            onClick={
+              seat.available || seat.isActive
+                ? () =>
+                    onSeatClick(
+                      seat.index,
+                      priceTooltip(seat.index),
+                      seat.isActive
+                    )
+                : undefined
+            }
           >
             {seat.index}
           </li>

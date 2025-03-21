@@ -230,12 +230,16 @@ export interface ICarriage {
     available_seats: number; // количество доступных мест в вагоне
     train: string;
   };
-  seats: { index: number; available: boolean }[]; // массив - сгенерирован заново самостоятельно!!!
+  seats: { index: number; available: boolean; isActive: boolean }[]; // массив - сгенерирован заново самостоятельно!!!
 }
 
 export interface IMyCarriageProps {
   isForward: boolean;
-  currentSeats: { index: number; available: boolean }[];
+  _id: string;
+  adults: { count: number; isActive: boolean };
+  children: { count: number; isActive: boolean };
+  baby: { count: number; isActive: boolean };
+  currentSeats: { index: number; available: boolean; isActive: boolean }[];
   carriage_number: number;
   price: number;
   top_price: number;
@@ -245,4 +249,16 @@ export interface IMyCarriageProps {
   wiFiPrice: number;
   is_linens_included: boolean;
   linensPrice: number;
+  onSeatClick: (seatIndex: number, price: number, isChecked: boolean) => void;
+}
+
+export interface IOrder {
+  coach_id: string;
+  seat_number: number;
+
+  is_adult: boolean;
+  is_child: boolean;
+  is_baby: boolean;
+
+  total_price: number;
 }
