@@ -17,8 +17,8 @@ import './carriageType.css';
 const CarriageType = ({ isForward }: { isForward: boolean }) => {
   const dispatch: AppDispatch = useDispatch();
 
-  const { currentCarriageType, orderList } = useSelector((state: RootState) =>
-    isForward ? state.departure : state.arrival
+  const { baby, currentCarriageType, orderList } = useSelector(
+    (state: RootState) => (isForward ? state.departure : state.arrival)
   );
 
   const { forwardCarriages, backwardCarriages } = useSelector(
@@ -41,28 +41,58 @@ const CarriageType = ({ isForward }: { isForward: boolean }) => {
       isForward ? forwardCarriages : backwardCarriages
     ).filter((carriage) => carriage.coach.class_type === carriageType);
 
-    // создаем обновленный список без учёта занятых мест:
-    const newCopyList = matchedCarriagesList.map((carriage) => ({
-      ...carriage,
-      seats: carriage.seats.map((seat) => {
-        const isSelected = orderList.some(
-          (order) =>
-            order.coach_id === carriage.coach._id &&
-            order.seat_number === seat.index
-        );
+    // создаем обновленный список без учёта заблокированных мест:
+    let newCopyList = [];
 
-        return {
-          ...seat,
-          available: isSelected ? !isSelected : seat.available,
-          isActive: isSelected, // выбранные места остаются активными
-        };
-      }),
-    }));
+    // если это вкладка с младенцами (baby.isActive), то доступны только места взрослых пассажиров:
+    if (baby.isActive) {
+      newCopyList = matchedCarriagesList.map((carriage) => ({
+        ...carriage,
+        seats: carriage.seats.map((seat) => {
+          const isAdultSelected = orderList.some(
+            (order) =>
+              order.coach_id === carriage.coach._id &&
+              order.seat_number === seat.index &&
+              order.is_adult
+          );
+
+          const isBabySelected = orderList.some(
+            (order) =>
+              order.coach_id === carriage.coach._id &&
+              order.seat_number === seat.index &&
+              order.is_baby
+          );
+
+          return {
+            ...seat,
+            available: isAdultSelected && !isBabySelected, // заказан ли билет только на взрослого?
+            isActive: isBabySelected, // выбранные места для младенцев
+          };
+        }),
+      }));
+    } else {
+      newCopyList = matchedCarriagesList.map((carriage) => ({
+        ...carriage,
+        seats: carriage.seats.map((seat) => {
+          const isSelected = orderList.some(
+            (order) =>
+              order.coach_id === carriage.coach._id &&
+              order.seat_number === seat.index
+          );
+
+          return {
+            ...seat,
+            available: isSelected ? !isSelected : seat.available,
+            isActive: isSelected, // выбранные места остаются активными
+          };
+        }),
+      }));
+    }
 
     // проверяем, выбраны ли уже 4 места:
     const isMaxSeatsSelected = orderList.length >= 4;
 
-    // создаем обновленный список с учётом занятых мест:
+    // создаем обновленный список с учётом заблокированных мест:
     const newList = newCopyList.map((carriage) => ({
       ...carriage,
       seats: carriage.seats.map((seat) => {

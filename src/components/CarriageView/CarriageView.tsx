@@ -72,9 +72,6 @@ const CarriageView = ({ isForward }: { isForward: boolean }) => {
     price: number,
     isChecked: boolean
   ) => {
-    console.log('_id: ', _id); // NOTE: отладка !!!
-    console.log('seatIndex: ', seatIndex); // NOTE: отладка !!!
-
     // 1. формируем объект заказа:
     const orderOptions: IOrder = {
       coach_id: _id,
@@ -87,11 +84,46 @@ const CarriageView = ({ isForward }: { isForward: boolean }) => {
       total_price: price,
     };
 
+    // преобразуем массив заказов (удаляем заказ, по которому кликнули):
+    const updatedOrderList = orderList.filter((el) => {
+      if (el.coach_id !== _id || el.seat_number !== seatIndex) {
+        return true; // Оставляем все остальные места
+      }
+
+      // если кликнули по младенцу, то удаляем младенца:
+      if (baby.isActive && el.is_baby) {
+        return false;
+      }
+
+      // если кликнули по ребенку, то удаляем ребенка:
+      if (children.isActive && el.is_child) {
+        return false;
+      }
+      // если кликнули по взрослому, то удаляем взрослого:
+      if (adults.isActive && el.is_adult) {
+        return false;
+      }
+
+      return true; // оставляем все остальные заказы
+    });
+
+    // теперь удаляем младенца, если на этом месте удалили взрослого:
+    const finalOrderList = updatedOrderList.filter((el) => {
+      if (el.is_baby && el.coach_id === _id && el.seat_number === seatIndex) {
+        const wasAdultRemoved = !updatedOrderList.some(
+          (order) =>
+            order.coach_id === _id &&
+            order.seat_number === seatIndex &&
+            order.is_adult
+        );
+        return !wasAdultRemoved; // если взрослый на этом месте был удалён, то удаляем и младенца
+      }
+      return true;
+    });
+
     // 2. обновляем список заказанных мест в store (isChecked ? удаляем заказ : добавляем заказ):
     const newOrderList = isChecked
-      ? orderList.filter(
-          (el) => !(el.coach_id === _id && el.seat_number === seatIndex)
-        )
+      ? finalOrderList
       : [...orderList, orderOptions];
 
     dispatch(
