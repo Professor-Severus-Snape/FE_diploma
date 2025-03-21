@@ -14,6 +14,7 @@ interface IInitialState {
   currentCount: number;
   currentPage: number;
   currentTrainIndex: number;
+  currentPotentialPassengersCount: number;
 }
 
 const initialState: IInitialState = {
@@ -22,6 +23,7 @@ const initialState: IInitialState = {
   currentCount: 5, // количество единовременно отображаемых на странице билетов
   currentPage: 1, // текущая страница
   currentTrainIndex: 0, // индекс выбранного билета
+  currentPotentialPassengersCount: 0, // количество человек, выбирающих места в данном вагоне
 };
 
 const createSliceWithThunk = buildCreateSlice({
@@ -166,6 +168,11 @@ const trainsSlice = createSliceWithThunk({
         state.currentTrainIndex = action.payload;
       }
     ),
+    setCurrentPotentialPassengersCount: creators.reducer(
+      (state, action: { payload: number }) => {
+        state.currentPotentialPassengersCount = action.payload;
+      }
+    ),
   }),
 });
 
@@ -176,6 +183,7 @@ export const {
   setCurrentCount,
   setCurrentPage,
   setCurrentTrainIndex,
+  setCurrentPotentialPassengersCount,
 } = trainsSlice.actions;
 
 export default trainsSlice.reducer;

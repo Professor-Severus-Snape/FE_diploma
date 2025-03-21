@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import getRandomNumber from '../../libs/getRandomNumber';
 import { AppDispatch, RootState } from '../../redux/store';
 import { setArrivalRouteDestinationId } from '../../redux/arrivalSlice';
 import {
@@ -7,7 +8,10 @@ import {
   fetchBackwardCarriages,
 } from '../../redux/carriagesSlice';
 import { setDepartureRouteDestinationId } from '../../redux/departureSlice';
-import { setCurrentTrainIndex } from '../../redux/trainsSlice';
+import {
+  setCurrentTrainIndex,
+  setCurrentPotentialPassengersCount,
+} from '../../redux/trainsSlice';
 import './chooseSeats.css';
 
 const ChooseSeats = ({ index }: { index: number }) => {
@@ -19,6 +23,8 @@ const ChooseSeats = ({ index }: { index: number }) => {
   const handleClick = () => {
     const forwardDestinationId = trains[index].departure._id; // id направления (туда)
     const backwardDestinationId = trains[index].arrival?._id || ''; // id направления (обратно)
+
+    dispatch(setCurrentPotentialPassengersCount(getRandomNumber(0, 20))); // кол-во потенц. покупат.
 
     dispatch(setCurrentTrainIndex(index)); // 1. сохраняем индекс выбранного билета в store
     dispatch(setDepartureRouteDestinationId(forwardDestinationId)); // 2. сохраняем id в store
