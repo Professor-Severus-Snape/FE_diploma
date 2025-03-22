@@ -141,7 +141,7 @@ const CarriageView = ({ isForward }: { isForward: boolean }) => {
               seat.index === seatIndex
                 ? {
                     ...seat,
-                    available: !seat.available, // инвертируем состояние выбранного места
+                    available: seat.isActive, // инвертируем состояние выбранного места
                     isActive: !seat.isActive, // инвертируем состояние выбранного места
                   }
                 : seat
