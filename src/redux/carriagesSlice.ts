@@ -78,7 +78,6 @@ const carriagesSlice = createSliceWithThunk({
         fulfilled: (state, { payload }) => {
           // NOTE: т.к. данные от бэка приходят кривые и неполные, то сразу преобразуем их под себя:
           const transformedPayload = transformCarriagesPayload(payload);
-          console.log('forwardCarriages: ', transformedPayload); // NOTE: отладка !!!
           state.forwardCarriages = transformedPayload;
         },
         rejected: (state) => {
@@ -116,7 +115,6 @@ const carriagesSlice = createSliceWithThunk({
         fulfilled: (state, { payload }) => {
           // NOTE: т.к. данные от бэка приходят кривые и неполные, то сразу преобразуем их под себя:
           const transformedPayload = transformCarriagesPayload(payload);
-          console.log('backwardCarriages: ', transformedPayload); // NOTE: отладка !!!
           state.backwardCarriages = transformedPayload;
         },
         rejected: (state) => {
