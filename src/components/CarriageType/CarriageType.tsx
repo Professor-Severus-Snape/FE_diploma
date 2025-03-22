@@ -17,9 +17,10 @@ import './carriageType.css';
 const CarriageType = ({ isForward }: { isForward: boolean }) => {
   const dispatch: AppDispatch = useDispatch();
 
-  const { baby, currentCarriageType, orderList } = useSelector(
-    (state: RootState) => (isForward ? state.departure : state.arrival)
-  );
+  const { adults, baby, children, currentCarriageType, orderList } =
+    useSelector((state: RootState) =>
+      isForward ? state.departure : state.arrival
+    );
 
   const { forwardCarriages, backwardCarriages } = useSelector(
     (state: RootState) => state.carriages
@@ -42,55 +43,53 @@ const CarriageType = ({ isForward }: { isForward: boolean }) => {
     ).filter((carriage) => carriage.coach.class_type === carriageType);
 
     // создаем обновленный список без учёта заблокированных мест:
-    let newCopyList = [];
+    const newCopyList = matchedCarriagesList.map((carriage) => ({
+      ...carriage,
+      seats: carriage.seats.map((seat, idx) => {
+        const isAdultSelected = orderList.some(
+          (order) =>
+            order.coach_id === carriage.coach._id &&
+            order.seat_number === idx + 1 &&
+            order.is_adult
+        );
 
-    // если это вкладка с младенцами (baby.isActive), то доступны только места взрослых пассажиров:
-    if (baby.isActive) {
-      newCopyList = matchedCarriagesList.map((carriage) => ({
-        ...carriage,
-        seats: carriage.seats.map((seat) => {
-          const isAdultSelected = orderList.some(
-            (order) =>
-              order.coach_id === carriage.coach._id &&
-              order.seat_number === seat.index &&
-              order.is_adult
-          );
+        const isChildrenSelected = orderList.some(
+          (order) =>
+            order.coach_id === carriage.coach._id &&
+            order.seat_number === idx + 1 &&
+            order.is_child
+        );
 
-          const isBabySelected = orderList.some(
-            (order) =>
-              order.coach_id === carriage.coach._id &&
-              order.seat_number === seat.index &&
-              order.is_baby
-          );
+        const isBabySelected = orderList.some(
+          (order) =>
+            order.coach_id === carriage.coach._id &&
+            order.seat_number === idx + 1 &&
+            order.is_baby
+        );
 
-          return {
-            ...seat,
-            available: isAdultSelected && !isBabySelected, // заказан ли билет только на взрослого?
-            isActive: isBabySelected, // выбранные места для младенцев
-          };
-        }),
-      }));
-    } else {
-      newCopyList = matchedCarriagesList.map((carriage) => ({
-        ...carriage,
-        seats: carriage.seats.map((seat) => {
-          const isSelected = orderList.some(
-            (order) =>
-              order.coach_id === carriage.coach._id &&
-              order.seat_number === seat.index
-          );
+        let available = seat.available;
+        let isActive = seat.isActive;
 
-          return {
-            ...seat,
-            available: isSelected ? !isSelected : seat.available,
-            isActive: isSelected, // выбранные места остаются активными
-          };
-        }),
-      }));
-    }
+        if (adults.isActive) {
+          // взрослые: доступны все места, кроме занятых детьми:
+          available = seat.available && !isChildrenSelected;
+          isActive = isAdultSelected;
+        } else if (children.isActive) {
+          // дети: доступны все места, кроме занятых взрослыми:
+          available = seat.available && !isAdultSelected && !isChildrenSelected;
+          isActive = isChildrenSelected;
+        } else if (baby.isActive) {
+          // младенцы: только на месте взрослых:
+          available = isAdultSelected && !isBabySelected;
+          isActive = isBabySelected;
+        }
+
+        return { ...seat, available, isActive };
+      }),
+    }));
 
     // проверяем, выбраны ли уже 4 места:
-    const isMaxSeatsSelected = orderList.length >= 4;
+    const isMaxSeatsSelected = orderList.length === 4;
 
     // создаем обновленный список с учётом заблокированных мест:
     const newList = newCopyList.map((carriage) => ({

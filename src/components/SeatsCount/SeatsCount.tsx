@@ -86,59 +86,61 @@ const SeatsCount = ({ isForward }: { isForward: boolean }) => {
       isForward ? forwardCarriages : backwardCarriages
     ).filter((carriage) => carriage.coach.class_type === currentCarriageType);
 
-    let newCopyList = []; // создаем обновленный список без учёта занятых мест
-    let newList = []; // создаем обновленный список c учётом занятых мест
+    // создаем обновленный список без учёта занятых мест:
+    const newCopyList = matchedCarriagesList.map((carriage) => ({
+      ...carriage,
+      seats: carriage.seats.map((seat, idx) => {
+        const isAdultSelected = orderList.some(
+          (order) =>
+            order.coach_id === carriage.coach._id &&
+            order.seat_number === idx + 1 &&
+            order.is_adult
+        );
+
+        const isChildrenSelected = orderList.some(
+          (order) =>
+            order.coach_id === carriage.coach._id &&
+            order.seat_number === idx + 1 &&
+            order.is_child
+        );
+
+        const isBabySelected = orderList.some(
+          (order) =>
+            order.coach_id === carriage.coach._id &&
+            order.seat_number === idx + 1 &&
+            order.is_baby
+        );
+
+        let available = seat.available;
+        let isActive = seat.isActive;
+
+        if (index === 0) {
+          // взрослые: доступны все места, кроме занятых детьми:
+          available = seat.available && !isChildrenSelected;
+          isActive = isAdultSelected;
+        } else if (index === 1) {
+          // дети: доступны все места, кроме занятых взрослыми:
+          available = seat.available && !isAdultSelected && !isChildrenSelected;
+          isActive = isChildrenSelected;
+        } else if (index === 2) {
+          // младенцы: только на месте взрослых:
+          available = isAdultSelected && !isBabySelected;
+          isActive = isBabySelected;
+        }
+
+        return {
+          ...seat,
+          available,
+          isActive,
+        };
+      }),
+    }));
 
     // проверяем, выбраны ли уже 4 места:
     const isMaxSeatsSelected = orderList.length === maxCountSeats;
 
-    // если это вкладка с младенцами (index = 2), то доступны только места взрослых пассажиров:
-    if (index === 2) {
-      newCopyList = matchedCarriagesList.map((carriage) => ({
-        ...carriage,
-        seats: carriage.seats.map((seat, idx) => {
-          const isAdultSelected = orderList.some(
-            (order) =>
-              order.coach_id === carriage.coach._id &&
-              order.seat_number === idx + 1 &&
-              order.is_adult
-          );
-
-          const isBabySelected = orderList.some(
-            (order) =>
-              order.coach_id === carriage.coach._id &&
-              order.seat_number === idx + 1 &&
-              order.is_baby
-          );
-
-          return {
-            ...seat,
-            available: isAdultSelected && !isBabySelected, // заказан ли билет только на взрослого?
-            isActive: isBabySelected, // выбранные места для младенцев
-          };
-        }),
-      }));
-    } else {
-      newCopyList = matchedCarriagesList.map((carriage) => ({
-        ...carriage,
-        seats: carriage.seats.map((seat, idx) => {
-          const isSelected = orderList.some(
-            (order) =>
-              order.coach_id === carriage.coach._id &&
-              order.seat_number === idx + 1
-          );
-
-          return {
-            ...seat,
-            available: isSelected ? false : seat.available,
-            isActive: isSelected, // выбранные места
-          };
-        }),
-      }));
-    }
-
     // если превышено максимальное кол-во пассажиров (4), то остальные места делаем недоступными:
-    newList = newCopyList.map((carriage) => ({
+    const newList = newCopyList.map((carriage) => ({
       ...carriage,
       seats: carriage.seats.map((seat) => {
         return {
