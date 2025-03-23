@@ -31,7 +31,7 @@ const CarriageFeatures = ({ data }: { data: ICarriageFeaturesProps }) => {
     linens_price,
   } = data;
 
-  const { wiFiPrice, linensPrice } = useSelector((state: RootState) =>
+  const { baby, wiFiPrice, linensPrice } = useSelector((state: RootState) =>
     isForward ? state.departure : state.arrival
   );
 
@@ -63,8 +63,9 @@ const CarriageFeatures = ({ data }: { data: ICarriageFeaturesProps }) => {
         ></li>
       )}
 
+      {/* если билет заказывается на младенца, то нельзя подключить платные опции! */}
       {/* если в вагоне есть wi-fi и стоимость не равна нулю, то услуга выбрана (_active): */}
-      {have_wifi && (
+      {have_wifi && !baby.isActive && (
         <li
           className={`carriage-features__item ${
             wiFiPrice
@@ -77,6 +78,7 @@ const CarriageFeatures = ({ data }: { data: ICarriageFeaturesProps }) => {
         ></li>
       )}
 
+      {/* если билет заказывается на младенца, то нельзя подключить платные опции! */}
       {/* если постельное белье включено в стоимость: */}
       {is_linens_included ? (
         <li
@@ -84,20 +86,22 @@ const CarriageFeatures = ({ data }: { data: ICarriageFeaturesProps }) => {
           title="постельное белье включено в стоимость"
         ></li>
       ) : (
-        <li
-          className={`carriage-features__item ${
-            linensPrice
-              ? 'carriage-features__item_bed-sheets_active'
-              : 'carriage-features__item_bed-sheets'
-          }
+        !baby.isActive && (
+          <li
+            className={`carriage-features__item ${
+              linensPrice
+                ? 'carriage-features__item_bed-sheets_active'
+                : 'carriage-features__item_bed-sheets'
+            }
           `}
-          title={
-            linensPrice
-              ? 'постельное белье подключено'
-              : 'постельное белье отключено'
-          }
-          onClick={handleChooseLinens}
-        ></li>
+            title={
+              linensPrice
+                ? 'постельное белье подключено'
+                : 'постельное белье отключено'
+            }
+            onClick={handleChooseLinens}
+          ></li>
+        )
       )}
 
       {/* кипяток автоматически включен в стоимость, т.к. данных о нём с бэка не поступает: */}

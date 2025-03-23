@@ -9,6 +9,8 @@ import './carriageSeat.css';
 const CarriageSeat = ({ data }: { data: IMyCarriageProps }) => {
   // деструктурируем данные:
   const {
+    isForward,
+    baby,
     currentSeats,
     carriage_number,
     top_price,
@@ -27,7 +29,7 @@ const CarriageSeat = ({ data }: { data: IMyCarriageProps }) => {
 
     const priceWithFeatures = price + wifi + linens;
 
-    return priceWithFeatures;
+    return baby.isActive ? 0 : priceWithFeatures; // младенцы едут бесплатно !!!
   };
 
   return (
@@ -57,7 +59,7 @@ const CarriageSeat = ({ data }: { data: IMyCarriageProps }) => {
         ))}
       </ul>
 
-      <CarriageTotalPrice />
+      <CarriageTotalPrice isForward={isForward} />
     </div>
   );
 };

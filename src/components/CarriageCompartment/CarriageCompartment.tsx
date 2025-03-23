@@ -9,6 +9,8 @@ import './carriageCompartment.css';
 const CarriageCompartment = ({ data }: { data: IMyCarriageProps }) => {
   // деструктурируем данные:
   const {
+    isForward,
+    baby,
     currentSeats,
     carriage_number,
     top_price,
@@ -27,17 +29,19 @@ const CarriageCompartment = ({ data }: { data: IMyCarriageProps }) => {
 
     const priceWithFeatures = price + wifi + linens;
 
-    return priceWithFeatures;
+    return baby.isActive ? 0 : priceWithFeatures; // младенцы едут бесплатно !!!
   };
 
   return (
     <div className="carriage-compartment">
       <PotentialPassengers />
+
       <img
         className="carriage-compartment__img"
         src={carriageCompartment}
         alt="compartment"
       />
+
       <CarriageNumber carriageNumber={carriage_number} />
 
       <ul className="carriage-compartment__scheme">
@@ -65,7 +69,8 @@ const CarriageCompartment = ({ data }: { data: IMyCarriageProps }) => {
           </li>
         ))}
       </ul>
-      <CarriageTotalPrice />
+
+      <CarriageTotalPrice isForward={isForward} />
     </div>
   );
 };

@@ -9,7 +9,8 @@ import './carriageLux.css';
 const CarriageLux = ({ data }: { data: IMyCarriageProps }) => {
   // деструктурируем данные:
   const {
-    // isForward,
+    isForward,
+    baby,
     currentSeats,
     carriage_number,
     price,
@@ -26,7 +27,7 @@ const CarriageLux = ({ data }: { data: IMyCarriageProps }) => {
 
     const priceWithFeatures = price + wifi + linens;
 
-    return priceWithFeatures;
+    return baby.isActive ? 0 : priceWithFeatures; // младенцы едут бесплатно !!!
   };
 
   return (
@@ -56,7 +57,7 @@ const CarriageLux = ({ data }: { data: IMyCarriageProps }) => {
         ))}
       </ul>
 
-      <CarriageTotalPrice />
+      <CarriageTotalPrice isForward={isForward} />
     </div>
   );
 };

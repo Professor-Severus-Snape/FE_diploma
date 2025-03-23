@@ -9,6 +9,8 @@ import './carriagePlatzkart.css';
 const CarriagePlatzkart = ({ data }: { data: IMyCarriageProps }) => {
   // деструктурируем данные:
   const {
+    isForward,
+    baby,
     currentSeats,
     carriage_number,
     top_price,
@@ -34,7 +36,7 @@ const CarriagePlatzkart = ({ data }: { data: IMyCarriageProps }) => {
     const linens = !is_linens_included ? linensPrice : 0;
     const priceWithFeatures = price + wifi + linens;
 
-    return priceWithFeatures;
+    return baby.isActive ? 0 : priceWithFeatures; // младенцы едут бесплатно !!!
   };
 
   return (
@@ -75,7 +77,7 @@ const CarriagePlatzkart = ({ data }: { data: IMyCarriageProps }) => {
         ))}
       </ul>
 
-      <CarriageTotalPrice />
+      <CarriageTotalPrice isForward={isForward} />
     </div>
   );
 };
