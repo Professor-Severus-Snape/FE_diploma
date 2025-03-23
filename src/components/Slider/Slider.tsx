@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import { AppDispatch, RootState } from '../../redux/store';
+import { clearArrivalData } from '../../redux/arrivalSlice';
+import { clearDepartureData } from '../../redux/departureSlice';
 import {
   setFirstClass,
   setSecondClass,
@@ -61,7 +63,8 @@ const Slider = ({ forId }: { forId: string }) => {
   // маппинг для dispatch:
   const dispatchMap: { [key: string]: (checked: boolean) => void } = {
     'slider-lux': (checked: boolean) => dispatch(setFirstClass(checked)),
-    'slider-compartment': (checked: boolean) => dispatch(setSecondClass(checked)),
+    'slider-compartment': (checked: boolean) =>
+      dispatch(setSecondClass(checked)),
     'slider-platzkart': (checked: boolean) => dispatch(setThirdClass(checked)),
     'slider-seat': (checked: boolean) => dispatch(setFourthClass(checked)),
     'slider-wiFi': (checked: boolean) => dispatch(setWifi(checked)),
@@ -112,9 +115,15 @@ const Slider = ({ forId }: { forId: string }) => {
     // отправляем поисковый запрос на сервер с обновленными данными:
     dispatch(fetchTrains(requestOptions));
 
-    // переходим на роут выбора билетов (если только мы уже не на нём..):
+    // если мы находимся на роуте '/seats', то нужно дополнительно очистить данные в store:
+    if (location.pathname.endsWith('/seats')) {
+      dispatch(clearArrivalData()); // сбрасываем данные в store -> departure и arrival Slices
+      dispatch(clearDepartureData()); // сбрасываем данные в store -> departure и arrival Slices
+    }
+
+    // если мы находимся НЕ на роуте '/trains', то переходим на него:
     if (!location.pathname.endsWith('/trains')) {
-      navigate('/trains');
+      navigate('/trains'); // меняем роут только после всех действий !!!
     }
   };
 

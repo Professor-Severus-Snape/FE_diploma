@@ -6,6 +6,8 @@ import { addDays, format, isSameDay } from 'date-fns'; // библиотека d
 import { ru } from 'date-fns/locale';
 
 import { AppDispatch, RootState } from '../../redux/store';
+import { clearArrivalData } from '../../redux/arrivalSlice';
+import { clearDepartureData } from '../../redux/departureSlice';
 import { setParamEndDate, setParamStartDate } from '../../redux/paramsSlice';
 import {
   setEndDate,
@@ -130,9 +132,15 @@ const MyDatePicker = ({ isStart, isInForm }: IMyDatePickerProps) => {
       // отправляем поисковый запрос на сервер с новой датой (date)
       dispatch(fetchTrains(requestOptions));
 
-      // переходим на роут выбора билетов (если только мы уже не на нём..):
+      // если мы находимся на роуте '/seats', то нужно дополнительно очистить данные в store:
+      if (location.pathname.endsWith('/seats')) {
+        dispatch(clearArrivalData()); // сбрасываем данные в store -> departure и arrival Slices
+        dispatch(clearDepartureData()); // сбрасываем данные в store -> departure и arrival Slices
+      }
+
+      // если мы находимся НЕ на роуте '/trains', то переходим на него:
       if (!location.pathname.endsWith('/trains')) {
-        navigate('/trains');
+        navigate('/trains'); // меняем роут только после всех действий !!!
       }
     }
   };
@@ -204,9 +212,15 @@ const MyDatePicker = ({ isStart, isInForm }: IMyDatePickerProps) => {
       // отправляем поисковый запрос на сервер с новой датой (date)
       dispatch(fetchTrains(requestOptions));
 
-      // переходим на роут выбора билетов (если только мы уже не на нём..):
+      // если мы находимся на роуте '/seats', то нужно дополнительно очистить данные в store:
+      if (location.pathname.endsWith('/seats')) {
+        dispatch(clearArrivalData()); // сбрасываем данные в store -> departure и arrival Slices
+        dispatch(clearDepartureData()); // сбрасываем данные в store -> departure и arrival Slices
+      }
+
+      // если мы находимся НЕ на роуте '/trains', то переходим на него:
       if (!location.pathname.endsWith('/trains')) {
-        navigate('/trains');
+        navigate('/trains'); // меняем роут только после всех действий !!!
       }
     }
   };

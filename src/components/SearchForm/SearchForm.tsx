@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { format, isSameDay } from 'date-fns';
 
 import { AppDispatch, RootState } from '../../redux/store';
+import { clearArrivalData } from '../../redux/arrivalSlice';
+import { clearDepartureData } from '../../redux/departureSlice';
 import { fetchLastTickets } from '../../redux/lastTicketsSlice';
 import { openModal } from '../../redux/modalSlice';
 import {
@@ -155,10 +157,16 @@ const SearchForm = () => {
     // 2. посылаем запрос на сервер:
     dispatch(fetchTrains(requestOptions));
 
-    // 3. переходим на роут выбора билетов (если только мы уже не на нём..):
+    // 3. если форма сработает на роуте '/seats', то нужно дополнительно очистить данные в store:
+    if (location.pathname.endsWith('/seats')) {
+      dispatch(clearArrivalData()); // сбрасываем данные в store -> departure и arrival Slices
+      dispatch(clearDepartureData()); // сбрасываем данные в store -> departure и arrival Slices
+    }
+
+    // 4. если мы находимся НЕ на роуте '/trains', то переходим на него:
     if (!location.pathname.endsWith('/trains')) {
-      dispatch(fetchLastTickets()); // запрос на последние билеты - только 1 раз при 1-ом сабмите!!!
-      navigate('/trains');
+      dispatch(fetchLastTickets()); // запрос на последние билеты
+      navigate('/trains'); // меняем роут только после всех действий !!!
     }
   };
 
