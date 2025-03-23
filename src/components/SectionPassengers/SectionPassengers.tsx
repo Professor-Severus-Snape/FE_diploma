@@ -21,7 +21,8 @@ const SectionPassengers = () => {
 
       <AddPassenger />
 
-      <NextPage route="/payment" text="далее" />
+      {/* NOTE: временно заглушка isActive в значении false */}
+      <NextPage route="/payment" text="далее" isActive={false} />
     </section>
   );
 };

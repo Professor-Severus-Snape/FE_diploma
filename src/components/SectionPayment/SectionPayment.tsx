@@ -69,7 +69,8 @@ const SectionPayment = () => {
         </div>
       </form>
 
-      <NextPage route="/confirmation" text="купить билеты" />
+      {/* NOTE: временно заглушка isActive в значении false */}
+      <NextPage route="/confirmation" text="купить билеты" isActive={false} />
     </div>
   );
 };

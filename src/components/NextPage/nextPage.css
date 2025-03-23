@@ -19,12 +19,17 @@
   background-color: #ffa800;
 }
 
-.next-page__navigation-link:hover {
+.next-page__navigation-link_inactive {
+  cursor: default;
+  background-color: #928f94;
+}
+
+.next-page__navigation-link:not(.next-page__navigation-link_inactive):hover {
   cursor: pointer;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
 }
 
-.next-page__navigation-link:active {
+.next-page__navigation-link:not(.next-page__navigation-link_inactive):active {
   border-color: #ffa800;
 
   color: #ffa800;

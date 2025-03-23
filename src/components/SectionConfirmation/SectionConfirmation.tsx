@@ -11,7 +11,8 @@ const SectionConfirmation = () => {
       <ArticleCheckTrain />
       <ArticleCheckPassengers />
       <ArticleCheckPayment />
-      <NextPage route="/order" text="подтвердить" />
+      {/* NOTE: временно заглушка isActive в значении false */}
+      <NextPage route="/order" text="подтвердить" isActive={false} />
     </section>
   );
 };
