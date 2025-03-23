@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './nextPage.css';
 
 interface INextPageProps {
@@ -8,18 +8,23 @@ interface INextPageProps {
 }
 
 const NextPage = ({ route, text, isActive }: INextPageProps) => {
+  const navigate = useNavigate();
+
   const basicClass = 'next-page__navigation-link';
   const inactiveClass = 'next-page__navigation-link_inactive';
 
-  const nextPageClassName = isActive
-    ? basicClass
-    : `${basicClass} ${inactiveClass}`;
+  const handleClick = () => {
+    navigate(route);
+  };
 
   return (
     <div className="next-page">
-      <Link className={nextPageClassName} to={route}>
+      <a
+        className={isActive ? basicClass : `${basicClass} ${inactiveClass}`}
+        onClick={isActive ? handleClick : undefined}
+      >
         {text}
-      </Link>
+      </a>
     </div>
   );
 };
