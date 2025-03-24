@@ -1,13 +1,19 @@
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/store';
+import { setArticleBackwardCheckboxDetails } from '../../redux/checkboxDetailsSlice';
 import arrowLeft from '../../assets/arrow-left.svg';
 import backward from '../../assets/backward.svg';
 import './articleBackwardDetails.css';
 
 const ArticleBackwardDetails = () => {
-  const [isChecked, setIsChecked] = useState(true);
+  const dispatch: AppDispatch = useDispatch();
+
+  const { articleBackwardCheckboxDetails } = useSelector(
+    (state: RootState) => state.checkboxDetails
+  );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsChecked(event.target.checked);
+    dispatch(setArticleBackwardCheckboxDetails(event.target.checked));
   };
 
   return (
@@ -27,7 +33,7 @@ const ArticleBackwardDetails = () => {
           type="checkbox"
           className="backward-details__checkbox"
           onChange={handleChange}
-          checked={isChecked}
+          checked={articleBackwardCheckboxDetails}
         />
         <label
           htmlFor="backward-details"
@@ -37,7 +43,7 @@ const ArticleBackwardDetails = () => {
 
       <div
         className={
-          isChecked
+          articleBackwardCheckboxDetails
             ? 'backward-details__content backward-details__content_active'
             : 'backward-details__content'
         }

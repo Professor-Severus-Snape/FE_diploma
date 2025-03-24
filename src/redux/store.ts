@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import arrivalReducer from './arrivalSlice';
 import carriagesReducer from './carriagesSlice';
 import checkboxReducer from './checkboxSlice';
+import checkboxDetailsReducer from './checkboxDetailsSlice';
 import departureReducer from './departureSlice';
 import lastTicketsReducer from './lastTicketsSlice';
 import modalReducer from './modalSlice';
@@ -15,6 +16,7 @@ const store = configureStore({
     arrival: arrivalReducer,
     carriages: carriagesReducer,
     checkbox: checkboxReducer,
+    checkboxDetails: checkboxDetailsReducer,
     departure: departureReducer,
     lastTickets: lastTicketsReducer,
     modal: modalReducer,

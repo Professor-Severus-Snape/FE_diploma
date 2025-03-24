@@ -1,12 +1,18 @@
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/store';
+import { setArticlePassengerCheckboxDetails } from '../../redux/checkboxDetailsSlice';
 import passenger from '../../assets/passenger.svg';
 import './articlePassengerDetails.css';
 
 const ArticlePassengerDetails = () => {
-  const [isChecked, setIsChecked] = useState(true);
+  const dispatch: AppDispatch = useDispatch();
+
+  const { articlePassengerCheckboxDetails } = useSelector(
+    (state: RootState) => state.checkboxDetails
+  );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsChecked(event.target.checked);
+    dispatch(setArticlePassengerCheckboxDetails(event.target.checked));
   };
 
   return (
@@ -26,7 +32,7 @@ const ArticlePassengerDetails = () => {
           type="checkbox"
           className="passenger-details__checkbox"
           onChange={handleChange}
-          checked={isChecked}
+          checked={articlePassengerCheckboxDetails}
         />
         <label
           htmlFor="passenger-details"
@@ -36,7 +42,7 @@ const ArticlePassengerDetails = () => {
 
       <div
         className={
-          isChecked
+          articlePassengerCheckboxDetails
             ? 'passenger-details__content passenger-details__content_active'
             : 'passenger-details__content'
         }
