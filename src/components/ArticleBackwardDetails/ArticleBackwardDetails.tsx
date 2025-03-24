@@ -78,12 +78,15 @@ const ArticleBackwardDetails = () => {
             : 'backward-details__content'
         }
       >
-        <div className="backward-details__number-info">
-          <div className="backward-details__number-info-text">№ Поезда</div>
-          <div className="backward-details__number-info-number">
-            {trainNumber + 'C'}
+        {/* NOTE: иногда с бэка приходит строка! с undefined */}
+        {trainNumber && trainNumber !== 'undefined' && (
+          <div className="backward-details__number-info">
+            <div className="backward-details__number-info-text">№ Поезда</div>
+            <div className="backward-details__number-info-number">
+              {trainNumber + 'C'}
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="backward-details__name-info">
           <div className="backward-details__name-info-text">Название</div>
@@ -133,7 +136,7 @@ const ArticleBackwardDetails = () => {
           </time>
 
           <time
-            className="fbackward-details__date-info-stop"
+            className="backward-details__date-info-stop"
             dateTime={format(startDateTime, 'yyyy-MM-dd')}
           >
             {format(startDateTime, 'dd.MM.yyyy')}
