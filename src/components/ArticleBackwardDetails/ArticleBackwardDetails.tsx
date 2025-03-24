@@ -1,4 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { format, fromUnixTime } from 'date-fns';
+import getDuration from '../../libs/getDuration';
 import { AppDispatch, RootState } from '../../redux/store';
 import { setArticleBackwardCheckboxDetails } from '../../redux/checkboxDetailsSlice';
 import arrowLeft from '../../assets/arrow-left.svg';
@@ -12,6 +14,32 @@ const ArticleBackwardDetails = () => {
     (state: RootState) => state.checkboxDetails
   );
 
+  const { trains, currentTrainIndex } = useSelector(
+    (state: RootState) => state.trains
+  );
+
+  const ticket = trains[currentTrainIndex].arrival; // билет 'обратно'
+
+  if (!ticket) {
+    return null;
+  }
+
+  const trainNumber = ticket.train.name.split(' - ')[1]; // номер поезда
+  const startTown = ticket.from.city.name;
+  const endTown = ticket.to.city.name;
+  const startTerminal = ticket.from.railway_station_name;
+  const endTerminal = ticket.to.railway_station_name;
+
+  const startDateTime = fromUnixTime(ticket.from.datetime)
+    .toISOString()
+    .slice(0, 16);
+
+  const endDateTime = fromUnixTime(ticket.to.datetime)
+    .toISOString()
+    .slice(0, 16);
+
+  const duration = getDuration(ticket.from.datetime, ticket.to.datetime);
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setArticleBackwardCheckboxDetails(event.target.checked));
   };
@@ -22,9 +50,11 @@ const ArticleBackwardDetails = () => {
         <div className="backward-details__wrapper">
           <img src={backward} alt="Туда" className="backward-details__icon" />
           <h3 className="backward-details__title">обратно</h3>
-          {/* NOTE: не забыть динамически формировать атрибут dateTime!!! */}
-          <time className="backward-details__date" dateTime="2018-09-09">
-            09.09.2018
+          <time
+            className="backward-details__date"
+            dateTime={format(endDateTime, 'yyyy-MM-dd')}
+          >
+            {format(endDateTime, 'dd.MM.yyyy')}
           </time>
         </div>
 
@@ -50,24 +80,35 @@ const ArticleBackwardDetails = () => {
       >
         <div className="backward-details__number-info">
           <div className="backward-details__number-info-text">№ Поезда</div>
-          <div className="backward-details__number-info-number">116С</div>
+          <div className="backward-details__number-info-number">
+            {trainNumber + 'C'}
+          </div>
         </div>
 
         <div className="backward-details__name-info">
           <div className="backward-details__name-info-text">Название</div>
           <div className="backward-details__name-info-name">
-            <div className="backward-details__name-info-first-name">Адлер</div>
+            <div className="backward-details__name-info-first-name">
+              {startTown}
+            </div>
             <div className="backward-details__name-info-second-name">
-              Санкт-Петербург
+              {endTown}
             </div>
           </div>
         </div>
 
         <div className="backward-details__time-info">
-          <div className="backward-details__time-info-time-start">00:10</div>
+          <time
+            className="backward-details__time-info-time-start"
+            dateTime={format(endDateTime, 'yyyy-MM-ddTHH:mm')}
+          >
+            {format(endDateTime, 'HH:mm')}
+          </time>
 
           <div className="backward-details__time-info-wrapper">
-            <span className="backward-details__time-info-duration">9:42</span>
+            <span className="backward-details__time-info-duration">
+              {duration}
+            </span>
             <img
               src={arrowLeft}
               alt="Туда"
@@ -75,40 +116,47 @@ const ArticleBackwardDetails = () => {
             />
           </div>
 
-          <div className="backward-details__time-info-time-stop">09:52</div>
+          <time
+            className="backward-details__time-info-time-stop"
+            dateTime={format(startDateTime, 'yyyy-MM-ddTHH:mm')}
+          >
+            {format(startDateTime, 'HH:mm')}
+          </time>
         </div>
 
         <div className="backward-details__date-info">
-          {/* NOTE: не забыть динамически формировать атрибут dateTime!!! */}
           <time
             className="backward-details__date-info-start"
-            dateTime="2018-09-09"
+            dateTime={format(endDateTime, 'yyyy-MM-dd')}
           >
-            09.09.2018
+            {format(endDateTime, 'dd.MM.yyyy')}
           </time>
+
           <time
-            className="backward-details__date-info-stop"
-            dateTime="2018-09-08"
+            className="fbackward-details__date-info-stop"
+            dateTime={format(startDateTime, 'yyyy-MM-dd')}
           >
-            08.09.2018
+            {format(startDateTime, 'dd.MM.yyyy')}
           </time>
         </div>
 
         <div className="backward-details__town-info">
-          <div className="backward-details__town-info-from">Москва</div>
-          <div className="backward-details__town-info-to">Санкт-Петербург</div>
+          <div className="backward-details__town-info-from">{endTown}</div>
+          <div className="backward-details__town-info-to">{startTown}</div>
         </div>
 
         <div className="backward-details__terminal-info">
           <div className="backward-details__terminal-info-from">
-            <div className="backward-details__terminal-info-name">Курский</div>
+            <div className="backward-details__terminal-info-name">
+              {endTerminal}
+            </div>
             <div className="backward-details__terminal-info-terminal">
               вокзал
             </div>
           </div>
           <div className="backward-details__terminal-info-to">
             <div className="backward-details__terminal-info-name">
-              Ладожский
+              {startTerminal}
             </div>
             <div className="backward-details__terminal-info-terminal">
               вокзал

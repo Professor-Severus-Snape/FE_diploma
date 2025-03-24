@@ -99,6 +99,7 @@
   font-weight: 700;
   font-size: 16px;
   text-align: right;
+  text-transform: capitalize;
 }
 
 /* время */
@@ -151,6 +152,8 @@
 
   padding-top: 10px;
   padding-bottom: 0px;
+
+  text-transform: capitalize;
 }
 
 /* вокзалы */
