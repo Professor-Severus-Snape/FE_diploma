@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 import { fromUnixTime } from 'date-fns';
 import getClassInfo from '../../libs/getClassInfo';
+import getDuration from '../../libs/getDuration';
 
 import { RootState } from '../../redux/store';
 
@@ -138,9 +139,10 @@ const ArticleTicket = ({ text, index }: { text: string; index: number }) => {
           </div>
           <div className="ticket__duration-info">
             <div className="ticket__duration-time">
-              {fromUnixTime(ticket.departure.duration)
-                .toISOString()
-                .slice(11, 16)}
+              {getDuration(
+                ticket.departure.from.datetime,
+                ticket.departure.to.datetime
+              )}
             </div>
             <img
               className="ticket__duration-icon"
@@ -177,9 +179,10 @@ const ArticleTicket = ({ text, index }: { text: string; index: number }) => {
             </div>
             <div className="ticket__duration-info">
               <div className="ticket__duration-time">
-                {fromUnixTime(ticket.arrival.duration)
-                  .toISOString()
-                  .slice(11, 16)}
+                {getDuration(
+                  ticket.arrival.from.datetime,
+                  ticket.arrival.to.datetime
+                )}
               </div>
               <img
                 className="ticket__duration-icon"

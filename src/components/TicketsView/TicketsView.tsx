@@ -66,7 +66,6 @@ const TicketsView = () => {
     setCurrentFilter(durationFilter); // устанавливаем выбранный фильтр в текущий фильтр
     setIsOpenFiltersList(false); // скрываем список возможных фильтров
 
-    // FIXME: сортировка по продолжительности почему-то не работает!!!
     const sortedTrainsByDuration = JSON.parse(JSON.stringify(trains)).sort(
       (a: ITrain, b: ITrain) => {
         // Получаем продолжительность в секундах:
