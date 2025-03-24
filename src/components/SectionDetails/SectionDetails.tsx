@@ -1,6 +1,7 @@
 import ArticleBackwardDetails from '../ArticleBackwardDetails/ArticleBackwardDetails';
 import ArticleForwardDetails from '../ArticleForwardDetails/ArticleForwardDetails';
 import ArticlePassengerDetails from '../ArticlePassengerDetails/ArticlePassengerDetails';
+import ArticlePriceDetails from '../ArticlePriceDetails/ArticlePriceDetails';
 
 import './sectionDetails.css';
 
@@ -11,13 +12,7 @@ const SectionDetails = () => {
       <ArticleForwardDetails />
       <ArticleBackwardDetails />
       <ArticlePassengerDetails />
-      <footer className="details__footer">
-        <span className="details__text">итог</span>
-        <span className="details__price">
-          <span className="details__cash">7 760</span>
-          <span className="details__currency">₽</span>
-        </span>
-      </footer>
+      <ArticlePriceDetails />
     </section>
   );
 };

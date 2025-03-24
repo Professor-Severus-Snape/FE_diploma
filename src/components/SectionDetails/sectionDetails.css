@@ -15,32 +15,3 @@
 .details article:not(:last-child) {
   border-bottom: 1px solid #fff;
 }
-
-.details__footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-
-  padding: 30px 22px 23px 28px;
-
-  font-weight: 700;
-  font-size: 30px;
-  text-transform: uppercase;
-  color: #fff;
-}
-
-.details__price {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.details__cash {
-  font-size: 48px;
-  color: #ffa800;
-}
-
-.details__currency {
-  font-size: 48px;
-  color: #e5e5e5;
-}
