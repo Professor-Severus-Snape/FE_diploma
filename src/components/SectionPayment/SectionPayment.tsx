@@ -1,17 +1,25 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ContactNumber from '../ContactNumber/ContactNumber';
 import Email from '../Email/Email';
 import FullName from '../FullName/FullName';
-import './sectionPayment.css';
 import NextPage from '../NextPage/NextPage';
+import './sectionPayment.css';
 
 const SectionPayment = () => {
+  const navigate = useNavigate();
+
   const [isCashPayment, setIsCashPayment] = useState(true); // по дефолту - оплата наличными
 
   const handlePaymentMethodChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setIsCashPayment(event.target.value === 'cash'); // ориентируемся на значение радиокнопки
+  };
+
+  const handleOnNextClick = () => {
+    // если все условия выполнены, то навигируемся на нужный роут:
+    navigate('/confirmation');
   };
 
   return (
@@ -70,7 +78,11 @@ const SectionPayment = () => {
       </form>
 
       {/* NOTE: временно заглушка isActive в значении false */}
-      <NextPage route="/confirmation" text="купить билеты" isActive={false} />
+      <NextPage
+        text="купить билеты"
+        isActive={false}
+        onNextClick={handleOnNextClick}
+      />
     </div>
   );
 };
