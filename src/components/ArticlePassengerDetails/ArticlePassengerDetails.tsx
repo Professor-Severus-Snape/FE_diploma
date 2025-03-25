@@ -11,6 +11,54 @@ const ArticlePassengerDetails = () => {
     (state: RootState) => state.checkboxDetails
   );
 
+  const {
+    adults,
+    children,
+    baby,
+    orderList: departureOrderList,
+  } = useSelector((state: RootState) => state.departure);
+
+  const { orderList: arrivalOrderList } = useSelector(
+    (state: RootState) => state.arrival
+  );
+
+  let adultsPrice = 0;
+  let childrenPrice = 0;
+
+  departureOrderList.forEach((order) => {
+    if (order.is_adult) {
+      adultsPrice += order.total_price;
+    } else if (order.is_child) {
+      childrenPrice += order.total_price;
+    }
+  });
+
+  arrivalOrderList.forEach((order) => {
+    if (order.is_adult) {
+      adultsPrice += order.total_price;
+    } else if (order.is_child) {
+      childrenPrice += order.total_price;
+    }
+  });
+
+  const data = [
+    {
+      count: adults.count,
+      price: adultsPrice,
+      text: adults.count === 1 ? 'Взрослый' : 'Взрослых',
+    },
+    {
+      count: children.count,
+      price: childrenPrice,
+      text: children.count === 1 ? 'Ребенок' : 'Детских',
+    },
+    {
+      count: baby.count,
+      price: 0,
+      text: (baby.count === 1 ? 'Ребенок' : 'Детских') + ' (без места)',
+    },
+  ];
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setArticlePassengerCheckboxDetails(event.target.checked));
   };
@@ -47,21 +95,22 @@ const ArticlePassengerDetails = () => {
             : 'passenger-details__content'
         }
       >
-        <div className="passenger-details__row">
-          <div className="passenger-details__passenger">2 Взрослых</div>
-          <div className="passenger-details__price">
-            <div className="passenger-details__cash">5 840</div>
-            <div className="passenger-details__currency">₽</div>
-          </div>
-        </div>
-
-        <div className="passenger-details__row">
-          <div className="passenger-details__passenger">1 Ребенок</div>
-          <div className="passenger-details__price">
-            <div className="passenger-details__cash">1 920</div>
-            <div className="passenger-details__currency">₽</div>
-          </div>
-        </div>
+        {data.map(
+          (passenger) =>
+            passenger.count !== 0 && (
+              <div className="passenger-details__row">
+                <div className="passenger-details__passenger">
+                  {`${passenger.count} ${passenger.text}`}
+                </div>
+                <div className="passenger-details__price">
+                  <div className="passenger-details__cash">
+                    {passenger.price.toLocaleString('ru-RU')}
+                  </div>
+                  <div className="passenger-details__currency">₽</div>
+                </div>
+              </div>
+            )
+        )}
       </div>
     </article>
   );
