@@ -96,9 +96,9 @@ const ArticlePassengerDetails = () => {
         }
       >
         {data.map(
-          (passenger) =>
+          (passenger, index) =>
             passenger.count !== 0 && (
-              <div className="passenger-details__row">
+              <div key={index} className="passenger-details__row">
                 <div className="passenger-details__passenger">
                   {`${passenger.count} ${passenger.text}`}
                 </div>
