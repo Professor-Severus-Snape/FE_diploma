@@ -262,3 +262,17 @@ export interface IOrder {
 
   total_price: number;
 }
+
+export interface IPassenger {
+  type: string; // взрослый, ребенок или младенец
+  lastName: string; // фамилия
+  firstName: string; // имя
+  middleName: string; // отчество
+  gender: boolean; // пол: true - для 'male', false - для 'female'
+  birthdate: string; // дата рождения
+  limitedMobility: boolean; // наличие инвалидности
+  documentType: string; // типа документа - паспорт или свидетельство о рождении
+  passportSeries: string; // серия паспорта
+  passportNumber: string; // номер паспорта
+  certificateNumber: string; // номер документа
+}

@@ -8,7 +8,10 @@ import './sectionPassengers.css';
 
 const SectionPassengers = () => {
   const navigate = useNavigate();
-  const { orderList } = useSelector((state: RootState) => state.departure);
+
+  const { passengersList } = useSelector(
+    (state: RootState) => state.passengers
+  );
 
   const handleOnNextClick = () => {
     // если все условия выполнены, то навигируемся на нужный роут:
@@ -19,8 +22,8 @@ const SectionPassengers = () => {
     <section className="passengers">
       <h2 className="visually-hidden">Пассажиры</h2>
 
-      {orderList.map((_, index) => (
-        <ArticlePassenger key={index} num={index + 1} />
+      {passengersList.map((_, index) => (
+        <ArticlePassenger key={index} index={index} />
       ))}
 
       <AddPassenger />

@@ -72,11 +72,11 @@
   display: block;
 }
 
-.passenger__form {
+.passenger__content {
   display: none;
 }
 
-.passenger__form_active {
+.passenger__content_active {
   display: block;
 }
 
@@ -87,13 +87,13 @@
 }
 
 /* Тип пассажира: */
-.passenger__fieldset-type {
+.passenger__type {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 25px;
 }
 
-.passenger__type {
+.passenger__type-wrapper {
   position: relative;
 
   padding: 10px 20px;
@@ -128,11 +128,11 @@
   cursor: pointer;
 }
 
-.passenger__fieldset-names {
+.passenger__names {
   margin-bottom: 50px;
 }
 
-.passenger__fieldset-details {
+.passenger__details {
   display: flex;
   gap: 35px;
 }

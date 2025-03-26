@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
 import { openModal } from '../../redux/modalSlice';
+import { setPassengersList } from '../../redux/passengersSlice';
 import ArticleSeat from '../ArticleSeat/ArticleSeat';
 import NextPage from '../NextPage/NextPage';
 import './sectionSeats.css';
@@ -53,7 +54,7 @@ const SectionSeats = () => {
   const isNextAllowed =
     conditionHasOrder && conditionOrderCount && conditionPassengersCount;
 
-  const handleOnNextClick = () => {
+  const handleOnNextClick = async () => {
     if (!conditionHasOrder) {
       const modalOptions = {
         type: 'warning',
@@ -87,8 +88,9 @@ const SectionSeats = () => {
       return;
     }
 
-    // если все условия выполнены, то навигируемся на нужный роут:
-    navigate('/passengers');
+    // если все условия выполнены:
+    dispatch(setPassengersList(departureOrderList.length)); // задаем начальный список пассажиров
+    await navigate('/passengers'); // навигируемся на нужный роут только ПОСЛЕ формирования списка
   };
 
   return (

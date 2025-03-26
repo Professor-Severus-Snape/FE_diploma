@@ -1,4 +1,10 @@
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/store';
+import {
+  setGender,
+  setIsOpen,
+  setLimitedMobility,
+} from '../../redux/passengersSlice';
 // import BirthCertificate from '../BirthCertificate/BirthCertificate';
 import DocumentsCheckFail from '../DocumentsCheckFail/DocumentsCheckFail';
 // import DocumentsCheckSuccess from '../DocumentsCheckSuccess/DocumentsCheckSuccess';
@@ -8,67 +14,111 @@ import Passport from '../Passport/Passport';
 
 import './articlePassenger.css';
 
-const ArticlePassenger = ({ num }: { num: number }) => {
-  const [isChecked, setIsChecked] = useState(num === 1);
-  const [isMaleSex, setIsMaleSex] = useState(true); // по дефолту - мужской пол
-  const [isLimitedMobility, setIsLimitedMobility] = useState(false); // по дефолту - здоров
+const ArticlePassenger = ({ index }: { index: number }) => {
+  const dispatch: AppDispatch = useDispatch();
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsChecked(event.target.checked);
+  // получаем заготовку массива с пассажирами:
+  const { passengersList } = useSelector(
+    (state: RootState) => state.passengers
+  );
+
+  // деструктурируем данные конкретного пассажира:
+  const { isOpen, data } = passengersList[index];
+
+  // деструктурируем данные конкретного пассажира:
+  const {
+    // type,
+    // lastName,
+    // firstName,
+    // middleName,
+    gender,
+    // birthdate,
+    limitedMobility,
+    // documentType,
+    // passportSeries,
+    // passportNumber,
+    // certificateNumber,
+  } = data;
+
+  // обработчик скрытия/показа данных конкретного пассажира:
+  const handleContentViewChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const payload = {
+      index,
+      isOpen: event.target.checked,
+    };
+
+    dispatch(setIsOpen(payload)); // ориентируемся на значение чекбокса
   };
 
+  // обработчик изменения пола пассажира:
   const handleSexChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsMaleSex(event.target.value === 'male'); // ориентируемся на значение радиокнопки
+    const payload = {
+      index,
+      gender: event.target.value === 'male',
+    };
+
+    dispatch(setGender(payload)); // ориентируемся на значение радиокнопки
   };
 
+  // обработчик изменения информации об инвалидности пассажира:
   const handleLimitedMobilityChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setIsLimitedMobility(event.target.checked);
+    const payload = {
+      index,
+      mobility: event.target.checked,
+    };
+
+    dispatch(setLimitedMobility(payload)); // ориентируемся на значение чекбокса
   };
 
   return (
     <article className="passenger">
       <header className="passenger__header">
         <div className="passenger__left-wrapper">
-          {/* Свернуть/развернуть информацию о пассажире: */}
+          {/* Скрыть/показать информацию о пассажире: */}
           <input
-            id={`passenger-${num}`}
+            id={`passenger-${index}`}
             type="checkbox"
             className="passenger__checkbox"
-            onChange={handleChange}
-            checked={isChecked}
+            onChange={handleContentViewChange}
+            checked={isOpen}
           />
           <label
-            htmlFor={`passenger-${num}`}
+            htmlFor={`passenger-${index}`}
             className="passenger__label"
           ></label>
 
-          <h3 className="passenger__title">Пассажир {num}</h3>
+          <h3 className="passenger__title">Пассажир {index + 1}</h3>
         </div>
+        {/* TODO: реализовать удаление данных пассажира по клику на крестик */}
         <div className="passenger__remove"></div>
       </header>
 
-      <form
+      <div
         className={
-          isChecked
-            ? 'passenger__form passenger__form_active'
-            : 'passenger__form'
+          isOpen
+            ? 'passenger__content passenger__content_active'
+            : 'passenger__content'
         }
       >
         <div className="passenger__main-data">
-          <fieldset className="passenger__fieldset-type">
-            <div className="passenger__type">
+          {/* TODO: реализовать выбор типа пассажира */}
+          <div className="passenger__type">
+            <div className="passenger__type-wrapper">
               <p className="passenger__type-text">Взрослый</p>
               <div className="passenger__type-arrow"></div>
             </div>
-          </fieldset>
+          </div>
 
-          <fieldset className="passenger__fieldset-names">
+          <div className="passenger__names">
+            {/* TODO: реализовать хранение и валидацию ФИО */}
             <FullName />
-          </fieldset>
+          </div>
 
-          <fieldset className="passenger__fieldset-details">
+          <div className="passenger__details">
             {/* Пол: */}
             <div className="passenger__info">
               <label htmlFor="male" className="passenger__label-info">
@@ -78,32 +128,32 @@ const ArticlePassenger = ({ num }: { num: number }) => {
               <div className="passenger__sex">
                 <input
                   className="passenger__sex-input visually-hidden"
-                  id="male"
+                  id={`male-${index}`} // уникальные for-id для каждой группы радиокнопок
                   type="radio"
-                  name="passenger-sex"
+                  name={`passenger-sex-${index}`} // уникальное имя для каждой группы радиокнопок
                   value="male"
-                  checked={isMaleSex} // "М" выбрана, если isMaleSex == true
+                  checked={gender} // true - для 'male', false - для 'female'
                   onChange={handleSexChange}
                 />
                 <label
                   className="passenger__sex-label passenger__sex-label_male"
-                  htmlFor="male"
+                  htmlFor={`male-${index}`} // уникальные for-id для каждой группы радиокнопок
                 >
                   М
                 </label>
 
                 <input
                   className="passenger__sex-input visually-hidden"
-                  id="female"
+                  id={`female-${index}`} // уникальные for-id для каждой группы радиокнопок
                   type="radio"
-                  name="passenger-sex"
+                  name={`passenger-sex-${index}`} // Уникальное имя для каждой группы радиокнопок
                   value="female"
-                  checked={!isMaleSex} // "Ж" выбрана, если isMaleSex == false
+                  checked={!gender} // true - для 'male', false - для 'female'
                   onChange={handleSexChange}
                 />
                 <label
                   className="passenger__sex-label passenger__sex-label_female"
-                  htmlFor="female"
+                  htmlFor={`female-${index}`} // уникальные for-id для каждой группы радиокнопок
                 >
                   Ж
                 </label>
@@ -111,6 +161,7 @@ const ArticlePassenger = ({ num }: { num: number }) => {
             </div>
 
             {/* Дата рождения: */}
+            {/* TODO: реализовать хранение и валидацию даты рождения */}
             <div className="passenger__info">
               <label
                 htmlFor="passenger-birthday"
@@ -126,29 +177,29 @@ const ArticlePassenger = ({ num }: { num: number }) => {
                 className="passenger__input-birthday"
               />
             </div>
-          </fieldset>
+          </div>
 
-          <fieldset className="passenger__limited-mobility">
+          <div className="passenger__limited-mobility">
             {/* Инвалидность:  */}
             <input
-              id="limited-mobility"
+              id={`limited-mobility-${index}`} // уникальные for-id для каждой группы радиокнопок
               type="checkbox"
               className="passenger__limited-mobility-checkbox visually-hidden"
               onChange={handleLimitedMobilityChange}
-              checked={isLimitedMobility}
+              checked={limitedMobility}
             />
             <label
-              htmlFor="limited-mobility"
+              htmlFor={`limited-mobility-${index}`} // уникальные for-id для каждой радиокнопки
               className="passenger__limited-mobility-label"
             >
               ограниченная подвижность
             </label>
-          </fieldset>
+          </div>
         </div>
 
         {/* Документы:  */}
         <div className="passenger__documents">
-          {/* TODO: Выбирать нужный компонент в зависимости от потребностей! */}
+          {/* TODO: Выбирать нужный компонент в зависимости от потребностей + валидация! */}
           <Passport />
           {/* <BirthCertificate /> */}
         </div>
@@ -160,7 +211,7 @@ const ArticlePassenger = ({ num }: { num: number }) => {
           <DocumentsCheckFail document={'passport'} />
           {/* <DocumentsCheckFail document={'birth-certificate'} /> */}
         </div>
-      </form>
+      </div>
     </article>
   );
 };
