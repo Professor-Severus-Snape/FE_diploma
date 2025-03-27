@@ -38,10 +38,18 @@ const ArticlePassenger = ({ index }: { index: number }) => {
     // birthdate,
     limitedMobility,
     document,
-    // passportSeries,
-    // passportNumber,
-    // certificateNumber,
+    passportSeries,
+    passportNumber,
+    certificateNumber,
   } = data;
+
+  const documentsData = {
+    index,
+    document,
+    passportSeries,
+    passportNumber,
+    certificateNumber,
+  };
 
   // обработчик скрытия/показа данных конкретного пассажира:
   const handleContentViewChange = (
@@ -230,7 +238,7 @@ const ArticlePassenger = ({ index }: { index: number }) => {
         </div>
 
         {/* Документы: */}
-        <Documents index={index} document={document} />
+        <Documents {...documentsData} />
 
         <div className="passenger__footer">
           {/* TODO: выбирать нужный компонент в зависимости от данных формы */}

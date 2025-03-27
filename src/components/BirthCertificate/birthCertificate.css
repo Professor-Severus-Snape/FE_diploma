@@ -23,6 +23,12 @@
   letter-spacing: 1.5px;
 }
 
+.birth-certificate__input_invalid {
+  border-color: transparent;
+
+  outline: 2px solid red;
+}
+
 .birth-certificate__input::placeholder {
   font-size: 20px;
   color: #c4c4c4;

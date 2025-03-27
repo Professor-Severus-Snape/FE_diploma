@@ -23,6 +23,12 @@
   letter-spacing: 14px;
 }
 
+.passport__input_invalid {
+  border-color: transparent;
+
+  outline: 2px solid red;
+}
+
 .passport__input::placeholder {
   font-size: 40px;
   color: #c4c4c4;

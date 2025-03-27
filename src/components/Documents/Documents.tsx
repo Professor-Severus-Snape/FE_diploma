@@ -1,7 +1,15 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../redux/store';
-import { setDocument } from '../../redux/passengersSlice';
+import {
+  setDocument,
+  setPassportSeriesValue,
+  setPassportNumberValue,
+  setPassportSeriesError,
+  setPassportNumberError,
+  setCertificateNumberValue,
+  setCertificateNumberError,
+} from '../../redux/passengersSlice';
 import BirthCertificate from '../BirthCertificate/BirthCertificate';
 import Passport from '../Passport/Passport';
 import './documents.css';
@@ -9,25 +17,58 @@ import './documents.css';
 interface IDocumentsProps {
   index: number;
   document: string;
+  passportSeries: { value: string; error: boolean };
+  passportNumber: { value: string; error: boolean };
+  certificateNumber: { value: string; error: boolean };
 }
 
-const Documents = ({ index, document }: IDocumentsProps) => {
+const Documents = (props: IDocumentsProps) => {
+  const { index, document, passportSeries, passportNumber, certificateNumber } =
+    props;
+
   const [isOpenDocumentList, setIsOpenDocumentList] = useState<boolean>(false);
   const dispatch: AppDispatch = useDispatch();
 
   const documents = ['Паспорт РФ', 'Свидетельство о рождении']; // возможные типы документов
   const isPassport = document === documents[0];
 
+  const passportData = {
+    index,
+    passportSeries,
+    passportNumber,
+  };
+
+  const sertificateData = {
+    index,
+    certificateNumber,
+  };
+
   // выбор типа документа:
-  const handleDocumentChange = (document: string) => {
-    setIsOpenDocumentList(false);
+  const handleDocumentChange = (documentType: string) => {
+    setIsOpenDocumentList(false); // скрываем список
 
-    const payload = {
-      index,
-      document,
-    };
+    // если ткнули по тому же типу документа, то нет смысла что-либо менять в store:
+    if (document === documentType) {
+      return;
+    }
 
-    dispatch(setDocument(payload));
+    // если выбран паспорт, то сбрасываем данные свидетельства о рождении и наоборот:
+    if (documentType === documents[0]) {
+      dispatch(
+        setCertificateNumberValue({ index, certificateNumberValue: '' })
+      );
+
+      dispatch(
+        setCertificateNumberError({ index, certificateNumberError: false })
+      );
+    } else {
+      dispatch(setPassportSeriesValue({ index, passportSeriesValue: '' }));
+      dispatch(setPassportSeriesError({ index, passportSeriesError: false }));
+      dispatch(setPassportNumberValue({ index, passportNumberValue: '' }));
+      dispatch(setPassportNumberError({ index, passportNumberError: false }));
+    }
+
+    dispatch(setDocument({ index, document: documentType }));
   };
 
   return (
@@ -47,13 +88,13 @@ const Documents = ({ index, document }: IDocumentsProps) => {
 
           {isOpenDocumentList && (
             <ul className="documents__type-list">
-              {documents.map((document, index) => (
+              {documents.map((documentType, index) => (
                 <li
                   key={index}
                   className="documents__type-item"
-                  onClick={() => handleDocumentChange(document)}
+                  onClick={() => handleDocumentChange(documentType)}
                 >
-                  {document}
+                  {documentType}
                 </li>
               ))}
             </ul>
@@ -61,7 +102,11 @@ const Documents = ({ index, document }: IDocumentsProps) => {
         </div>
       </div>
 
-      {isPassport ? <Passport /> : <BirthCertificate />}
+      {isPassport ? (
+        <Passport {...passportData} />
+      ) : (
+        <BirthCertificate {...sertificateData} />
+      )}
     </div>
   );
 };
