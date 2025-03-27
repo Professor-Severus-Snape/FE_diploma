@@ -43,6 +43,13 @@ const passengersSlice = createSlice({
       const { index, isOpen } = action.payload;
       state.passengersList[index].isOpen = isOpen;
     },
+    setType: (
+      state,
+      action: PayloadAction<{ index: number; type: string }>
+    ) => {
+      const { index, type } = action.payload;
+      state.passengersList[index].data.type = type;
+    },
     setGender: (
       state,
       action: PayloadAction<{ index: number; gender: boolean }>
@@ -60,7 +67,12 @@ const passengersSlice = createSlice({
   },
 });
 
-export const { setPassengersList, setIsOpen, setGender, setLimitedMobility } =
-  passengersSlice.actions;
+export const {
+  setPassengersList,
+  setIsOpen,
+  setType,
+  setGender,
+  setLimitedMobility,
+} = passengersSlice.actions;
 
 export default passengersSlice.reducer;

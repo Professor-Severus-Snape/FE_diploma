@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
 import {
   setGender,
   setIsOpen,
   setLimitedMobility,
+  setType,
 } from '../../redux/passengersSlice';
 // import BirthCertificate from '../BirthCertificate/BirthCertificate';
 import DocumentsCheckFail from '../DocumentsCheckFail/DocumentsCheckFail';
@@ -15,6 +17,11 @@ import Passport from '../Passport/Passport';
 import './articlePassenger.css';
 
 const ArticlePassenger = ({ index }: { index: number }) => {
+  const [isOpenTypesList, setIsOpenTypesList] = useState<boolean>(false);
+
+  // возможные типы пассажиров:
+  const types = ['Взрослый', 'Детский', 'Без места'];
+
   const dispatch: AppDispatch = useDispatch();
 
   // получаем заготовку массива с пассажирами:
@@ -27,7 +34,7 @@ const ArticlePassenger = ({ index }: { index: number }) => {
 
   // деструктурируем данные конкретного пассажира:
   const {
-    // type,
+    type,
     // lastName,
     // firstName,
     // middleName,
@@ -50,6 +57,18 @@ const ArticlePassenger = ({ index }: { index: number }) => {
     };
 
     dispatch(setIsOpen(payload)); // ориентируемся на значение чекбокса
+  };
+
+  // обработчик изменения информации о типе пассажира:
+  const handleTypeChange = (type: string) => {
+    setIsOpenTypesList(false);
+
+    const payload = {
+      index,
+      type,
+    };
+
+    dispatch(setType(payload));
   };
 
   // обработчик изменения пола пассажира:
@@ -105,11 +124,28 @@ const ArticlePassenger = ({ index }: { index: number }) => {
         }
       >
         <div className="passenger__main-data">
-          {/* TODO: реализовать выбор типа пассажира */}
+          {/* Тип пассажира: */}
           <div className="passenger__type">
             <div className="passenger__type-wrapper">
-              <p className="passenger__type-text">Взрослый</p>
-              <div className="passenger__type-arrow"></div>
+              <p className="passenger__type-text">{type}</p>
+              <div
+                className="passenger__type-arrow"
+                onClick={() => setIsOpenTypesList(true)}
+              ></div>
+
+              {isOpenTypesList && (
+                <ul className="passenger__type-list">
+                  {types.map((type, index) => (
+                    <li
+                      key={index}
+                      className="passenger__type-item"
+                      onClick={() => handleTypeChange(type)}
+                    >
+                      {type}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
 
