@@ -16,7 +16,7 @@ const initialState: IPassengersState = {
     gender: true, // true - для 'male', false - для 'female'
     birthdate: '', // дата рождения
     limitedMobility: false, // наличие инвалидности
-    documentType: 'Паспорт РФ', // 'Паспорт РФ' или 'Свидетельство о рождении'
+    document: 'Паспорт РФ', // 'Паспорт РФ' или 'Свидетельство о рождении'
     passportSeries: '', // серия паспорта
     passportNumber: '', // номер паспорта
     certificateNumber: '', // номер свидетельства о рождении
@@ -64,6 +64,13 @@ const passengersSlice = createSlice({
       const { index, mobility } = action.payload;
       state.passengersList[index].data.limitedMobility = mobility;
     },
+    setDocument: (
+      state,
+      action: PayloadAction<{ index: number; document: string }>
+    ) => {
+      const { index, document } = action.payload;
+      state.passengersList[index].data.document = document;
+    },
   },
 });
 
@@ -73,6 +80,7 @@ export const {
   setType,
   setGender,
   setLimitedMobility,
+  setDocument,
 } = passengersSlice.actions;
 
 export default passengersSlice.reducer;

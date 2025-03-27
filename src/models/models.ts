@@ -271,7 +271,7 @@ export interface IPassenger {
   gender: boolean; // пол: true - для 'male', false - для 'female'
   birthdate: string; // дата рождения
   limitedMobility: boolean; // наличие инвалидности
-  documentType: string; // типа документа - паспорт или свидетельство о рождении
+  document: string; // типа документа - паспорт или свидетельство о рождении
   passportSeries: string; // серия паспорта
   passportNumber: string; // номер паспорта
   certificateNumber: string; // номер документа

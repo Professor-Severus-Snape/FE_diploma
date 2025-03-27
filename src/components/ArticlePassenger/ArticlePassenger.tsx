@@ -7,21 +7,17 @@ import {
   setLimitedMobility,
   setType,
 } from '../../redux/passengersSlice';
-// import BirthCertificate from '../BirthCertificate/BirthCertificate';
+import Documents from '../Documents/Documents';
 import DocumentsCheckFail from '../DocumentsCheckFail/DocumentsCheckFail';
 // import DocumentsCheckSuccess from '../DocumentsCheckSuccess/DocumentsCheckSuccess';
 // import DocumentsNotChecked from '../DocumentsNotChecked/DocumentsNotChecked';
 import FullName from '../FullName/FullName';
-import Passport from '../Passport/Passport';
-
 import './articlePassenger.css';
 
 const ArticlePassenger = ({ index }: { index: number }) => {
+  const types = ['Взрослый', 'Детский', 'Без места']; // возможные типы пассажиров
+
   const [isOpenTypesList, setIsOpenTypesList] = useState<boolean>(false);
-
-  // возможные типы пассажиров:
-  const types = ['Взрослый', 'Детский', 'Без места'];
-
   const dispatch: AppDispatch = useDispatch();
 
   // получаем заготовку массива с пассажирами:
@@ -41,7 +37,7 @@ const ArticlePassenger = ({ index }: { index: number }) => {
     gender,
     // birthdate,
     limitedMobility,
-    // documentType,
+    document,
     // passportSeries,
     // passportNumber,
     // certificateNumber,
@@ -233,12 +229,8 @@ const ArticlePassenger = ({ index }: { index: number }) => {
           </div>
         </div>
 
-        {/* Документы:  */}
-        <div className="passenger__documents">
-          {/* TODO: Выбирать нужный компонент в зависимости от потребностей + валидация! */}
-          <Passport />
-          {/* <BirthCertificate /> */}
-        </div>
+        {/* Документы: */}
+        <Documents index={index} document={document} />
 
         <div className="passenger__footer">
           {/* TODO: выбирать нужный компонент в зависимости от данных формы */}
