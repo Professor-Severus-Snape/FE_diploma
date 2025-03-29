@@ -1,19 +1,16 @@
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
-import { setGender, setIsOpen, setType } from '../../redux/passengersSlice';
+import { setGender, setIsOpen } from '../../redux/passengersSlice';
 import Documents from '../Documents/Documents';
 import FullName from '../FullName/FullName';
 import LimitedMobility from '../LimitedMobility/LimitedMobility';
 import PassengersCheckFail from '../PassengersCheckFail/PassengersCheckFail';
 import PassengersCheckSuccess from '../PassengersCheckSuccess/PassengersCheckSuccess';
 import PassengersNotChecked from '../PassengersNotChecked/PassengersNotChecked';
+import PassengerType from '../PassengerType/PassengerType';
 import './articlePassenger.css';
 
 const ArticlePassenger = ({ index }: { index: number }) => {
-  const types = ['Взрослый', 'Детский', 'Без места']; // возможные типы пассажиров
-
-  const [isOpenTypesList, setIsOpenTypesList] = useState<boolean>(false);
   const dispatch: AppDispatch = useDispatch();
 
   // получаем заготовку массива с пассажирами:
@@ -52,6 +49,11 @@ const ArticlePassenger = ({ index }: { index: number }) => {
     limitedMobility,
   };
 
+  const passengerTypeData = {
+    index,
+    type,
+  };
+
   // проверка, что нет ошибок при валидации полей:
   // TODO: дополнить данными ФИО и даты рождения
   const passportSeriesErr = passportSeries.hasError;
@@ -79,18 +81,6 @@ const ArticlePassenger = ({ index }: { index: number }) => {
     };
 
     dispatch(setIsOpen(payload)); // ориентируемся на значение чекбокса
-  };
-
-  // обработчик изменения информации о типе пассажира:
-  const handleTypeChange = (type: string) => {
-    setIsOpenTypesList(false);
-
-    const payload = {
-      index,
-      type,
-    };
-
-    dispatch(setType(payload));
   };
 
   // обработчик изменения пола пассажира:
@@ -134,30 +124,7 @@ const ArticlePassenger = ({ index }: { index: number }) => {
         }
       >
         <div className="passenger__main-data">
-          {/* Тип пассажира: */}
-          <div className="passenger__type">
-            <div className="passenger__type-wrapper">
-              <p className="passenger__type-text">{type}</p>
-              <div
-                className="passenger__type-arrow"
-                onClick={() => setIsOpenTypesList(true)}
-              ></div>
-
-              {isOpenTypesList && (
-                <ul className="passenger__type-list">
-                  {types.map((type, index) => (
-                    <li
-                      key={index}
-                      className="passenger__type-item"
-                      onClick={() => handleTypeChange(type)}
-                    >
-                      {type}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </div>
+          <PassengerType {...passengerTypeData} />
 
           <div className="passenger__names">
             {/* TODO: реализовать хранение и валидацию ФИО */}
