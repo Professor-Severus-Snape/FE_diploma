@@ -1,14 +1,10 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
-import {
-  setGender,
-  setIsOpen,
-  setLimitedMobility,
-  setType,
-} from '../../redux/passengersSlice';
+import { setGender, setIsOpen, setType } from '../../redux/passengersSlice';
 import Documents from '../Documents/Documents';
 import FullName from '../FullName/FullName';
+import LimitedMobility from '../LimitedMobility/LimitedMobility';
 import PassengersCheckFail from '../PassengersCheckFail/PassengersCheckFail';
 import PassengersCheckSuccess from '../PassengersCheckSuccess/PassengersCheckSuccess';
 import PassengersNotChecked from '../PassengersNotChecked/PassengersNotChecked';
@@ -49,6 +45,11 @@ const ArticlePassenger = ({ index }: { index: number }) => {
     passportSeries,
     passportNumber,
     certificateNumber,
+  };
+
+  const limitedMobilityData = {
+    index,
+    limitedMobility,
   };
 
   // проверка, что нет ошибок при валидации полей:
@@ -100,18 +101,6 @@ const ArticlePassenger = ({ index }: { index: number }) => {
     };
 
     dispatch(setGender(payload)); // ориентируемся на значение радиокнопки
-  };
-
-  // обработчик изменения информации об инвалидности пассажира:
-  const handleLimitedMobilityChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const payload = {
-      index,
-      mobility: event.target.checked,
-    };
-
-    dispatch(setLimitedMobility(payload)); // ориентируемся на значение чекбокса
   };
 
   return (
@@ -236,22 +225,7 @@ const ArticlePassenger = ({ index }: { index: number }) => {
             </div>
           </div>
 
-          <div className="passenger__limited-mobility">
-            {/* Инвалидность:  */}
-            <input
-              id={`limited-mobility-${index}`} // уникальные for-id для каждой группы радиокнопок
-              type="checkbox"
-              className="passenger__limited-mobility-checkbox visually-hidden"
-              onChange={handleLimitedMobilityChange}
-              checked={limitedMobility}
-            />
-            <label
-              htmlFor={`limited-mobility-${index}`} // уникальные for-id для каждой радиокнопки
-              className="passenger__limited-mobility-label"
-            >
-              ограниченная подвижность
-            </label>
-          </div>
+          <LimitedMobility {...limitedMobilityData} />
         </div>
 
         <Documents {...documentsData} />
