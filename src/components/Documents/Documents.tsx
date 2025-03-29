@@ -3,12 +3,9 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../redux/store';
 import {
   setDocument,
-  setPassportSeriesValue,
-  setPassportNumberValue,
-  setPassportSeriesError,
-  setPassportNumberError,
-  setCertificateNumberValue,
-  setCertificateNumberError,
+  setPassportSeries,
+  setPassportNumber,
+  setCertificateNumber,
 } from '../../redux/passengersSlice';
 import BirthCertificate from '../BirthCertificate/BirthCertificate';
 import Passport from '../Passport/Passport';
@@ -17,9 +14,9 @@ import './documents.css';
 interface IDocumentsProps {
   index: number;
   document: string;
-  passportSeries: { value: string; error: boolean };
-  passportNumber: { value: string; error: boolean };
-  certificateNumber: { value: string; error: boolean };
+  passportSeries: { value: string; isValid: boolean; hasError: boolean };
+  passportNumber: { value: string; isValid: boolean; hasError: boolean };
+  certificateNumber: { value: string; isValid: boolean; hasError: boolean };
 }
 
 const Documents = (props: IDocumentsProps) => {
@@ -52,20 +49,20 @@ const Documents = (props: IDocumentsProps) => {
       return;
     }
 
+    // начальное состояние:
+    const initialPayload = {
+      index,
+      value: '',
+      isValid: false,
+      hasError: false,
+    };
+
     // если выбран паспорт, то сбрасываем данные свидетельства о рождении и наоборот:
     if (documentType === documents[0]) {
-      dispatch(
-        setCertificateNumberValue({ index, certificateNumberValue: '' })
-      );
-
-      dispatch(
-        setCertificateNumberError({ index, certificateNumberError: false })
-      );
+      dispatch(setCertificateNumber(initialPayload));
     } else {
-      dispatch(setPassportSeriesValue({ index, passportSeriesValue: '' }));
-      dispatch(setPassportSeriesError({ index, passportSeriesError: false }));
-      dispatch(setPassportNumberValue({ index, passportNumberValue: '' }));
-      dispatch(setPassportNumberError({ index, passportNumberError: false }));
+      dispatch(setPassportSeries(initialPayload));
+      dispatch(setPassportNumber(initialPayload));
     }
 
     dispatch(setDocument({ index, document: documentType }));

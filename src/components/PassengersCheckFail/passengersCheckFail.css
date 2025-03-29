@@ -1,4 +1,4 @@
-.documents-check_fail {
+.passengers-check_fail {
   display: flex;
   gap: 16px;
 
@@ -9,12 +9,12 @@
   background-color: rgba(255, 61, 0, 0.38);
 }
 
-.documents-check__wrapper {
+.passengers-check__wrapper_fail {
   font-weight: 400;
   font-size: 18px;
   color: #292929;
 }
 
-.documents-check__current-example {
+.passengers-check__current-example {
   font-weight: 700;
 }

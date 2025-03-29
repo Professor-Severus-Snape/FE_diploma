@@ -272,7 +272,7 @@ export interface IPassenger {
   birthdate: string; // дата рождения
   limitedMobility: boolean; // наличие инвалидности
   document: string; // типа документа - паспорт или свидетельство о рождении
-  passportSeries: { value: string; error: boolean }; // серия паспорта
-  passportNumber: { value: string; error: boolean }; // номер паспорта
-  certificateNumber: { value: string; error: boolean }; // номер документа
+  passportSeries: { value: string; isValid: boolean; hasError: boolean }; // серия паспорта
+  passportNumber: { value: string; isValid: boolean; hasError: boolean }; // номер паспорта
+  certificateNumber: { value: string; isValid: boolean; hasError: boolean }; // номер свидетельства
 }

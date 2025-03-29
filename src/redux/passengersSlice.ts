@@ -17,9 +17,9 @@ const initialState: IPassengersState = {
     birthdate: '', // дата рождения
     limitedMobility: false, // наличие инвалидности
     document: 'Паспорт РФ', // 'Паспорт РФ' или 'Свидетельство о рождении'
-    passportSeries: { value: '', error: false }, // серия паспорта
-    passportNumber: { value: '', error: false }, // номер паспорта
-    certificateNumber: { value: '', error: false }, // номер свидетельства о рождении
+    passportSeries: { value: '', isValid: false, hasError: false }, // серия паспорта
+    passportNumber: { value: '', isValid: false, hasError: false }, // номер паспорта
+    certificateNumber: { value: '', isValid: false, hasError: false }, // номер свидетельства
   },
 };
 
@@ -71,53 +71,57 @@ const passengersSlice = createSlice({
       const { index, document } = action.payload;
       state.passengersList[index].data.document = document;
     },
-    setPassportSeriesValue: (
+    setPassportSeries: (
       state,
-      action: PayloadAction<{ index: number; passportSeriesValue: string }>
+      action: PayloadAction<{
+        index: number;
+        value: string;
+        isValid: boolean;
+        hasError: boolean;
+      }>
     ) => {
-      const { index, passportSeriesValue } = action.payload;
-      state.passengersList[index].data.passportSeries.value =
-        passportSeriesValue;
+      const { index, value, isValid, hasError } = action.payload;
+
+      state.passengersList[index].data.passportSeries = {
+        value,
+        isValid,
+        hasError,
+      };
     },
-    setPassportSeriesError: (
+    setPassportNumber: (
       state,
-      action: PayloadAction<{ index: number; passportSeriesError: boolean }>
+      action: PayloadAction<{
+        index: number;
+        value: string;
+        isValid: boolean;
+        hasError: boolean;
+      }>
     ) => {
-      const { index, passportSeriesError } = action.payload;
-      state.passengersList[index].data.passportSeries.error =
-        passportSeriesError;
+      const { index, value, isValid, hasError } = action.payload;
+
+      state.passengersList[index].data.passportNumber = {
+        value,
+        isValid,
+        hasError,
+      };
     },
-    setPassportNumberValue: (
+
+    setCertificateNumber: (
       state,
-      action: PayloadAction<{ index: number; passportNumberValue: string }>
+      action: PayloadAction<{
+        index: number;
+        value: string;
+        isValid: boolean;
+        hasError: boolean;
+      }>
     ) => {
-      const { index, passportNumberValue } = action.payload;
-      state.passengersList[index].data.passportNumber.value =
-        passportNumberValue;
-    },
-    setPassportNumberError: (
-      state,
-      action: PayloadAction<{ index: number; passportNumberError: boolean }>
-    ) => {
-      const { index, passportNumberError } = action.payload;
-      state.passengersList[index].data.passportNumber.error =
-        passportNumberError;
-    },
-    setCertificateNumberValue: (
-      state,
-      action: PayloadAction<{ index: number; certificateNumberValue: string }>
-    ) => {
-      const { index, certificateNumberValue } = action.payload;
-      state.passengersList[index].data.certificateNumber.value =
-        certificateNumberValue;
-    },
-    setCertificateNumberError: (
-      state,
-      action: PayloadAction<{ index: number; certificateNumberError: boolean }>
-    ) => {
-      const { index, certificateNumberError } = action.payload;
-      state.passengersList[index].data.certificateNumber.error =
-        certificateNumberError;
+      const { index, value, isValid, hasError } = action.payload;
+
+      state.passengersList[index].data.certificateNumber = {
+        value,
+        isValid,
+        hasError,
+      };
     },
   },
 });
@@ -129,12 +133,9 @@ export const {
   setGender,
   setLimitedMobility,
   setDocument,
-  setPassportSeriesValue,
-  setPassportSeriesError,
-  setPassportNumberValue,
-  setPassportNumberError,
-  setCertificateNumberValue,
-  setCertificateNumberError,
+  setPassportSeries,
+  setPassportNumber,
+  setCertificateNumber,
 } = passengersSlice.actions;
 
 export default passengersSlice.reducer;

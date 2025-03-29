@@ -1,17 +1,15 @@
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../redux/store';
 import {
-  setPassportSeriesValue,
-  setPassportNumberValue,
-  setPassportSeriesError,
-  setPassportNumberError,
+  setPassportSeries,
+  setPassportNumber,
 } from '../../redux/passengersSlice';
 import './passport.css';
 
 interface IPassportProps {
   index: number;
-  passportSeries: { value: string; error: boolean };
-  passportNumber: { value: string; error: boolean };
+  passportSeries: { value: string; isValid: boolean; hasError: boolean };
+  passportNumber: { value: string; isValid: boolean; hasError: boolean };
 }
 
 const Passport = (props: IPassportProps) => {
@@ -33,17 +31,18 @@ const Passport = (props: IPassportProps) => {
       return;
     }
 
+    // проверяем полноту введенных данных:
+    const isValid = filteredValue.length === 4;
+
     const payload = {
       index,
-      passportSeriesValue: filteredValue,
+      value: filteredValue,
+      isValid,
+      hasError: !isValid,
     };
 
-    dispatch(setPassportSeriesValue(payload));
-
-    // если введено правильное значение, сбрасываем ошибку:
-    if (passportSeries.error && filteredValue.length === 4) {
-      dispatch(setPassportSeriesError({ index, passportSeriesError: false }));
-    }
+    // сохраняем в store данные серии паспорта:
+    dispatch(setPassportSeries(payload));
 
     // восстанавливаем позицию курсора после обновления значения:
     setTimeout(() => {
@@ -65,46 +64,23 @@ const Passport = (props: IPassportProps) => {
       return;
     }
 
+    // проверяем полноту введенных данных:
+    const isValid = filteredValue.length === 6;
+
     const payload = {
       index,
-      passportNumberValue: filteredValue,
+      value: filteredValue,
+      isValid,
+      hasError: !isValid,
     };
 
-    dispatch(setPassportNumberValue(payload));
-
-    // если введено правильное значение, сбрасываем ошибку:
-    if (passportNumber.error && filteredValue.length === 6) {
-      dispatch(setPassportNumberError({ index, passportNumberError: false }));
-    }
+    // сохраняем в store данные номера паспорта:
+    dispatch(setPassportNumber(payload));
 
     // восстанавливаем позицию курсора после обновления значения:
     setTimeout(() => {
       target.setSelectionRange(cursorPosition, cursorPosition);
     }, 0); // отложенная установка, чтобы избежать проблемы с перерисовкой
-  };
-
-  // обработка события blur для проверки правильности серии паспорта:
-  const handleSeriesBlur = () => {
-    const isValid = passportSeries.value.length === 4;
-
-    const payload = {
-      index,
-      passportSeriesError: !isValid,
-    };
-
-    dispatch(setPassportSeriesError(payload));
-  };
-
-  // обработка события blur для проверки правильности номера паспорта:
-  const handleNumberBlur = () => {
-    const isValid = passportNumber.value.length === 6;
-
-    const payload = {
-      index,
-      passportNumberError: !isValid,
-    };
-
-    dispatch(setPassportNumberError(payload));
   };
 
   return (
@@ -116,7 +92,7 @@ const Passport = (props: IPassportProps) => {
         <input
           id="passport-series"
           className={`passport__input${
-            passportSeries.error ? ' passport__input_invalid' : ''
+            passportSeries.hasError ? ' passport__input_invalid' : ''
           }`}
           type="text"
           minLength={4}
@@ -125,7 +101,6 @@ const Passport = (props: IPassportProps) => {
           required
           value={passportSeries.value}
           onChange={handleSeriesChange}
-          onBlur={handleSeriesBlur}
         />
       </div>
 
@@ -136,7 +111,7 @@ const Passport = (props: IPassportProps) => {
         <input
           id="passport-number"
           className={`passport__input${
-            passportNumber.error ? ' passport__input_invalid' : ''
+            passportNumber.hasError ? ' passport__input_invalid' : ''
           }`}
           type="text"
           minLength={6}
@@ -145,7 +120,6 @@ const Passport = (props: IPassportProps) => {
           required
           value={passportNumber.value}
           onChange={handleNumberChange}
-          onBlur={handleNumberBlur}
         />
       </div>
     </>

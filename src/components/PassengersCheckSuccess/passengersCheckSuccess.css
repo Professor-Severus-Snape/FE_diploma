@@ -1,4 +1,4 @@
-.documents-check_success {
+.passengers-check_success {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
@@ -11,13 +11,13 @@
   background-color: #b2f6a1;
 }
 
-.documents-check__wrapper {
+.passengers-check__wrapper_success {
   display: flex;
   align-items: center;
   gap: 15px;
 }
 
-.documents-check__text_success {
+.passengers-check__text_success {
   font-weight: 400;
   font-size: 18px;
   color: #fff;

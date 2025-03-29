@@ -1,15 +1,12 @@
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../redux/store';
-import {
-  setCertificateNumberValue,
-  setCertificateNumberError,
-} from '../../redux/passengersSlice';
+import { setCertificateNumber } from '../../redux/passengersSlice';
 
 import './birthCertificate.css';
 
 interface IBirthCertificate {
   index: number;
-  certificateNumber: { value: string; error: boolean };
+  certificateNumber: { value: string; isValid: boolean; hasError: boolean };
 }
 
 const BirthCertificate = (props: IBirthCertificate) => {
@@ -34,42 +31,23 @@ const BirthCertificate = (props: IBirthCertificate) => {
       return;
     }
 
+    // проверяем полноту введенных данных:
+    const isValid = /^[IVXLCDM]{1,3}[А-Я]{2}\d{6}$/.test(filteredValue);
+
     const payload = {
       index,
-      certificateNumberValue: filteredValue,
+      value: filteredValue,
+      isValid,
+      hasError: !isValid,
     };
 
-    dispatch(setCertificateNumberValue(payload));
-
-    // если введено правильное значение, сбрасываем ошибку:
-    if (
-      certificateNumber.error &&
-      /^[IVXLCDM]{1,3}[А-Я]{2}\d{6}$/.test(filteredValue)
-    ) {
-      dispatch(
-        setCertificateNumberError({ index, certificateNumberError: false })
-      );
-    }
+    // сохраняем в store данные номера свидетельства о рождении:
+    dispatch(setCertificateNumber(payload));
 
     // восстанавливаем позицию курсора после обновления значения:
     setTimeout(() => {
       target.setSelectionRange(cursorPosition, cursorPosition);
     }, 0); // отложенная установка, чтобы избежать проблемы с перерисовкой
-  };
-
-  // обработка события blur для проверки правильности номера паспорта:
-  const handleCertificateNumberBlur = () => {
-    // проверяем, что номер состоит из 1-3 римских цифр, двух букв кириллицы и 6 цифр:
-    const isValid = /^[IVXLCDM]{1,3}[А-Я]{2}\d{6}$/.test(
-      certificateNumber.value
-    );
-
-    const payload = {
-      index,
-      certificateNumberError: !isValid,
-    };
-
-    dispatch(setCertificateNumberError(payload));
   };
 
   return (
@@ -84,7 +62,7 @@ const BirthCertificate = (props: IBirthCertificate) => {
       <input
         id="birth-certificate-number"
         className={`birth-certificate__input${
-          certificateNumber.error ? ' birth-certificate__input_invalid' : ''
+          certificateNumber.hasError ? ' birth-certificate__input_invalid' : ''
         }`}
         type="text"
         minLength={9}
@@ -93,7 +71,6 @@ const BirthCertificate = (props: IBirthCertificate) => {
         required
         value={certificateNumber.value}
         onChange={handleCertificateNumberChange}
-        onBlur={handleCertificateNumberBlur}
       />
     </div>
   );

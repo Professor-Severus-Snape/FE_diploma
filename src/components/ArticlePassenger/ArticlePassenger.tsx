@@ -8,10 +8,10 @@ import {
   setType,
 } from '../../redux/passengersSlice';
 import Documents from '../Documents/Documents';
-import DocumentsCheckFail from '../DocumentsCheckFail/DocumentsCheckFail';
-// import DocumentsCheckSuccess from '../DocumentsCheckSuccess/DocumentsCheckSuccess';
-// import DocumentsNotChecked from '../DocumentsNotChecked/DocumentsNotChecked';
 import FullName from '../FullName/FullName';
+import PassengersCheckFail from '../PassengersCheckFail/PassengersCheckFail';
+import PassengersCheckSuccess from '../PassengersCheckSuccess/PassengersCheckSuccess';
+import PassengersNotChecked from '../PassengersNotChecked/PassengersNotChecked';
 import './articlePassenger.css';
 
 const ArticlePassenger = ({ index }: { index: number }) => {
@@ -50,6 +50,23 @@ const ArticlePassenger = ({ index }: { index: number }) => {
     passportNumber,
     certificateNumber,
   };
+
+  // проверка, что нет ошибок при валидации полей:
+  // TODO: дополнить данными ФИО и даты рождения
+  const passportSeriesErr = passportSeries.hasError;
+  const passportNumberErr = passportNumber.hasError;
+  const certificateNumberErr = certificateNumber.hasError;
+
+  const hasErrors =
+    passportSeriesErr || passportNumberErr || certificateNumberErr;
+
+  // проверка, что все поля заполнены данными:
+  // TODO: дополнить данными ФИО и даты рождения
+  const isValid =
+    ((passportSeries.isValid && passportNumber.isValid) ||
+      certificateNumber.isValid) &&
+    // NOTE: временная заглушка true для остальных данных
+    true;
 
   // обработчик скрытия/показа данных конкретного пассажира:
   const handleContentViewChange = (
@@ -237,15 +254,24 @@ const ArticlePassenger = ({ index }: { index: number }) => {
           </div>
         </div>
 
-        {/* Документы: */}
         <Documents {...documentsData} />
 
         <div className="passenger__footer">
-          {/* TODO: выбирать нужный компонент в зависимости от данных формы */}
-          {/* <DocumentsNotChecked /> */}
-          {/* <DocumentsCheckSuccess /> */}
-          <DocumentsCheckFail document={'passport'} />
-          {/* <DocumentsCheckFail document={'birth-certificate'} /> */}
+          {!hasErrors && !isValid && <PassengersNotChecked />}
+          {!hasErrors && isValid && <PassengersCheckSuccess />}
+          {hasErrors && (
+            <PassengersCheckFail
+              err={
+                passportSeriesErr || passportNumberErr
+                  ? 'passport'
+                  : 'certificate'
+                // TODO: дополнить данными ФИО и даты рождения
+                // : certificateNumberErr
+                // ? 'certificate'
+                // : ''
+              }
+            />
+          )}
         </div>
       </div>
     </article>
