@@ -53,14 +53,14 @@ const BirthCertificate = (props: IBirthCertificate) => {
   return (
     <div className="birth-certificate">
       <label
-        htmlFor="birth-certificate-number"
+        htmlFor={`birth-certificate-number-${index}`}
         className="birth-certificate__label"
       >
         Номер
       </label>
 
       <input
-        id="birth-certificate-number"
+        id={`birth-certificate-number-${index}`}
         className={`birth-certificate__input${
           certificateNumber.hasError ? ' birth-certificate__input_invalid' : ''
         }`}

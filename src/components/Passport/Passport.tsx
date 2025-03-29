@@ -86,11 +86,11 @@ const Passport = (props: IPassportProps) => {
   return (
     <>
       <div className="passport__column">
-        <label htmlFor="passport-series" className="passport__label">
+        <label htmlFor={`passport-series-${index}`} className="passport__label">
           Серия
         </label>
         <input
-          id="passport-series"
+          id={`passport-series-${index}`} // уникальные for-id
           className={`passport__input${
             passportSeries.hasError ? ' passport__input_invalid' : ''
           }`}
@@ -105,11 +105,11 @@ const Passport = (props: IPassportProps) => {
       </div>
 
       <div className="passport__column">
-        <label htmlFor="passport-number" className="passport__label">
+        <label htmlFor={`passport-number-${index}`} className="passport__label">
           Номер
         </label>
         <input
-          id="passport-number"
+          id={`passport-number-${index}`}
           className={`passport__input${
             passportNumber.hasError ? ' passport__input_invalid' : ''
           }`}
