@@ -1,4 +1,3 @@
-/* ФИО: */
 .full-name {
   display: grid;
   grid-template-columns: repeat(3, minmax(200px, 1fr));
@@ -26,4 +25,10 @@
 
   font-size: 24px;
   color: #292929;
+}
+
+.full-name__input_invalid {
+  border-color: transparent;
+
+  outline: 2px solid red;
 }

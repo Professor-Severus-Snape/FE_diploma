@@ -2,11 +2,15 @@ import fail from '../../assets/fail.svg';
 import './passengersCheckFail.css';
 
 interface IPassengersCheckFailProps {
-  err: 'passport' | 'certificate';
+  err: 'name' | 'passport' | 'certificate';
 }
 
 const PassengersCheckFail = ({ err }: IPassengersCheckFailProps) => {
   const typeError = {
+    name: {
+      text: 'Данные ФИО указаны неверно',
+      example: 'Иванов Иван Иванович',
+    },
     passport: {
       text: 'Номер паспорта указан некорректно',
       example: '1234 123456',

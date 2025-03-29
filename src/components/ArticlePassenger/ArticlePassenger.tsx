@@ -25,9 +25,9 @@ const ArticlePassenger = ({ index }: { index: number }) => {
   // деструктурируем данные конкретного пассажира:
   const {
     type,
-    // lastName,
-    // firstName,
-    // middleName,
+    lastName,
+    firstName,
+    middleName,
     gender,
     // birthdate,
     limitedMobility,
@@ -60,22 +60,40 @@ const ArticlePassenger = ({ index }: { index: number }) => {
     gender,
   };
 
+  const nameData = {
+    index,
+    lastName,
+    firstName,
+    middleName,
+  };
+
   // проверка, что нет ошибок при валидации полей:
-  // TODO: дополнить данными ФИО и даты рождения
+  // TODO: дополнить данными даты рождения
+  const lastNameErr = lastName.hasError;
+  const firstNameErr = firstName.hasError;
+  const middleNameErr = middleName.hasError;
   const passportSeriesErr = passportSeries.hasError;
   const passportNumberErr = passportNumber.hasError;
   const certificateNumberErr = certificateNumber.hasError;
 
-  const hasErrors =
-    passportSeriesErr || passportNumberErr || certificateNumberErr;
+  // TODO: дополнить данными даты рождения
+  const errorTypes = [
+    { condition: lastNameErr || firstNameErr || middleNameErr, type: 'name' },
+    { condition: passportSeriesErr || passportNumberErr, type: 'passport' },
+    { condition: certificateNumberErr, type: 'certificate' },
+  ];
+
+  // если нет ошибок, то получим undefined:
+  const currentError = errorTypes.find((error) => error.condition)?.type;
 
   // проверка, что все поля заполнены данными:
-  // TODO: дополнить данными ФИО и даты рождения
+  // TODO: дополнить данными даты рождения
   const isValid =
+    lastName.isValid &&
+    firstName.isValid &&
+    middleName.isValid &&
     ((passportSeries.isValid && passportNumber.isValid) ||
-      certificateNumber.isValid) &&
-    // NOTE: временная заглушка true для остальных данных
-    true;
+      certificateNumber.isValid);
 
   // обработчик скрытия/показа данных конкретного пассажира:
   const handleContentViewChange = (
@@ -123,8 +141,7 @@ const ArticlePassenger = ({ index }: { index: number }) => {
           <PassengerType {...passengerTypeData} />
 
           <div className="passenger__names">
-            {/* TODO: реализовать хранение и валидацию ФИО */}
-            <FullName />
+            <FullName {...nameData} />
           </div>
 
           <div className="passenger__details">
@@ -155,19 +172,11 @@ const ArticlePassenger = ({ index }: { index: number }) => {
         <Documents {...documentsData} />
 
         <div className="passenger__footer">
-          {!hasErrors && !isValid && <PassengersNotChecked />}
-          {!hasErrors && isValid && <PassengersCheckSuccess />}
-          {hasErrors && (
+          {!currentError && !isValid && <PassengersNotChecked />}
+          {!currentError && isValid && <PassengersCheckSuccess />}
+          {currentError && (
             <PassengersCheckFail
-              err={
-                passportSeriesErr || passportNumberErr
-                  ? 'passport'
-                  : 'certificate'
-                // TODO: дополнить данными ФИО и даты рождения
-                // : certificateNumberErr
-                // ? 'certificate'
-                // : ''
-              }
+              err={currentError as 'name' | 'passport' | 'certificate'}
             />
           )}
         </div>

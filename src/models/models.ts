@@ -265,9 +265,9 @@ export interface IOrder {
 
 export interface IPassenger {
   type: string; // взрослый, ребенок или младенец
-  lastName: string; // фамилия
-  firstName: string; // имя
-  middleName: string; // отчество
+  lastName: { value: string; isValid: boolean; hasError: boolean }; // фамилия
+  firstName: { value: string; isValid: boolean; hasError: boolean }; // имя
+  middleName: { value: string; isValid: boolean; hasError: boolean }; // отчество
   gender: boolean; // пол: true - для 'male', false - для 'female'
   birthdate: string; // дата рождения
   limitedMobility: boolean; // наличие инвалидности

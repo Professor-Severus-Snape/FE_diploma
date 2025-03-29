@@ -10,9 +10,9 @@ const initialState: IPassengersState = {
   passengersList: [],
   passenger: {
     type: 'Взрослый', // 'Взрослый', 'Детский' или 'Без места'
-    lastName: '', // фамилия
-    firstName: '', // имя
-    middleName: '', // отчество
+    lastName: { value: '', isValid: false, hasError: false }, // фамилия
+    firstName: { value: '', isValid: false, hasError: false }, // имя
+    middleName: { value: '', isValid: false, hasError: false }, // отчество
     gender: true, // true - для 'male', false - для 'female'
     birthdate: '', // дата рождения
     limitedMobility: false, // наличие инвалидности
@@ -50,6 +50,54 @@ const passengersSlice = createSlice({
       const { index, type } = action.payload;
       state.passengersList[index].data.type = type;
     },
+    setLastName: (
+      state,
+      action: PayloadAction<{
+        index: number;
+        value: string;
+        isValid: boolean;
+        hasError: boolean;
+      }>
+    ) => {
+      const { index, value, isValid, hasError } = action.payload;
+      state.passengersList[index].data.lastName = {
+        value,
+        isValid,
+        hasError,
+      };
+    },
+    setFirstName: (
+      state,
+      action: PayloadAction<{
+        index: number;
+        value: string;
+        isValid: boolean;
+        hasError: boolean;
+      }>
+    ) => {
+      const { index, value, isValid, hasError } = action.payload;
+      state.passengersList[index].data.firstName = {
+        value,
+        isValid,
+        hasError,
+      };
+    },
+    setMiddleName: (
+      state,
+      action: PayloadAction<{
+        index: number;
+        value: string;
+        isValid: boolean;
+        hasError: boolean;
+      }>
+    ) => {
+      const { index, value, isValid, hasError } = action.payload;
+      state.passengersList[index].data.middleName = {
+        value,
+        isValid,
+        hasError,
+      };
+    },
     setGender: (
       state,
       action: PayloadAction<{ index: number; gender: boolean }>
@@ -81,7 +129,6 @@ const passengersSlice = createSlice({
       }>
     ) => {
       const { index, value, isValid, hasError } = action.payload;
-
       state.passengersList[index].data.passportSeries = {
         value,
         isValid,
@@ -98,14 +145,12 @@ const passengersSlice = createSlice({
       }>
     ) => {
       const { index, value, isValid, hasError } = action.payload;
-
       state.passengersList[index].data.passportNumber = {
         value,
         isValid,
         hasError,
       };
     },
-
     setCertificateNumber: (
       state,
       action: PayloadAction<{
@@ -116,7 +161,6 @@ const passengersSlice = createSlice({
       }>
     ) => {
       const { index, value, isValid, hasError } = action.payload;
-
       state.passengersList[index].data.certificateNumber = {
         value,
         isValid,
@@ -130,6 +174,9 @@ export const {
   setPassengersList,
   setIsOpen,
   setType,
+  setLastName,
+  setFirstName,
+  setMiddleName,
   setGender,
   setLimitedMobility,
   setDocument,
