@@ -95,6 +95,7 @@
   gap: 35px;
 }
 
+/* день рождения: */
 .passenger__info {
   display: flex;
   flex-direction: column;
@@ -103,53 +104,11 @@
   font-weight: 400;
 }
 
-/* пол: */
-.passenger__sex {
-  display: flex;
-
-  border: 1px solid #928f94;
-  border-radius: 5px;
-
-  width: 204px;
-  height: 50px;
-
-  margin-bottom: 45px;
+.passenger__label-info {
+  font-size: 16px;
+  color: #928f94;
 }
 
-.passenger__sex-label {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  width: 50%;
-
-  font-weight: 900;
-  font-size: 30px;
-  text-transform: uppercase;
-  color: #000;
-
-  background: #fff;
-  cursor: pointer;
-}
-
-.passenger__sex-label_male {
-  border-radius: 4px 0px 0px 4px;
-}
-
-.passenger__sex-label_female {
-  border-radius: 0px 4px 4px 0px;
-  border-left: 1px solid #928f94;
-}
-
-.passenger__sex-input:checked + .passenger__sex-label {
-  background: #ffa800; /* Подсветка выбранного пола */
-}
-
-.passenger__sex-input:focus + .passenger__sex-label {
-  color: #fff; /* фокус при обходе через Tab */
-}
-
-/* день рождения: */
 .passenger__input-birthday {
   width: 240px;
 

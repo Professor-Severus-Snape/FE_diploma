@@ -1,0 +1,57 @@
+.gender {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+
+  font-weight: 400;
+}
+
+.gender__title {
+  font-size: 16px;
+  color: #928f94;
+}
+
+.gender__switcher {
+  display: flex;
+
+  border: 1px solid #928f94;
+  border-radius: 5px;
+
+  width: 204px;
+  height: 50px;
+
+  margin-bottom: 45px;
+}
+
+.gender__label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 50%;
+
+  font-weight: 900;
+  font-size: 30px;
+  text-transform: uppercase;
+  color: #000;
+
+  background: #fff;
+  cursor: pointer;
+}
+
+.gender__label_male {
+  border-radius: 4px 0px 0px 4px;
+}
+
+.gender__label_female {
+  border-radius: 0px 4px 4px 0px;
+  border-left: 1px solid #928f94;
+}
+
+.gender__input:checked + .gender__label {
+  background: #ffa800; /* подсветка выбранного пола */
+}
+
+.gender__input:focus + .gender__label {
+  color: #fff; /* фокус при обходе через Tab */
+}

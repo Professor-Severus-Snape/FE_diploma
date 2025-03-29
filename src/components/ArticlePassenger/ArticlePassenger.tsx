@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
-import { setGender, setIsOpen } from '../../redux/passengersSlice';
+import { setIsOpen } from '../../redux/passengersSlice';
 import Documents from '../Documents/Documents';
 import FullName from '../FullName/FullName';
+import Gender from '../Gender/Gender';
 import LimitedMobility from '../LimitedMobility/LimitedMobility';
 import PassengersCheckFail from '../PassengersCheckFail/PassengersCheckFail';
 import PassengersCheckSuccess from '../PassengersCheckSuccess/PassengersCheckSuccess';
@@ -54,6 +55,11 @@ const ArticlePassenger = ({ index }: { index: number }) => {
     type,
   };
 
+  const genderData = {
+    index,
+    gender,
+  };
+
   // проверка, что нет ошибок при валидации полей:
   // TODO: дополнить данными ФИО и даты рождения
   const passportSeriesErr = passportSeries.hasError;
@@ -81,16 +87,6 @@ const ArticlePassenger = ({ index }: { index: number }) => {
     };
 
     dispatch(setIsOpen(payload)); // ориентируемся на значение чекбокса
-  };
-
-  // обработчик изменения пола пассажира:
-  const handleSexChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const payload = {
-      index,
-      gender: event.target.value === 'male',
-    };
-
-    dispatch(setGender(payload)); // ориентируемся на значение радиокнопки
   };
 
   return (
@@ -132,46 +128,7 @@ const ArticlePassenger = ({ index }: { index: number }) => {
           </div>
 
           <div className="passenger__details">
-            {/* Пол: */}
-            <div className="passenger__info">
-              <label htmlFor="male" className="passenger__label-info">
-                Пол
-              </label>
-
-              <div className="passenger__sex">
-                <input
-                  className="passenger__sex-input visually-hidden"
-                  id={`male-${index}`} // уникальные for-id для каждой группы радиокнопок
-                  type="radio"
-                  name={`passenger-sex-${index}`} // уникальное имя для каждой группы радиокнопок
-                  value="male"
-                  checked={gender} // true - для 'male', false - для 'female'
-                  onChange={handleSexChange}
-                />
-                <label
-                  className="passenger__sex-label passenger__sex-label_male"
-                  htmlFor={`male-${index}`} // уникальные for-id для каждой группы радиокнопок
-                >
-                  М
-                </label>
-
-                <input
-                  className="passenger__sex-input visually-hidden"
-                  id={`female-${index}`} // уникальные for-id для каждой группы радиокнопок
-                  type="radio"
-                  name={`passenger-sex-${index}`} // Уникальное имя для каждой группы радиокнопок
-                  value="female"
-                  checked={!gender} // true - для 'male', false - для 'female'
-                  onChange={handleSexChange}
-                />
-                <label
-                  className="passenger__sex-label passenger__sex-label_female"
-                  htmlFor={`female-${index}`} // уникальные for-id для каждой группы радиокнопок
-                >
-                  Ж
-                </label>
-              </div>
-            </div>
+            <Gender {...genderData} />
 
             {/* Дата рождения: */}
             {/* TODO: реализовать хранение и валидацию даты рождения */}
