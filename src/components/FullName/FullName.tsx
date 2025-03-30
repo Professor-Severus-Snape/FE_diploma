@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../redux/store';
 import {
@@ -5,6 +6,11 @@ import {
   setLastName,
   setMiddleName,
 } from '../../redux/passengersSlice';
+import {
+  setPaymentFirstName,
+  setPaymentLastName,
+  setPaymentMiddleName,
+} from '../../redux/paymentSlice';
 import './fullName.css';
 
 interface IFullNameProps {
@@ -17,6 +23,32 @@ interface IFullNameProps {
 const FullName = (props: IFullNameProps) => {
   const { index, firstName, lastName, middleName } = props;
   const dispatch: AppDispatch = useDispatch();
+  const location = useLocation(); // '/passengers' или '/payment'
+
+  // массив данных для рендеринга полей:
+  const renderData = [
+    {
+      label: 'Фамилия',
+      id: `last-name-${index}`,
+      name: 'last-name',
+      value: lastName.value,
+      hasError: lastName.hasError,
+    },
+    {
+      label: 'Имя',
+      id: `first-name-${index}`,
+      name: 'first-name',
+      value: firstName.value,
+      hasError: firstName.hasError,
+    },
+    {
+      label: 'Отчество',
+      id: `middle-name-${index}`,
+      name: 'middle-name',
+      value: middleName.value,
+      hasError: middleName.hasError,
+    },
+  ];
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { target } = event;
@@ -28,21 +60,10 @@ const FullName = (props: IFullNameProps) => {
     const filteredValue = value.replace(/[^А-Я]/gi, '').toUpperCase();
 
     // определяем на каком из полей ввода сработало событие 'change':
-    let currentInput = lastName;
-
-    switch (name) {
-      case 'last-name':
-        currentInput = lastName;
-        break;
-      case 'first-name':
-        currentInput = firstName;
-        break;
-      case 'middle-name':
-        currentInput = middleName;
-    }
+    const field = renderData.find((item) => item.name === name);
 
     // если данные не поменялись, нет смысла обновлять store:
-    if (currentInput.value === filteredValue) {
+    if (!field || field.value === filteredValue) {
       return;
     }
 
@@ -50,22 +71,36 @@ const FullName = (props: IFullNameProps) => {
     const isValid = /^[А-Я]{2,50}$/.test(filteredValue);
 
     const payload = {
-      index,
       value: filteredValue,
       isValid,
       hasError: !isValid,
     };
 
-    // сохраняем данные в store:
+    // мы находимся либо на роуте '/passengers' либо на роуте '/payment':
+    const isPassengersRoute = location.pathname.endsWith('/passengers');
+
+    // обновляем данные в store в зависимости от роута:
     switch (name) {
       case 'last-name':
-        dispatch(setLastName(payload));
+        dispatch(
+          isPassengersRoute
+            ? setLastName({ ...payload, index })
+            : setPaymentLastName(payload)
+        );
         break;
       case 'first-name':
-        dispatch(setFirstName(payload));
+        dispatch(
+          isPassengersRoute
+            ? setFirstName({ ...payload, index })
+            : setPaymentFirstName(payload)
+        );
         break;
       case 'middle-name':
-        dispatch(setMiddleName(payload));
+        dispatch(
+          isPassengersRoute
+            ? setMiddleName({ ...payload, index })
+            : setPaymentMiddleName(payload)
+        );
     }
 
     // восстанавливаем позицию курсора после обновления значения:
@@ -76,62 +111,26 @@ const FullName = (props: IFullNameProps) => {
 
   return (
     <div className="full-name">
-      <div className="full-name__column">
-        <label htmlFor={`last-name-${index}`} className="full-name__label">
-          Фамилия
-        </label>
-        <input
-          id={`last-name-${index}`}
-          className={`full-name__input${
-            lastName.hasError ? ' full-name__input_invalid' : ''
-          }`}
-          type="text"
-          name="last-name"
-          minLength={2}
-          maxLength={50}
-          required
-          value={lastName.value}
-          onChange={handleNameChange}
-        />
-      </div>
-
-      <div className="full-name__column">
-        <label htmlFor={`first-name-${index}`} className="full-name__label">
-          Имя
-        </label>
-        <input
-          id={`first-name-${index}`}
-          type="text"
-          name="first-name"
-          className={`full-name__input${
-            firstName.hasError ? ' full-name__input_invalid' : ''
-          }`}
-          minLength={2}
-          maxLength={50}
-          required
-          value={firstName.value}
-          onChange={handleNameChange}
-        />
-      </div>
-
-      <div className="full-name__column">
-        <label htmlFor={`middle-name-${index}`} className="full-name__label">
-          Отчество
-        </label>
-        <input
-          id={`middle-name-${index}`}
-          type="text"
-          name="middle-name"
-          className={`full-name__input${
-            middleName.hasError ? ' full-name__input_invalid' : ''
-          }`}
-          minLength={2}
-          maxLength={50}
-          required
-          value={middleName.value}
-          onChange={handleNameChange}
-        />
-      </div>
+      {renderData.map(({ label, id, name, value, hasError }) => (
+        <div key={id} className="full-name__column">
+          <label htmlFor={id} className="full-name__label">
+            {label}
+          </label>
+          <input
+            id={id}
+            type="text"
+            name={name}
+            className={`full-name__input${
+              hasError ? ' full-name__input_invalid' : ''
+            }`}
+            minLength={2}
+            maxLength={50}
+            required
+            value={value}
+            onChange={handleNameChange}
+          />
+        </div>
+      ))}
     </div>
   );
 };

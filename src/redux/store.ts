@@ -8,6 +8,7 @@ import lastTicketsReducer from './lastTicketsSlice';
 import modalReducer from './modalSlice';
 import paramsReducer from './paramsSlice';
 import passengersReducer from './passengersSlice';
+import paymentReducer from './paymentSlice';
 import searchFormReducer from './searchFormSlice';
 import townsReducer from './townsSlice';
 import trainsReducer from './trainsSlice';
@@ -23,6 +24,7 @@ const store = configureStore({
     modal: modalReducer,
     params: paramsReducer,
     passengers: passengersReducer,
+    payment: paymentReducer,
     searchForm: searchFormReducer,
     towns: townsReducer,
     trains: trainsReducer,

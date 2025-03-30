@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 import ContactNumber from '../ContactNumber/ContactNumber';
 import Email from '../Email/Email';
 import FullName from '../FullName/FullName';
@@ -10,6 +12,20 @@ const SectionPayment = () => {
   const navigate = useNavigate();
 
   const [isCashPayment, setIsCashPayment] = useState(true); // по дефолту - оплата наличными
+
+  // получаем даннные плательщика из store:
+  // TODO: получать также email, номер телефона и тип оплаты
+  const { lastName, firstName, middleName } = useSelector(
+    (state: RootState) => state.payment
+  );
+
+  // формируем пропсы для передачи их в компонент FullName:
+  const nameData = {
+    index: -1, // рандомное число, которое не будет пересекаться с индексами на роуте '/passengers'
+    lastName,
+    firstName,
+    middleName,
+  };
 
   const handlePaymentMethodChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -29,7 +45,7 @@ const SectionPayment = () => {
         <div className="payment__payer">
           <h3 className="payment__title">Персональные данные</h3>
           <div className="payment__payer-data">
-            <FullName />
+            <FullName {...nameData} />
             <ContactNumber />
             <Email />
           </div>
