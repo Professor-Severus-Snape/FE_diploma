@@ -14,7 +14,7 @@ const initialState: IPassengersState = {
     firstName: { value: '', isValid: false, hasError: false }, // имя
     middleName: { value: '', isValid: false, hasError: false }, // отчество
     gender: true, // true - для 'male', false - для 'female'
-    birthdate: '', // дата рождения
+    birthdate: { value: '', isValid: false, hasError: false }, // дата рождения
     limitedMobility: false, // наличие инвалидности
     document: 'Паспорт РФ', // 'Паспорт РФ' или 'Свидетельство о рождении'
     passportSeries: { value: '', isValid: false, hasError: false }, // серия паспорта
@@ -105,6 +105,22 @@ const passengersSlice = createSlice({
       const { index, gender } = action.payload;
       state.passengersList[index].data.gender = gender;
     },
+    setBirthdate: (
+      state,
+      action: PayloadAction<{
+        index: number;
+        value: string;
+        isValid: boolean;
+        hasError: boolean;
+      }>
+    ) => {
+      const { index, value, isValid, hasError } = action.payload;
+      state.passengersList[index].data.birthdate = {
+        value,
+        isValid,
+        hasError,
+      };
+    },
     setLimitedMobility: (
       state,
       action: PayloadAction<{ index: number; mobility: boolean }>
@@ -178,6 +194,7 @@ export const {
   setFirstName,
   setMiddleName,
   setGender,
+  setBirthdate,
   setLimitedMobility,
   setDocument,
   setPassportSeries,

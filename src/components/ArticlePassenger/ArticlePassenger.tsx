@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
 import { setIsOpen } from '../../redux/passengersSlice';
+import Birthdate from '../Birthdate/Birthdate';
 import Documents from '../Documents/Documents';
 import FullName from '../FullName/FullName';
 import Gender from '../Gender/Gender';
@@ -29,7 +30,7 @@ const ArticlePassenger = ({ index }: { index: number }) => {
     firstName,
     middleName,
     gender,
-    // birthdate,
+    birthdate,
     limitedMobility,
     document,
     passportSeries,
@@ -37,6 +38,12 @@ const ArticlePassenger = ({ index }: { index: number }) => {
     certificateNumber,
   } = data;
 
+  const birthdateData = {
+    index,
+    birthdate,
+  };
+
+  // формируем пропсы:
   const documentsData = {
     index,
     document,
@@ -45,19 +52,14 @@ const ArticlePassenger = ({ index }: { index: number }) => {
     certificateNumber,
   };
 
-  const limitedMobilityData = {
-    index,
-    limitedMobility,
-  };
-
-  const passengerTypeData = {
-    index,
-    type,
-  };
-
   const genderData = {
     index,
     gender,
+  };
+
+  const limitedMobilityData = {
+    index,
+    limitedMobility,
   };
 
   const nameData = {
@@ -67,8 +69,13 @@ const ArticlePassenger = ({ index }: { index: number }) => {
     middleName,
   };
 
+  const passengerTypeData = {
+    index,
+    type,
+  };
+
   // проверка, что нет ошибок при валидации полей:
-  // TODO: дополнить данными даты рождения
+  const birthdateErr = birthdate.hasError;
   const lastNameErr = lastName.hasError;
   const firstNameErr = firstName.hasError;
   const middleNameErr = middleName.hasError;
@@ -76,8 +83,8 @@ const ArticlePassenger = ({ index }: { index: number }) => {
   const passportNumberErr = passportNumber.hasError;
   const certificateNumberErr = certificateNumber.hasError;
 
-  // TODO: дополнить данными даты рождения
   const errorTypes = [
+    { condition: birthdateErr, type: 'birthdate' },
     { condition: lastNameErr || firstNameErr || middleNameErr, type: 'name' },
     { condition: passportSeriesErr || passportNumberErr, type: 'passport' },
     { condition: certificateNumberErr, type: 'certificate' },
@@ -87,8 +94,8 @@ const ArticlePassenger = ({ index }: { index: number }) => {
   const currentError = errorTypes.find((error) => error.condition)?.type;
 
   // проверка, что все поля заполнены данными:
-  // TODO: дополнить данными даты рождения
   const isValid =
+    birthdate.isValid &&
     lastName.isValid &&
     firstName.isValid &&
     middleName.isValid &&
@@ -126,6 +133,7 @@ const ArticlePassenger = ({ index }: { index: number }) => {
 
           <h3 className="passenger__title">Пассажир {index + 1}</h3>
         </div>
+
         {/* TODO: реализовать удаление данных пассажира по клику на крестик */}
         <div className="passenger__remove"></div>
       </header>
@@ -146,24 +154,7 @@ const ArticlePassenger = ({ index }: { index: number }) => {
 
           <div className="passenger__details">
             <Gender {...genderData} />
-
-            {/* Дата рождения: */}
-            {/* TODO: реализовать хранение и валидацию даты рождения */}
-            <div className="passenger__info">
-              <label
-                htmlFor="passenger-birthday"
-                className="passenger__label-info"
-              >
-                Дата рождения
-              </label>
-              <input
-                id="passenger-birthday"
-                // type="date" // TODO: использовать библиотеку (например, flatpickr)
-                type="text"
-                placeholder="ДД/ММ/ГГ"
-                className="passenger__input-birthday"
-              />
-            </div>
+            <Birthdate {...birthdateData} />
           </div>
 
           <LimitedMobility {...limitedMobilityData} />
@@ -176,7 +167,13 @@ const ArticlePassenger = ({ index }: { index: number }) => {
           {!currentError && isValid && <PassengersCheckSuccess />}
           {currentError && (
             <PassengersCheckFail
-              err={currentError as 'name' | 'passport' | 'certificate'}
+              err={
+                currentError as
+                  | 'birthdate'
+                  | 'name'
+                  | 'passport'
+                  | 'certificate'
+              }
             />
           )}
         </div>

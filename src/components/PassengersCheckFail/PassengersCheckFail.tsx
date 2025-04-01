@@ -2,7 +2,7 @@ import fail from '../../assets/fail.svg';
 import './passengersCheckFail.css';
 
 interface IPassengersCheckFailProps {
-  err: 'name' | 'passport' | 'certificate';
+  err: 'birthdate' | 'name' | 'passport' | 'certificate';
 }
 
 const PassengersCheckFail = ({ err }: IPassengersCheckFailProps) => {
@@ -11,6 +11,12 @@ const PassengersCheckFail = ({ err }: IPassengersCheckFailProps) => {
       text: 'Данные ФИО указаны неверно',
       example: 'Иванов Иван Иванович',
     },
+
+    birthdate: {
+      text: 'Дата рождения указана неверно. Проверьте, пожалуйста, саму дату и её формат.',
+      example: '01.01.1997',
+    },
+
     passport: {
       text: 'Номер паспорта указан некорректно',
       example: '1234 123456',

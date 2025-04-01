@@ -269,7 +269,7 @@ export interface IPassenger {
   firstName: { value: string; isValid: boolean; hasError: boolean }; // имя
   middleName: { value: string; isValid: boolean; hasError: boolean }; // отчество
   gender: boolean; // пол: true - для 'male', false - для 'female'
-  birthdate: string; // дата рождения
+  birthdate: { value: string; isValid: boolean; hasError: boolean }; // дата рождения
   limitedMobility: boolean; // наличие инвалидности
   document: string; // типа документа - паспорт или свидетельство о рождении
   passportSeries: { value: string; isValid: boolean; hasError: boolean }; // серия паспорта
