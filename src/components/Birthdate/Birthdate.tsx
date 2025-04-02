@@ -1,5 +1,5 @@
-import { isAfter, isBefore, isValid, parse, subYears } from 'date-fns';
 import { useDispatch } from 'react-redux';
+import checkPassengerAge from '../../libs/checkPassengerAge';
 import { AppDispatch } from '../../redux/store';
 import { setBirthdate } from '../../redux/passengersSlice';
 import './birthdate.css';
@@ -28,17 +28,8 @@ const Birthdate = ({ index, birthdate }: IBirthdateProps) => {
       return;
     }
 
-    // проверяем формат ДД.ММ.ГГГГ:
-    const parsedDate = parse(filteredValue, 'dd.MM.yyyy', new Date());
-
-    const today = new Date(); // дата - сегодня
-    const minDate = subYears(today, 110); // дата - 110 лет назад
-
-    // проверяем, является ли дата валидной и входит ли в диапазон:
-    const isValidDate =
-      isValid(parsedDate) &&
-      isBefore(parsedDate, today) &&
-      isAfter(parsedDate, minDate);
+    // ограничение на возраст пассажира - 110 лет:
+    const isValidDate = checkPassengerAge(filteredValue, 110);
 
     const payload = {
       index,

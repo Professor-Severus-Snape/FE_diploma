@@ -1,5 +1,6 @@
 .passengers-check_fail {
   display: flex;
+  align-items: center;
   gap: 16px;
 
   width: 100%;

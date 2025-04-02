@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
+import checkPassengerAge from '../../libs/checkPassengerAge';
 import { AppDispatch, RootState } from '../../redux/store';
 import {
   removePassengerFromList,
@@ -86,9 +87,46 @@ const ArticlePassenger = ({ index }: { index: number }) => {
   const passportNumberErr = passportNumber.hasError;
   const certificateNumberErr = certificateNumber.hasError;
 
+  // несоответствие возраста пассажира указанному типу:
+  const adultAgeErr =
+    type === 'Взрослый' &&
+    birthdate.isValid &&
+    checkPassengerAge(birthdate.value, 18);
+
+  const babyAgeErr =
+    type === 'Без места' &&
+    birthdate.isValid &&
+    !checkPassengerAge(birthdate.value, 7);
+
+  const childAgeErr =
+    type === 'Детский' &&
+    birthdate.isValid &&
+    (!checkPassengerAge(birthdate.value, 18) ||
+      checkPassengerAge(birthdate.value, 7));
+
+  // несоответствие типа документа типу пассажира:
+  const adultDocumentErr =
+    type === 'Взрослый' && document === 'Свидетельство о рождении';
+
+  const babyDocumentErr = type === 'Без места' && document === 'Паспорт РФ';
+
+  const childDocumentErr =
+    type === 'Детский' &&
+    birthdate.isValid &&
+    ((document === 'Свидетельство о рождении' &&
+      !checkPassengerAge(birthdate.value, 14)) ||
+      (document === 'Паспорт РФ' && checkPassengerAge(birthdate.value, 14)));
+
+  // устанавливаем приоритет показа ошибок:
   const errorTypes = [
-    { condition: birthdateErr, type: 'birthdate' },
     { condition: lastNameErr || firstNameErr || middleNameErr, type: 'name' },
+    { condition: birthdateErr, type: 'birthdate' },
+    { condition: adultAgeErr, type: 'adultAge' },
+    { condition: babyAgeErr, type: 'babyAge' },
+    { condition: childAgeErr, type: 'childAge' },
+    { condition: adultDocumentErr, type: 'adultDocument' },
+    { condition: babyDocumentErr, type: 'babyDocument' },
+    { condition: childDocumentErr, type: 'childDocument' },
     { condition: passportSeriesErr || passportNumberErr, type: 'passport' },
     { condition: certificateNumberErr, type: 'certificate' },
   ];
@@ -178,6 +216,12 @@ const ArticlePassenger = ({ index }: { index: number }) => {
             <PassengersCheckFail
               err={
                 currentError as
+                  | 'adultAge'
+                  | 'babyAge'
+                  | 'childAge'
+                  | 'adultDocument'
+                  | 'babyDocument'
+                  | 'childDocument'
                   | 'birthdate'
                   | 'name'
                   | 'passport'
