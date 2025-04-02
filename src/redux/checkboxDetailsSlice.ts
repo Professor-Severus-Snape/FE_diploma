@@ -7,9 +7,9 @@ interface IInitialState {
 }
 
 const initialState: IInitialState = {
-  articleForwardCheckboxDetails: false,
-  articleBackwardCheckboxDetails: false,
-  articlePassengerCheckboxDetails: false,
+  articleForwardCheckboxDetails: true,
+  articleBackwardCheckboxDetails: true,
+  articlePassengerCheckboxDetails: true,
 };
 
 const checkboxDetailsSlice = createSlice({
