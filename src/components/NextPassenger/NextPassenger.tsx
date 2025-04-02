@@ -1,7 +1,15 @@
 import './nextPassenger.css';
 
-const NextPassenger = () => {
-  return <div className="next-passenger">Следующий пассажир</div>;
+interface INextPassengerProps {
+  onClickHandler: () => void;
+}
+
+const NextPassenger = ({ onClickHandler }: INextPassengerProps) => {
+  return (
+    <div className="next-passenger" onClick={onClickHandler}>
+      Следующий пассажир
+    </div>
+  );
 };
 
 export default NextPassenger;

@@ -123,18 +123,18 @@ const ArticlePassenger = ({ index }: { index: number }) => {
   };
 
   return (
-    <article className="passenger">
+    <article id={`passenger-${index}`} className="passenger">
       <header className="passenger__header">
         <div className="passenger__left-wrapper">
           <input
-            id={`passenger-${index}`}
+            id={`passenger-checkbox-${index}`}
             type="checkbox"
             className="passenger__checkbox"
             onChange={handleContentViewChange}
             checked={isOpen}
           />
           <label
-            htmlFor={`passenger-${index}`}
+            htmlFor={`passenger-checkbox-${index}`}
             className="passenger__label"
           ></label>
 
@@ -173,7 +173,7 @@ const ArticlePassenger = ({ index }: { index: number }) => {
 
         <div className="passenger__footer">
           {!currentError && !isValid && <PassengersNotChecked />}
-          {!currentError && isValid && <PassengersCheckSuccess />}
+          {!currentError && isValid && <PassengersCheckSuccess index={index} />}
           {currentError && (
             <PassengersCheckFail
               err={
