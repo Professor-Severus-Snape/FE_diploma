@@ -13,6 +13,8 @@ const SectionPassengers = () => {
     (state: RootState) => state.passengers
   );
 
+  const { orderList } = useSelector((state: RootState) => state.departure);
+
   const handleOnNextClick = () => {
     // если все условия выполнены, то навигируемся на нужный роут:
     navigate('/payment');
@@ -26,7 +28,7 @@ const SectionPassengers = () => {
         <ArticlePassenger key={index} index={index} />
       ))}
 
-      <AddPassenger />
+      {orderList.length > passengersList.length && <AddPassenger />}
 
       {/* NOTE: временно заглушка isActive в значении false */}
       <NextPage text="далее" isActive={false} onNextClick={handleOnNextClick} />

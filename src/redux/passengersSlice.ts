@@ -27,6 +27,12 @@ const passengersSlice = createSlice({
   name: 'passengers',
   initialState,
   reducers: {
+    addPassengerToList: (state) => {
+      state.passengersList.push({ isOpen: true, data: initialState.passenger });
+    },
+    removePassengerFromList: (state, action: PayloadAction<number>) => {
+      state.passengersList.splice(action.payload, 1);
+    },
     setPassengersList: (state, action: PayloadAction<number>) => {
       state.passengersList = Array.from(
         { length: action.payload },
@@ -187,6 +193,8 @@ const passengersSlice = createSlice({
 });
 
 export const {
+  addPassengerToList,
+  removePassengerFromList,
   setPassengersList,
   setIsOpen,
   setType,

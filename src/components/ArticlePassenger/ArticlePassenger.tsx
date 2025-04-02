@@ -1,6 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
-import { setIsOpen } from '../../redux/passengersSlice';
+import {
+  removePassengerFromList,
+  setIsOpen,
+} from '../../redux/passengersSlice';
 import Birthdate from '../Birthdate/Birthdate';
 import Documents from '../Documents/Documents';
 import FullName from '../FullName/FullName';
@@ -114,11 +117,15 @@ const ArticlePassenger = ({ index }: { index: number }) => {
     dispatch(setIsOpen(payload)); // ориентируемся на значение чекбокса
   };
 
+  // обработчик удаления данных пассажира из массива 'passengersList' в store:
+  const handleRemovePassengersData = () => {
+    dispatch(removePassengerFromList(index));
+  };
+
   return (
     <article className="passenger">
       <header className="passenger__header">
         <div className="passenger__left-wrapper">
-          {/* Скрыть/показать информацию о пассажире: */}
           <input
             id={`passenger-${index}`}
             type="checkbox"
@@ -134,8 +141,10 @@ const ArticlePassenger = ({ index }: { index: number }) => {
           <h3 className="passenger__title">Пассажир {index + 1}</h3>
         </div>
 
-        {/* TODO: реализовать удаление данных пассажира по клику на крестик */}
-        <div className="passenger__remove"></div>
+        <div
+          className="passenger__remove"
+          onClick={handleRemovePassengersData}
+        ></div>
       </header>
 
       <div
