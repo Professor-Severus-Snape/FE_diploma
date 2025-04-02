@@ -2,7 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IPassenger } from '../models/models';
 
 interface IPassengersState {
-  passengersList: { isOpen: boolean; data: IPassenger }[]; // данные конкретного пассажира
+  passengersList: {
+    isOpen: boolean; // раскрыта ли вкладка с данными конкретнного пассажира
+    isDataValid: boolean; // все ли данные конкретнного пассажира заполнены и валидны
+    data: IPassenger; // данные конкретного пассажира
+  }[]; // список с данными пассажиров
   passenger: IPassenger;
 }
 
@@ -28,7 +32,11 @@ const passengersSlice = createSlice({
   initialState,
   reducers: {
     addPassengerToList: (state) => {
-      state.passengersList.push({ isOpen: true, data: initialState.passenger });
+      state.passengersList.push({
+        isOpen: true,
+        isDataValid: false,
+        data: initialState.passenger,
+      });
     },
     removePassengerFromList: (state, action: PayloadAction<number>) => {
       state.passengersList.splice(action.payload, 1);
@@ -38,6 +46,7 @@ const passengersSlice = createSlice({
         { length: action.payload },
         (_, index) => ({
           isOpen: index === 0, // первый пассажир всегда открытый
+          isDataValid: false,
           data: initialState.passenger,
         })
       );
@@ -48,6 +57,13 @@ const passengersSlice = createSlice({
     ) => {
       const { index, isOpen } = action.payload;
       state.passengersList[index].isOpen = isOpen;
+    },
+    setIsDataValid: (
+      state,
+      action: PayloadAction<{ index: number; isDataValid: boolean }>
+    ) => {
+      const { index, isDataValid } = action.payload;
+      state.passengersList[index].isDataValid = isDataValid;
     },
     setType: (
       state,
@@ -197,6 +213,7 @@ export const {
   removePassengerFromList,
   setPassengersList,
   setIsOpen,
+  setIsDataValid,
   setType,
   setLastName,
   setFirstName,

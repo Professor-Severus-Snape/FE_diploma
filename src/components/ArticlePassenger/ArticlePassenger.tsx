@@ -1,9 +1,11 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import checkPassengerAge from '../../libs/checkPassengerAge';
 import { AppDispatch, RootState } from '../../redux/store';
 import {
   removePassengerFromList,
   setIsOpen,
+  setIsDataValid,
 } from '../../redux/passengersSlice';
 import Birthdate from '../Birthdate/Birthdate';
 import Documents from '../Documents/Documents';
@@ -25,7 +27,7 @@ const ArticlePassenger = ({ index }: { index: number }) => {
   );
 
   // деструктурируем данные конкретного пассажира:
-  const { isOpen, data } = passengersList[index];
+  const { isOpen, isDataValid, data } = passengersList[index];
 
   // деструктурируем данные конкретного пассажира:
   const {
@@ -142,6 +144,13 @@ const ArticlePassenger = ({ index }: { index: number }) => {
     middleName.isValid &&
     ((passportSeries.isValid && passportNumber.isValid) ||
       certificateNumber.isValid);
+
+  useEffect(() => {
+    // перезаписываем данные в store только в случае, если они не совпадают:
+    if (isDataValid !== (!currentError && isValid)) {
+      dispatch(setIsDataValid({ index, isDataValid: !isDataValid }));
+    }
+  }, [currentError, index, isDataValid, isValid, dispatch]);
 
   // обработчик скрытия/показа данных конкретного пассажира:
   const handleContentViewChange = (

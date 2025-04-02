@@ -1,6 +1,7 @@
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { RootState } from '../../redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/store';
+import { openModal } from '../../redux/modalSlice';
 import AddPassenger from '../AddPassenger/AddPassenger';
 import ArticlePassenger from '../ArticlePassenger/ArticlePassenger';
 import NextPage from '../NextPage/NextPage';
@@ -8,6 +9,7 @@ import './sectionPassengers.css';
 
 const SectionPassengers = () => {
   const navigate = useNavigate();
+  const dispatch: AppDispatch = useDispatch();
 
   const { passengersList } = useSelector(
     (state: RootState) => state.passengers
@@ -15,9 +17,78 @@ const SectionPassengers = () => {
 
   const { orderList } = useSelector((state: RootState) => state.departure);
 
+  const hasAllPassengers = orderList.length === passengersList.length;
+
+  const hasFullValidData = passengersList.reduce((acc, passenger) => {
+    return acc && passenger.isDataValid;
+  }, true);
+
+  // подсчитываем количество пассажиров каждого типа в `passengersList`:
+  const countsFromPassengersList = passengersList.reduce(
+    (acc, passenger) => {
+      const type = passenger.data.type;
+      if (type === 'Взрослый') {
+        acc.adults++;
+      } else if (type === 'Детский') {
+        acc.children++;
+      } else {
+        acc.babies++;
+      }
+      return acc;
+    },
+    { adults: 0, children: 0, babies: 0 }
+  );
+
+  // подсчитываем количество пассажиров каждого типа в `orderList`:
+  const countsFromOrderList = orderList.reduce(
+    (acc, order) => {
+      if (order.is_adult) {
+        acc.adults++;
+      } else if (order.is_child) {
+        acc.children++;
+      } else {
+        acc.babies++;
+      }
+      return acc;
+    },
+    { adults: 0, children: 0, babies: 0 }
+  );
+
+  // проверяем, совпадает ли количество пассажиров в обоих списках:
+  const isAgeDistributionValid =
+    countsFromPassengersList.adults === countsFromOrderList.adults &&
+    countsFromPassengersList.children === countsFromOrderList.children &&
+    countsFromPassengersList.babies === countsFromOrderList.babies;
+
   const handleOnNextClick = () => {
-    // если все условия выполнены, то навигируемся на нужный роут:
-    navigate('/payment');
+    if (!hasAllPassengers) {
+      const modalOptions = {
+        type: 'warning',
+        title: 'Данные не всех пассажиров указаны!',
+        text: 'Пожалуйста, проверьте что Вы внесли данные всех пассажиров!',
+      };
+
+      dispatch(openModal(modalOptions));
+    } else if (!hasFullValidData) {
+      const modalOptions = {
+        type: 'warning',
+        title: 'Не все поля заполнены или есть ошибки!',
+        text: 'Пожалуйста, проверьте что Вы указали все данные и эти данные корректны!',
+      };
+
+      dispatch(openModal(modalOptions));
+    } else if (!isAgeDistributionValid) {
+      const modalOptions = {
+        type: 'warning',
+        title:
+          'Количество взрослых, детей и младенцев не совпадает с выбранными билетами!',
+        text: 'Пожалуйста, перепроверьте количество каждого вида пассажира!',
+      };
+
+      dispatch(openModal(modalOptions));
+    } else {
+      navigate('/payment'); // если все условия выполнены, то навигируемся на след. роут
+    }
   };
 
   return (
@@ -30,8 +101,13 @@ const SectionPassengers = () => {
 
       {orderList.length > passengersList.length && <AddPassenger />}
 
-      {/* NOTE: временно заглушка isActive в значении false */}
-      <NextPage text="далее" isActive={false} onNextClick={handleOnNextClick} />
+      <NextPage
+        text="далее"
+        isActive={
+          hasAllPassengers && hasFullValidData && isAgeDistributionValid
+        }
+        onNextClick={handleOnNextClick}
+      />
     </section>
   );
 };
