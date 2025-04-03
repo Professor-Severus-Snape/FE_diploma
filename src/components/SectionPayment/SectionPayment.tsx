@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/store';
+import { openModal } from '../../redux/modalSlice';
 import ContactNumber from '../ContactNumber/ContactNumber';
 import Email from '../Email/Email';
 import FullName from '../FullName/FullName';
@@ -10,6 +11,7 @@ import './sectionPayment.css';
 
 const SectionPayment = () => {
   const navigate = useNavigate();
+  const dispatch: AppDispatch = useDispatch();
 
   // получаем данные плательщика из store:
   const { lastName, firstName, middleName, phoneNumber, email, cash } =
@@ -23,9 +25,36 @@ const SectionPayment = () => {
     middleName,
   };
 
+  // проверка, что нет ошибок при валидации полей:
+  const lastNameErr = lastName.hasError;
+  const firstNameErr = firstName.hasError;
+  const middleNameErr = middleName.hasError;
+  const phoneNumberErr = phoneNumber.hasError;
+  const emailErr = email.hasError;
+
+  const currentError =
+    lastNameErr || firstNameErr || middleNameErr || phoneNumberErr || emailErr;
+
+  // проверка, что все поля заполнены данными:
+  const isValid =
+    lastName.isValid &&
+    firstName.isValid &&
+    middleName.isValid &&
+    phoneNumber.isValid &&
+    email.isValid;
+
   const handleOnNextClick = () => {
-    // если все условия выполнены, то навигируемся на нужный роут:
-    navigate('/confirmation');
+    if (currentError || !isValid) {
+      const modalOptions = {
+        type: 'warning',
+        title: 'В данных плательщика имеются ошибки или не все поля заполнены!',
+        text: 'Пожалуйста, перепроверьте полноту и валидность введённых данных!',
+      };
+
+      dispatch(openModal(modalOptions));
+    } else {
+      navigate('/confirmation'); // если все условия выполнены, то навигируемся на след. роут
+    }
   };
 
   return (
@@ -45,10 +74,9 @@ const SectionPayment = () => {
         <PaymentMethod cash={cash} />
       </div>
 
-      {/* NOTE: временно заглушка isActive в значении false */}
       <NextPage
         text="купить билеты"
-        isActive={false}
+        isActive={!currentError && isValid}
         onNextClick={handleOnNextClick}
       />
     </section>
