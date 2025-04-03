@@ -6,6 +6,7 @@ interface IPaymentState {
   middleName: { value: string; isValid: boolean; hasError: boolean };
   phoneNumber: { value: string; isValid: boolean; hasError: boolean };
   email: { value: string; isValid: boolean; hasError: boolean };
+  cash: boolean;
 }
 
 const initialState: IPaymentState = {
@@ -14,6 +15,7 @@ const initialState: IPaymentState = {
   middleName: { value: '', isValid: false, hasError: false }, // отчество
   phoneNumber: { value: '', isValid: false, hasError: false }, // контактный телефон
   email: { value: '', isValid: false, hasError: false }, // электронная почта
+  cash: false, // false - для оплаты онлайн (по умолчанию), true - для оплаты наличными
 };
 
 const paymentSlice = createSlice({
@@ -95,6 +97,9 @@ const paymentSlice = createSlice({
         hasError,
       };
     },
+    setСash: (state, action: PayloadAction<boolean>) => {
+      state.cash = action.payload;
+    },
   },
 });
 
@@ -104,6 +109,7 @@ export const {
   setPaymentMiddleName,
   setPaymentPhoneNumber,
   setPaymentEmail,
+  setСash,
 } = paymentSlice.actions;
 
 export default paymentSlice.reducer;
