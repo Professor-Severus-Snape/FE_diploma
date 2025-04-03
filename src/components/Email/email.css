@@ -23,6 +23,12 @@
   color: #292929;
 }
 
+.email__input_invalid {
+  border-color: transparent;
+
+  outline: 2px solid red;
+}
+
 .email__input::placeholder {
   color: #c4c4c4;
 }

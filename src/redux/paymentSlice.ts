@@ -5,6 +5,7 @@ interface IPaymentState {
   firstName: { value: string; isValid: boolean; hasError: boolean };
   middleName: { value: string; isValid: boolean; hasError: boolean };
   phoneNumber: { value: string; isValid: boolean; hasError: boolean };
+  email: { value: string; isValid: boolean; hasError: boolean };
 }
 
 const initialState: IPaymentState = {
@@ -12,6 +13,7 @@ const initialState: IPaymentState = {
   firstName: { value: '', isValid: false, hasError: false }, // имя
   middleName: { value: '', isValid: false, hasError: false }, // отчество
   phoneNumber: { value: '', isValid: false, hasError: false }, // контактный телефон
+  email: { value: '', isValid: false, hasError: false }, // электронная почта
 };
 
 const paymentSlice = createSlice({
@@ -78,6 +80,21 @@ const paymentSlice = createSlice({
         hasError,
       };
     },
+    setPaymentEmail: (
+      state,
+      action: PayloadAction<{
+        value: string;
+        isValid: boolean;
+        hasError: boolean;
+      }>
+    ) => {
+      const { value, isValid, hasError } = action.payload;
+      state.email = {
+        value,
+        isValid,
+        hasError,
+      };
+    },
   },
 });
 
@@ -86,6 +103,7 @@ export const {
   setPaymentFirstName,
   setPaymentMiddleName,
   setPaymentPhoneNumber,
+  setPaymentEmail,
 } = paymentSlice.actions;
 
 export default paymentSlice.reducer;

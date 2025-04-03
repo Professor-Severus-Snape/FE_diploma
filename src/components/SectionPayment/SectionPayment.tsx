@@ -14,8 +14,8 @@ const SectionPayment = () => {
   const [isCashPayment, setIsCashPayment] = useState(true); // по дефолту - оплата наличными
 
   // получаем даннные плательщика из store:
-  // TODO: получать также email и тип оплаты
-  const { lastName, firstName, middleName, phoneNumber } = useSelector(
+  // TODO: получать также тип оплаты
+  const { lastName, firstName, middleName, phoneNumber, email } = useSelector(
     (state: RootState) => state.payment
   );
 
@@ -39,20 +39,20 @@ const SectionPayment = () => {
   };
 
   return (
-    <div className="payment">
-      <form className="payment__form">
-        {/* Данные плательщика: */}
-        <div className="payment__payer">
+    <section className="payment">
+      <h2 className="visually-hidden">Оплата</h2>
+
+      <div className="payment__info">
+        <article className="payment__payer">
           <h3 className="payment__title">Персональные данные</h3>
           <div className="payment__payer-data">
             <FullName {...nameData} />
             <ContactNumber {...phoneNumber} />
-            <Email />
+            <Email {...email} />
           </div>
-        </div>
+        </article>
 
-        {/* Способ оплаты */}
-        <div className="payment__method">
+        <article className="payment__method">
           <h3 className="payment__title">Способ оплаты</h3>
 
           <div className="payment__online">
@@ -90,8 +90,8 @@ const SectionPayment = () => {
               Наличными
             </label>
           </div>
-        </div>
-      </form>
+        </article>
+      </div>
 
       {/* NOTE: временно заглушка isActive в значении false */}
       <NextPage
@@ -99,7 +99,7 @@ const SectionPayment = () => {
         isActive={false}
         onNextClick={handleOnNextClick}
       />
-    </div>
+    </section>
   );
 };
 
