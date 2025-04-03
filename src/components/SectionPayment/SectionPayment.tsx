@@ -14,8 +14,8 @@ const SectionPayment = () => {
   const [isCashPayment, setIsCashPayment] = useState(true); // по дефолту - оплата наличными
 
   // получаем даннные плательщика из store:
-  // TODO: получать также email, номер телефона и тип оплаты
-  const { lastName, firstName, middleName } = useSelector(
+  // TODO: получать также email и тип оплаты
+  const { lastName, firstName, middleName, phoneNumber } = useSelector(
     (state: RootState) => state.payment
   );
 
@@ -46,7 +46,7 @@ const SectionPayment = () => {
           <h3 className="payment__title">Персональные данные</h3>
           <div className="payment__payer-data">
             <FullName {...nameData} />
-            <ContactNumber />
+            <ContactNumber {...phoneNumber} />
             <Email />
           </div>
         </div>

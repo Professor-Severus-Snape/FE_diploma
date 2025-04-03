@@ -13,16 +13,29 @@
   color: #928f94;
 }
 
-.contact-number__input {
+/* поле  инпут - переопределение стандартного класса PhoneInputInput: */
+/* .contact-number__input {} */
+.PhoneInputInput {
   padding: 10px 20px;
-
   border: 1px solid #928f94;
   border-radius: 5px;
-
   font-size: 24px;
   color: #292929;
 }
 
-.contact-number__input::placeholder {
+/* стили для инпута в случае ошибки */
+.contact-number__input_invalid > .PhoneInputInput {
+  border-color: transparent;
+  outline: 2px solid red;
+}
+
+/* плейсхолдер для инпута */
+/* .contact-number__input::placeholder {} */
+.PhoneInputInput::placeholder {
   color: #c4c4c4;
+}
+
+/* cкрыть флаг страны */
+.PhoneInputCountry {
+  display: none;
 }

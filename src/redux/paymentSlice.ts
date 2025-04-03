@@ -4,12 +4,14 @@ interface IPaymentState {
   lastName: { value: string; isValid: boolean; hasError: boolean };
   firstName: { value: string; isValid: boolean; hasError: boolean };
   middleName: { value: string; isValid: boolean; hasError: boolean };
+  phoneNumber: { value: string; isValid: boolean; hasError: boolean };
 }
 
 const initialState: IPaymentState = {
   lastName: { value: '', isValid: false, hasError: false }, // фамилия
   firstName: { value: '', isValid: false, hasError: false }, // имя
   middleName: { value: '', isValid: false, hasError: false }, // отчество
+  phoneNumber: { value: '', isValid: false, hasError: false }, // контактный телефон
 };
 
 const paymentSlice = createSlice({
@@ -61,10 +63,29 @@ const paymentSlice = createSlice({
         hasError,
       };
     },
+    setPaymentPhoneNumber: (
+      state,
+      action: PayloadAction<{
+        value: string;
+        isValid: boolean;
+        hasError: boolean;
+      }>
+    ) => {
+      const { value, isValid, hasError } = action.payload;
+      state.phoneNumber = {
+        value,
+        isValid,
+        hasError,
+      };
+    },
   },
 });
 
-export const { setPaymentLastName, setPaymentFirstName, setPaymentMiddleName } =
-  paymentSlice.actions;
+export const {
+  setPaymentLastName,
+  setPaymentFirstName,
+  setPaymentMiddleName,
+  setPaymentPhoneNumber,
+} = paymentSlice.actions;
 
 export default paymentSlice.reducer;
