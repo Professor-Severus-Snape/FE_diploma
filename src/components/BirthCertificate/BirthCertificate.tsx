@@ -32,7 +32,7 @@ const BirthCertificate = (props: IBirthCertificate) => {
     }
 
     // проверяем полноту введенных данных:
-    const isValid = /^[IVXLCDM]{1,3}[А-Я]{2}\d{6}$/.test(filteredValue);
+    const isValid = /^[IVXLCDM]{1,4}[А-Я]{2}\d{6}$/.test(filteredValue);
 
     const payload = {
       index,
