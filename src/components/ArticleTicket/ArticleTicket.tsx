@@ -1,9 +1,11 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fromUnixTime } from 'date-fns';
 import getClassInfo from '../../libs/getClassInfo';
 import getDuration from '../../libs/getDuration';
 
-import { RootState } from '../../redux/store';
+import { AppDispatch, RootState } from '../../redux/store';
+import { clearDepartureData } from '../../redux/departureSlice';
+import { clearArrivalData } from '../../redux/arrivalSlice';
 
 import ChangeData from '../ChangeData/ChangeData';
 import ChooseSeats from '../ChooseSeats/ChooseSeats';
@@ -19,6 +21,8 @@ import wiFi from '../../assets/wi-fi.svg';
 import './articleTicket.css';
 
 const ArticleTicket = ({ text, index }: { text: string; index: number }) => {
+  const dispatch: AppDispatch = useDispatch();
+
   const { trains } = useSelector((state: RootState) => state.trains); // массив найденных поездов
   const ticket = trains[index]; // конкретный билет
   const [trainName, trainNumber] = ticket.departure.train.name.split(' - '); // номер и имя поезда
@@ -91,6 +95,13 @@ const ArticleTicket = ({ text, index }: { text: string; index: number }) => {
     },
     { condition: true, icon: tea, alt: 'tea' },
   ];
+
+  // смена поезда:
+  const handleChangeTrain = () => {
+    // 1. сбрасываем данные по прежде выбранным местам в слайсах departure и arrival:
+    dispatch(clearDepartureData());
+    dispatch(clearArrivalData());
+  };
 
   return (
     <article className="ticket">
@@ -255,8 +266,10 @@ const ArticleTicket = ({ text, index }: { text: string; index: number }) => {
             )}
           </div>
 
-          {text === 'Выбрать места' ? <ChooseSeats index={index} /> : null}
-          {text === 'Изменить' ? <ChangeData route="/trains" /> : null}
+          {text === 'Выбрать места' && <ChooseSeats index={index} />}
+          {text === 'Изменить' && (
+            <ChangeData route="/trains" handleClick={handleChangeTrain} />
+          )}
         </div>
       </div>
     </article>

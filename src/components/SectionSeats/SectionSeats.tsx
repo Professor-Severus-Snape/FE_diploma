@@ -30,6 +30,10 @@ const SectionSeats = () => {
     orderList: arrivalOrderList,
   } = useSelector((state: RootState) => state.arrival);
 
+  const { passengersList } = useSelector(
+    (state: RootState) => state.passengers
+  );
+
   const ticket = trains[currentTrainIndex];
   const hasArrivalProperty: boolean = ticket.arrival !== undefined;
 
@@ -88,8 +92,11 @@ const SectionSeats = () => {
       return;
     }
 
-    // если все условия выполнены:
-    dispatch(setPassengersList(departureOrderList.length)); // задаем начальный список пассажиров
+    // если все условия выполнены и не были прежде введены данные по пассажирам:
+    if (!passengersList.length) {
+      dispatch(setPassengersList(departureOrderList.length)); // задаем начальный список пассажиров
+    }
+
     await navigate('/passengers'); // навигируемся на нужный роут только ПОСЛЕ формирования списка
   };
 

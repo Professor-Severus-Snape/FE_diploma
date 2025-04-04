@@ -17,7 +17,7 @@ const SectionPassengers = () => {
 
   const { orderList } = useSelector((state: RootState) => state.departure);
 
-  const hasAllPassengers = orderList.length === passengersList.length;
+  const hasValidCountOfPassengers = orderList.length === passengersList.length;
 
   const hasFullValidData = passengersList.reduce((acc, passenger) => {
     return acc && passenger.isDataValid;
@@ -61,11 +61,12 @@ const SectionPassengers = () => {
     countsFromPassengersList.babies === countsFromOrderList.babies;
 
   const handleOnNextClick = () => {
-    if (!hasAllPassengers) {
+    if (!hasValidCountOfPassengers) {
       const modalOptions = {
         type: 'warning',
-        title: 'Данные не всех пассажиров указаны!',
-        text: 'Пожалуйста, проверьте что Вы внесли данные всех пассажиров!',
+        title:
+          'Количество пассажиров не совпадает с количеством выбранных билетов!',
+        text: 'Пожалуйста, проверьте количество пассажиров! Удалите лишних или добавьте недостающих.',
       };
 
       dispatch(openModal(modalOptions));
@@ -104,7 +105,9 @@ const SectionPassengers = () => {
       <NextPage
         text="далее"
         isActive={
-          hasAllPassengers && hasFullValidData && isAgeDistributionValid
+          hasValidCountOfPassengers &&
+          hasFullValidData &&
+          isAgeDistributionValid
         }
         onNextClick={handleOnNextClick}
       />
