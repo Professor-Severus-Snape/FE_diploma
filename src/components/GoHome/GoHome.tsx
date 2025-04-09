@@ -1,19 +1,19 @@
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppDispatch } from '../../redux/store';
-import { resetTrainsSlice } from '../../redux/trainsSlice';
-import { resetPaymentSlice } from '../../redux/paymentSlice';
-import { resetTownsSlice } from '../../redux/townsSlice';
-import { resetSearchFormSlice } from '../../redux/searchFormSlice';
-import { resetPassengersSlice } from '../../redux/passengersSlice';
-import { resetParamsSlice } from '../../redux/paramsSlice';
-import { clearArrivalData } from '../../redux/arrivalSlice';
-import { clearDepartureData } from '../../redux/departureSlice';
+import { resetArrivalSlice } from '../../redux/arrivalSlice';
+import { resetCarriagesSlice } from '../../redux/carriagesSlice';
 import { resetCheckboxDetailsSlice } from '../../redux/checkboxDetailsSlice';
 import { resetCheckboxSlice } from '../../redux/checkboxSlice';
+import { resetDepartureSlice } from '../../redux/departureSlice';
 import { resetLastTicketsSlice } from '../../redux/lastTicketsSlice';
-import { resetCarriagesSlice } from '../../redux/carriagesSlice';
 import { resetOrderSlice } from '../../redux/orderSlice';
+import { resetParamsSlice } from '../../redux/paramsSlice';
+import { resetPassengersSlice } from '../../redux/passengersSlice';
+import { resetPaymentSlice } from '../../redux/paymentSlice';
+import { resetSearchFormSlice } from '../../redux/searchFormSlice';
+import { resetTownsSlice } from '../../redux/townsSlice';
+import { resetTrainsSlice } from '../../redux/trainsSlice';
 
 import './goHome.css';
 
@@ -25,8 +25,8 @@ const GoHome = () => {
     dispatch(resetOrderSlice()); // 1. полная очистка redux-store по ключу 'order'
     dispatch(resetPaymentSlice()); // 2. полная очистка redux-store по ключу 'payment'
     dispatch(resetPassengersSlice()); // 3. полная очистка redux-store по ключу 'passengers'
-    dispatch(clearArrivalData()); // 4. полная очистка redux-store по ключу 'arrival'
-    dispatch(clearDepartureData()); // 5. полная очистка redux-store по ключу 'departure'
+    dispatch(resetArrivalSlice()); // 4. полная очистка redux-store по ключу 'arrival'
+    dispatch(resetDepartureSlice()); // 5. полная очистка redux-store по ключу 'departure'
     dispatch(resetCarriagesSlice()); // 6. полная очистка redux-store по ключу 'carriages'
     dispatch(resetTrainsSlice()); // 7. полная очистка redux-store по ключу 'trains'
     dispatch(resetLastTicketsSlice()); // 8. полная очистка redux-store по ключу 'lastTickets'

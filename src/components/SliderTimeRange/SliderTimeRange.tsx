@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../redux/store';
-import { clearArrivalData } from '../../redux/arrivalSlice';
-import { clearDepartureData } from '../../redux/departureSlice';
+import { resetArrivalSlice } from '../../redux/arrivalSlice';
+import { resetDepartureSlice } from '../../redux/departureSlice';
 import {
   setStartDepartureHourFrom,
   setStartDepartureHourTo,
@@ -15,6 +15,7 @@ import {
   setEndArrivalHourFrom,
   setEndArrivalHourTo,
 } from '../../redux/paramsSlice';
+import { fetchLastTickets } from '../../redux/lastTicketsSlice';
 import { fetchTrains } from '../../redux/trainsSlice';
 import './sliderTimeRange.css';
 
@@ -167,14 +168,14 @@ const SliderTimeRange = ({ destination, type }: ISliderTimeRangeProps) => {
     // отправляем поисковый запрос на сервер с обновленными данными:
     dispatch(fetchTrains(requestOptions));
 
-    // если мы находимся на роуте '/seats', то нужно дополнительно очистить данные в store:
-    if (location.pathname.endsWith('/seats')) {
-      dispatch(clearArrivalData()); // сбрасываем данные в store -> departure и arrival Slices
-      dispatch(clearDepartureData()); // сбрасываем данные в store -> departure и arrival Slices
-    }
+    // если мы находимся НЕ на роуте '/trains' (т.е. мы находимся на роуте '/seats'):
+    if (location.pathname !== '/trains') {
+      // чистим слайсы 'arrival' и 'departure', чтобы не было багов (остальное можно не чистить):
+      dispatch(resetArrivalSlice()); // очистка redux-store по ключу 'arrival'
+      dispatch(resetDepartureSlice()); // очистка redux-store по ключу 'departure'
 
-    // если мы находимся НЕ на роуте '/trains', то переходим на него:
-    if (!location.pathname.endsWith('/trains')) {
+      // после очистки redux-store переходим на нужный роут -> '/trains':
+      dispatch(fetchLastTickets()); // запрос на последние билеты
       navigate('/trains'); // меняем роут только после всех действий !!!
     }
   };

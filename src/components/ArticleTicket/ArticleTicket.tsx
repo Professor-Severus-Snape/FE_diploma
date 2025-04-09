@@ -4,8 +4,8 @@ import getClassInfo from '../../libs/getClassInfo';
 import getDuration from '../../libs/getDuration';
 
 import { AppDispatch, RootState } from '../../redux/store';
-import { clearDepartureData } from '../../redux/departureSlice';
-import { clearArrivalData } from '../../redux/arrivalSlice';
+import { resetArrivalSlice } from '../../redux/arrivalSlice';
+import { resetDepartureSlice } from '../../redux/departureSlice';
 
 import ChangeData from '../ChangeData/ChangeData';
 import ChooseSeats from '../ChooseSeats/ChooseSeats';
@@ -99,8 +99,8 @@ const ArticleTicket = ({ text, index }: { text: string; index: number }) => {
   // смена поезда:
   const handleChangeTrain = () => {
     // 1. сбрасываем данные по прежде выбранным местам в слайсах departure и arrival:
-    dispatch(clearDepartureData());
-    dispatch(clearArrivalData());
+    dispatch(resetArrivalSlice());
+    dispatch(resetDepartureSlice());
   };
 
   return (

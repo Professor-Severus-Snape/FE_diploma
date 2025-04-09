@@ -63,6 +63,20 @@ const arrivalSlice = createSlice({
   name: 'arrival',
   initialState,
   reducers: {
+    resetArrivalSlice: (state) => {
+      state.route_direction_id = initialState.route_direction_id;
+      state.adults = initialState.adults;
+      state.children = initialState.children;
+      state.baby = initialState.baby;
+      state.currentCarriageType = initialState.currentCarriageType;
+      state.currentTypeCarriagesList = initialState.currentTypeCarriagesList;
+      state.currentCopyTypeCarriagesList =
+        initialState.currentCopyTypeCarriagesList;
+      state.activeCarriageIndex = initialState.activeCarriageIndex;
+      state.wiFiPrice = initialState.wiFiPrice;
+      state.linensPrice = initialState.linensPrice;
+      state.orderList = initialState.orderList;
+    },
     setArrivalRouteDestinationId: (state, action: PayloadAction<string>) => {
       state.route_direction_id = action.payload;
     },
@@ -121,24 +135,11 @@ const arrivalSlice = createSlice({
     setArrivalOrder: (state, action: PayloadAction<IOrder[]>) => {
       state.orderList = action.payload;
     },
-    clearArrivalData: (state) => {
-      state.route_direction_id = initialState.route_direction_id;
-      state.adults = initialState.adults;
-      state.children = initialState.children;
-      state.baby = initialState.baby;
-      state.currentCarriageType = initialState.currentCarriageType;
-      state.currentTypeCarriagesList = initialState.currentTypeCarriagesList;
-      state.currentCopyTypeCarriagesList =
-        initialState.currentCopyTypeCarriagesList;
-      state.activeCarriageIndex = initialState.activeCarriageIndex;
-      state.wiFiPrice = initialState.wiFiPrice;
-      state.linensPrice = initialState.linensPrice;
-      state.orderList = initialState.orderList;
-    },
   },
 });
 
 export const {
+  resetArrivalSlice,
   setArrivalRouteDestinationId,
   setArrivalAdultsCount,
   setArrivalChildrenCount,
@@ -151,7 +152,6 @@ export const {
   setArrivalWiFiPrice,
   setArrivalLinensPrice,
   setArrivalOrder,
-  clearArrivalData,
 } = arrivalSlice.actions;
 
 export default arrivalSlice.reducer;

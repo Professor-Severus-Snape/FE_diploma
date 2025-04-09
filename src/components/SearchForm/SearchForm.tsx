@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { format, isSameDay } from 'date-fns';
 
 import { AppDispatch, RootState } from '../../redux/store';
-import { clearArrivalData } from '../../redux/arrivalSlice';
-import { clearDepartureData } from '../../redux/departureSlice';
+import { resetArrivalSlice } from '../../redux/arrivalSlice';
+import { resetDepartureSlice } from '../../redux/departureSlice';
 import { fetchLastTickets } from '../../redux/lastTicketsSlice';
 import { openModal } from '../../redux/modalSlice';
 import {
@@ -157,14 +157,16 @@ const SearchForm = () => {
     // 2. посылаем запрос на сервер:
     dispatch(fetchTrains(requestOptions));
 
-    // 3. если форма сработает на роуте '/seats', то нужно дополнительно очистить данные в store:
-    if (location.pathname.endsWith('/seats')) {
-      dispatch(clearArrivalData()); // сбрасываем данные в store -> departure и arrival Slices
-      dispatch(clearDepartureData()); // сбрасываем данные в store -> departure и arrival Slices
-    }
+    // 3. если мы находимся НЕ на роуте '/trains':
+    if (location.pathname !== '/trains') {
+      // если это не корень проекта, то чистим store:
+      if (location.pathname !== '/') {
+        // чистим слайсы 'arrival' и 'departure', чтобы не было багов (остальное можно не чистить):
+        dispatch(resetArrivalSlice()); // очистка redux-store по ключу 'arrival'
+        dispatch(resetDepartureSlice()); // очистка redux-store по ключу 'departure'
+      }
 
-    // 4. если мы находимся НЕ на роуте '/trains', то переходим на него:
-    if (!location.pathname.endsWith('/trains')) {
+      // после очистки redux-store (если требовалась) переходим на нужный роут -> '/trains':
       dispatch(fetchLastTickets()); // запрос на последние билеты
       navigate('/trains'); // меняем роут только после всех действий !!!
     }

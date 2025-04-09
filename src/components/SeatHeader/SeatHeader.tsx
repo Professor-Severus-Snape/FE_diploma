@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../redux/store';
-import { clearArrivalData } from '../../redux/arrivalSlice';
-import { clearDepartureData } from '../../redux/departureSlice';
+import { resetArrivalSlice } from '../../redux/arrivalSlice';
+import { resetDepartureSlice } from '../../redux/departureSlice';
 
 import backwardWhite from '../../assets/backward-white.svg';
 import forwardWhite from '../../assets/forward-white.svg';
@@ -13,8 +13,8 @@ const SeatHeader = ({ isForward }: { isForward: boolean }) => {
 
   // по клику на кнопку 'Выбрать другой поезд' сбрасываем все данные в store для данного поезда:
   const handleClick = () => {
-    dispatch(clearArrivalData());
-    dispatch(clearDepartureData());
+    dispatch(resetArrivalSlice());
+    dispatch(resetDepartureSlice());
   };
 
   return (

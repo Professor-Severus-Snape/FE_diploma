@@ -63,6 +63,20 @@ const departureSlice = createSlice({
   name: 'departure',
   initialState,
   reducers: {
+    resetDepartureSlice: (state) => {
+      state.route_direction_id = initialState.route_direction_id;
+      state.adults = initialState.adults;
+      state.children = initialState.children;
+      state.baby = initialState.baby;
+      state.currentCarriageType = initialState.currentCarriageType;
+      state.currentTypeCarriagesList = initialState.currentTypeCarriagesList;
+      state.currentCopyTypeCarriagesList =
+        initialState.currentCopyTypeCarriagesList;
+      state.activeCarriageIndex = initialState.activeCarriageIndex;
+      state.wiFiPrice = initialState.wiFiPrice;
+      state.linensPrice = initialState.linensPrice;
+      state.orderList = initialState.orderList;
+    },
     setDepartureRouteDestinationId: (state, action: PayloadAction<string>) => {
       state.route_direction_id = action.payload;
     },
@@ -121,24 +135,11 @@ const departureSlice = createSlice({
     setDepartureOrder: (state, action: PayloadAction<IOrder[]>) => {
       state.orderList = action.payload;
     },
-    clearDepartureData: (state) => {
-      state.route_direction_id = initialState.route_direction_id;
-      state.adults = initialState.adults;
-      state.children = initialState.children;
-      state.baby = initialState.baby;
-      state.currentCarriageType = initialState.currentCarriageType;
-      state.currentTypeCarriagesList = initialState.currentTypeCarriagesList;
-      state.currentCopyTypeCarriagesList =
-        initialState.currentCopyTypeCarriagesList;
-      state.activeCarriageIndex = initialState.activeCarriageIndex;
-      state.wiFiPrice = initialState.wiFiPrice;
-      state.linensPrice = initialState.linensPrice;
-      state.orderList = initialState.orderList;
-    },
   },
 });
 
 export const {
+  resetDepartureSlice,
   setDepartureRouteDestinationId,
   setDepartureAdultsCount,
   setDepartureChildrenCount,
@@ -151,7 +152,6 @@ export const {
   setDepartureWiFiPrice,
   setDepartureLinensPrice,
   setDepartureOrder,
-  clearDepartureData,
 } = departureSlice.actions;
 
 export default departureSlice.reducer;
