@@ -63,6 +63,33 @@ const paramsSlice = createSlice({
   name: 'params',
   initialState,
   reducers: {
+    resetParamsSlice: (state) => {
+      state.paramStartTown = initialState.paramStartTown;
+      state.paramEndTown = initialState.paramEndTown;
+      state.paramStartDate = initialState.paramStartDate;
+      state.paramEndDate = initialState.paramEndDate;
+
+      state.minPrice = initialState.minPrice;
+      state.maxPrice = initialState.maxPrice;
+
+      state.startDepartureHourFrom = initialState.startDepartureHourFrom;
+      state.startDepartureHourTo = initialState.startDepartureHourTo;
+      state.endDepartureHourFrom = initialState.endDepartureHourFrom;
+      state.endDepartureHourTo = initialState.endDepartureHourTo;
+
+      state.startArrivalHourFrom = initialState.startArrivalHourFrom;
+      state.startArrivalHourTo = initialState.startArrivalHourTo;
+      state.endArrivalHourFrom = initialState.endArrivalHourFrom;
+      state.endArrivalHourTo = initialState.endArrivalHourTo;
+
+      state.haveFirstClass = initialState.haveFirstClass;
+      state.haveSecondClass = initialState.haveSecondClass;
+      state.haveThirdClass = initialState.haveThirdClass;
+      state.haveFourthClass = initialState.haveFourthClass;
+
+      state.haveWifi = initialState.haveWifi;
+      state.haveExpress = initialState.haveExpress;
+    },
     setParamStartTown: (state, action: PayloadAction<ITown | null>) => {
       state.paramStartTown = action.payload;
     },
@@ -133,6 +160,7 @@ const paramsSlice = createSlice({
 });
 
 export const {
+  resetParamsSlice,
   setParamStartTown,
   setParamEndTown,
   setParamStartDate,

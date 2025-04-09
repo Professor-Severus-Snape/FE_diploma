@@ -34,6 +34,15 @@ const trainsSlice = createSliceWithThunk({
   name: 'trains',
   initialState,
   reducers: (creators) => ({
+    resetTrainsSlice: creators.reducer((state) => {
+      state.trains = initialState.trains;
+      state.trainsLoading = initialState.trainsLoading;
+      state.currentCount = initialState.currentCount;
+      state.currentPage = initialState.currentPage;
+      state.currentTrainIndex = initialState.currentTrainIndex;
+      state.currentPotentialPassengersCount =
+        initialState.currentPotentialPassengersCount;
+    }),
     clearTrains: creators.reducer((state) => {
       state.trains = [];
     }),
@@ -179,6 +188,7 @@ const trainsSlice = createSliceWithThunk({
 export const {
   clearTrains,
   fetchTrains,
+  resetTrainsSlice,
   setTrains,
   setCurrentCount,
   setCurrentPage,

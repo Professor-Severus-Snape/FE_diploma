@@ -22,8 +22,9 @@ const lastTicketsSlice = createSliceWithThunk({
   name: 'lastTickets',
   initialState,
   reducers: (creators) => ({
-    clearLastTickets: creators.reducer((state) => {
-      state.lastTickets = [];
+    resetLastTicketsSlice: creators.reducer((state) => {
+      state.lastTickets = initialState.lastTickets;
+      state.lastTicketsLoading = initialState.lastTicketsLoading;
     }),
     // asyncThunk<ITrain[]> изначает, что асинхронный экшен не будет ничего принимать и будет возвращать action.payload вида ITrain[]:
     fetchLastTickets: creators.asyncThunk<ITrain[]>(
@@ -65,5 +66,6 @@ const lastTicketsSlice = createSliceWithThunk({
   }),
 });
 
-export const { clearLastTickets, fetchLastTickets } = lastTicketsSlice.actions;
+export const { resetLastTicketsSlice, fetchLastTickets } =
+  lastTicketsSlice.actions;
 export default lastTicketsSlice.reducer;

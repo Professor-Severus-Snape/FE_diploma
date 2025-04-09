@@ -51,6 +51,12 @@ const carriagesSlice = createSliceWithThunk({
   name: 'carriages',
   initialState,
   reducers: (creators) => ({
+    resetCarriagesSlice: creators.reducer((state) => {
+      state.forwardCarriages = initialState.forwardCarriages;
+      state.forwardCarriagesLoading = initialState.forwardCarriagesLoading;
+      state.backwardCarriages = initialState.backwardCarriages;
+      state.backwardCarriagesLoading = initialState.backwardCarriagesLoading;
+    }),
     // асинхронный экшен на вход принимает строку 'id' и возвращает action.payload вида ICarriage[]:
     fetchForwardCarriages: creators.asyncThunk<ICarriage[], string>(
       async (id, { rejectWithValue }) => {
@@ -128,7 +134,10 @@ const carriagesSlice = createSliceWithThunk({
   }),
 });
 
-export const { fetchForwardCarriages, fetchBackwardCarriages } =
-  carriagesSlice.actions;
+export const {
+  fetchForwardCarriages,
+  fetchBackwardCarriages,
+  resetCarriagesSlice,
+} = carriagesSlice.actions;
 
 export default carriagesSlice.reducer;

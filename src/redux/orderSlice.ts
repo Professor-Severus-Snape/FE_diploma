@@ -20,6 +20,11 @@ const orderSlice = createSliceWithThunk({
   name: 'order',
   initialState,
   reducers: (creators) => ({
+    resetOrderSlice: creators.reducer((state) => {
+      state.orderData = initialState.orderData;
+      state.orderIsLoading = initialState.orderIsLoading;
+      state.orderHasError = initialState.orderHasError;
+    }),
     // асинхронный экшен на вход принимает stringify от объекта data и возвращает action.payload вида {status: boolean}:
     sendOrder: creators.asyncThunk<{ status: boolean }, string>(
       async (data, { rejectWithValue }) => {
@@ -67,6 +72,6 @@ const orderSlice = createSliceWithThunk({
   }),
 });
 
-export const { sendOrder } = orderSlice.actions;
+export const { resetOrderSlice, sendOrder } = orderSlice.actions;
 
 export default orderSlice.reducer;

@@ -27,6 +27,16 @@ const searchFormSlice = createSlice({
   name: 'searchForm',
   initialState,
   reducers: {
+    resetSearchFormSlice: (state) => {
+      state.startTown = initialState.startTown;
+      state.startTownTooltip = initialState.startTownTooltip;
+      state.endTown = initialState.endTown;
+      state.endTownTooltip = initialState.endTownTooltip;
+      state.startDate = initialState.startDate;
+      state.startDateTooltip = initialState.startDateTooltip;
+      state.endDate = initialState.endDate;
+      state.endDateTooltip = initialState.endDateTooltip;
+    },
     setStartTown: (state, action: PayloadAction<ITown | null>) => {
       state.startTown = action.payload;
     },
@@ -55,6 +65,7 @@ const searchFormSlice = createSlice({
 });
 
 export const {
+  resetSearchFormSlice,
   setStartTown,
   setStartTownTooltip,
   setEndTown,

@@ -111,6 +111,7 @@
   font-size: 36px;
 
   margin-bottom: 39px;
+  text-transform: capitalize;
 }
 
 .order__info {

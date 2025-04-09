@@ -14,6 +14,10 @@ const checkboxSlice = createSlice({
   name: 'checkbox',
   initialState,
   reducers: {
+    resetCheckboxSlice: (state) => {
+      state.articleForwardCheckbox = initialState.articleForwardCheckbox;
+      state.articleBackwardCheckbox = initialState.articleBackwardCheckbox;
+    },
     setArticleForwardCheckbox: (state, action) => {
       state.articleForwardCheckbox = action.payload;
     },
@@ -23,7 +27,10 @@ const checkboxSlice = createSlice({
   },
 });
 
-export const { setArticleForwardCheckbox, setArticleBackwardCheckbox } =
-  checkboxSlice.actions;
+export const {
+  resetCheckboxSlice,
+  setArticleForwardCheckbox,
+  setArticleBackwardCheckbox,
+} = checkboxSlice.actions;
 
 export default checkboxSlice.reducer;

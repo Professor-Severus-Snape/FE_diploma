@@ -22,6 +22,14 @@ const paymentSlice = createSlice({
   name: 'payment',
   initialState,
   reducers: {
+    resetPaymentSlice: (state) => {
+      state.lastName = initialState.lastName;
+      state.firstName = initialState.firstName;
+      state.middleName = initialState.middleName;
+      state.phoneNumber = initialState.phoneNumber;
+      state.email = initialState.email;
+      state.cash = initialState.cash;
+    },
     setPaymentLastName: (
       state,
       action: PayloadAction<{
@@ -104,6 +112,7 @@ const paymentSlice = createSlice({
 });
 
 export const {
+  resetPaymentSlice,
   setPaymentLastName,
   setPaymentFirstName,
   setPaymentMiddleName,

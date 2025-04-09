@@ -31,6 +31,10 @@ const passengersSlice = createSlice({
   name: 'passengers',
   initialState,
   reducers: {
+    resetPassengersSlice: (state) => {
+      state.passengersList = initialState.passengersList;
+      state.passenger = initialState.passenger;
+    },
     addPassengerToList: (state) => {
       state.passengersList.push({
         isOpen: true,
@@ -211,6 +215,7 @@ const passengersSlice = createSlice({
 export const {
   addPassengerToList,
   removePassengerFromList,
+  resetPassengersSlice,
   setPassengersList,
   setIsOpen,
   setIsDataValid,

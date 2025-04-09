@@ -57,27 +57,6 @@ const initialState: IDepartureState = {
   linensPrice: 0, // стоимость постельного белья
 
   orderList: [], // массив объектов с заказанными билетами
-
-  // NOTE: объект, который позже надо будет передать в order по ключу 'departure':
-  // route_direction_id: '',
-  // seats: [
-  //   {
-  //     coach_id: '12341',
-  //     person_info: {
-  //       is_adult: true,
-  //       first_name: 'Ivan',
-  //       last_name: 'Popov',
-  //       patronymic: 'Popovich',
-  //       gender: true,
-  //       birthday: '1980-01-01',
-  //       document_type: 'паспорт',
-  //       document_data: '45 6790195',
-  //     },
-  //     seat_number: 10,
-  //     is_child: true,
-  //     include_children_seat: true,
-  //   },
-  // ],
 };
 
 const departureSlice = createSlice({

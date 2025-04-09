@@ -30,6 +30,12 @@ const townsSlice = createSliceWithThunk({
   name: 'towns',
   initialState,
   reducers: (creators) => ({
+    resetTownsSlice: creators.reducer((state) => {
+      state.towns = initialState.towns;
+      state.isClicked = initialState.isClicked;
+      state.isOpenedStartList = initialState.isOpenedStartList;
+      state.isOpenedEndList = initialState.isOpenedEndList;
+    }),
     clearTowns: creators.reducer((state) => {
       state.towns = [];
     }),
@@ -80,6 +86,7 @@ const townsSlice = createSliceWithThunk({
 export const {
   clearTowns,
   fetchTowns,
+  resetTownsSlice,
   setIsClicked,
   setIsOpenedStartList,
   setIsOpenedEndList,
