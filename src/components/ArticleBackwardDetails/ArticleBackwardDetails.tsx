@@ -18,7 +18,7 @@ const ArticleBackwardDetails = () => {
     (state: RootState) => state.trains
   );
 
-  const ticket = trains[currentTrainIndex].arrival; // билет 'обратно'
+  const ticket = trains[currentTrainIndex]?.arrival; // билет 'обратно'
 
   if (!ticket) {
     return null;

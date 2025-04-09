@@ -35,6 +35,18 @@ const SectionSeats = () => {
   );
 
   const ticket = trains[currentTrainIndex];
+
+  // NOTE: заглушка для сброса redux-store при переходе на главный роут по пунктам меню:
+  if (!ticket) {
+    return (
+      <section className="seats">
+        <h2 className="seats__title">
+          Информация о поезде временно недоступна
+        </h2>
+      </section>
+    );
+  }
+
   const hasArrivalProperty: boolean = ticket.arrival !== undefined;
 
   // условие №1: заказан хотя бы 1 билет в любую сторону:

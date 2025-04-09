@@ -25,6 +25,12 @@ const ArticleTicket = ({ text, index }: { text: string; index: number }) => {
 
   const { trains } = useSelector((state: RootState) => state.trains); // массив найденных поездов
   const ticket = trains[index]; // конкретный билет
+
+  // NOTE: заглушка для сброса redux-store при переходе на главный роут по пунктам меню:
+  if (!ticket) {
+    return <article className="ticket">Данных не получено...</article>;
+  }
+
   const [trainName, trainNumber] = ticket.departure.train.name.split(' - '); // номер и имя поезда
 
   const fourthClass = getClassInfo(

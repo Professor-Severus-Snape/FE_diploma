@@ -18,7 +18,7 @@ const ArticleForwardDetails = () => {
     (state: RootState) => state.trains
   );
 
-  const ticket = trains[currentTrainIndex].departure; // билет 'туда'
+  const ticket = trains[currentTrainIndex]?.departure; // билет 'туда'
 
   if (!ticket) {
     return null;
