@@ -6,6 +6,7 @@ import checkboxDetailsReducer from './checkboxDetailsSlice';
 import departureReducer from './departureSlice';
 import lastTicketsReducer from './lastTicketsSlice';
 import modalReducer from './modalSlice';
+import orderReducer from './orderSlice';
 import paramsReducer from './paramsSlice';
 import passengersReducer from './passengersSlice';
 import paymentReducer from './paymentSlice';
@@ -22,6 +23,7 @@ const store = configureStore({
     departure: departureReducer,
     lastTickets: lastTicketsReducer,
     modal: modalReducer,
+    order: orderReducer,
     params: paramsReducer,
     passengers: passengersReducer,
     payment: paymentReducer,
