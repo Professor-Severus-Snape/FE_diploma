@@ -19,7 +19,7 @@ const ArticleCheckPassengers = () => {
 
       <div className="check-passengers__container">
         <ul className="check-passengers__list">
-          {passengersList.map((passenger) => {
+          {passengersList.map((passenger, index) => {
             const { data } = passenger;
 
             const name = `${data.lastName.value} ${data.firstName.value} ${data.middleName.value}`;
@@ -34,7 +34,7 @@ const ArticleCheckPassengers = () => {
             }`;
 
             return (
-              <li className="check-passengers__item">
+              <li key={index} className="check-passengers__item">
                 <div className="check-passengers__avatar">
                   <img
                     className="check-passengers__img"
