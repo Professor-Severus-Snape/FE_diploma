@@ -58,6 +58,11 @@
   float: none;
 }
 
+/* всплывающее окно с календарём: */
+.react-datepicker-popper {
+  z-index: 2;  /* чтобы календарь был поверх контента */
+}
+
 /* заливка внешней svg-стрелочки: */
 .react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle {
   fill: #fff;
