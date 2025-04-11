@@ -26,11 +26,11 @@
   color: #292929;
 }
 
-.towns__item:hover {
-  cursor: pointer;
-  color: #ffa800;
-}
-
 .towns__item_not-found {
   text-transform: lowercase;
+}
+
+.towns__item:not(.towns__item_not-found):hover {
+  cursor: pointer;
+  color: #ffa800;
 }

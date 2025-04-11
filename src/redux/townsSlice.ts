@@ -39,8 +39,8 @@ const townsSlice = createSliceWithThunk({
     clearTowns: creators.reducer((state) => {
       state.towns = [];
     }),
-    // asyncThunk<ITown[], string> изначает, что асинхронный экшен будет принимать строку queryParamValue и возвращать action.payload вида ITown[]:
-    fetchTowns: creators.asyncThunk<ITown[], string>(
+    // asyncThunk<ITown[] | { error: string }, string> изначает, что асинхронный экшен будет принимать строку queryParamValue и возвращать action.payload вида ITown[] | { error: string }:
+    fetchTowns: creators.asyncThunk<ITown[] | { error: string }, string>(
       async (queryParamValue, { rejectWithValue }) => {
         try {
           const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -60,10 +60,12 @@ const townsSlice = createSliceWithThunk({
       },
       {
         fulfilled: (state, action) => {
-          state.towns = action.payload;
+          // в action.payload может прийти объект {error: 'Поле name обязательно для заполнения'}
+          state.towns =
+            'error' in action.payload ? initialState.towns : action.payload;
         },
         rejected: (state) => {
-          state.towns = [];
+          state.towns = initialState.towns;
         },
       }
     ),
