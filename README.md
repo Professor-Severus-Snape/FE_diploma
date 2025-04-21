@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/01ktq8mj4pm9vnkm?svg=true)](https://ci.appveyor.com/project/Professor-Severus-Snape/fe-diploma)
+
 # «Система бронирования ж/д билетов»
 
 1. Проект является выпускной дипломной работой к профессии "Frontend-разработчик" (Нетология).
